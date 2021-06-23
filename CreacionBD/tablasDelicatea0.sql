@@ -47,4 +47,18 @@ CREATE TABLE CategoriaArticulo (
     PRIMARY KEY (articulo, subcategoria)
 );
 
+CREATE  TABLE caracteristicas (
+    idCaracteristica int auto_increment PRIMARY KEY,
+    nombre varchar (100)
+);
 
+CREATE TABLE caracteristicasSubCat (
+    subcategoria int REFERENCES subcategoria (idSubCategoria),
+    caracteristicas INT REFERENCES caracteristicas (idCaracterisitca)
+);
+
+CREATE TABLE valoresArticulo (
+    articulo int REFERENCES articulo (idArticulo),
+    caracteristica int REFERENCES caracteristicas (idCaracteristica),
+    valor VARCHAR (20)    
+);
