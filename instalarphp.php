@@ -6,7 +6,7 @@ try {
     $sql = file_get_contents("data/migracion.sql");
 
     $conexion->exec($sql);
-    echo "La base de datos y la tabla de alumnos se han creado con éxito.";
+    echo <?php echo $lang['Inicio'] ?>;
 } catch (PDOException $error) {
     echo $error->getMessage();
 }
