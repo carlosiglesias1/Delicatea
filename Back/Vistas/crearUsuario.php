@@ -1,5 +1,5 @@
 <?php
-    include '../Controladores/usuarios.php'
+    include '../Controladores/exitoCreacion.php'
 ?>
 
 <!DOCTYPE html>
