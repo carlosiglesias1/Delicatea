@@ -10,7 +10,7 @@ $lang = array(
     "en" => "Inglés",
     "es" => "Español",
     "it" => "Italiano",
-    "errorContraseña" => "Error! Las contraseñas no coinciden"
+    "errorPassword" => "Error! Las contraseñas no coinciden"
 )
 
 ?>
