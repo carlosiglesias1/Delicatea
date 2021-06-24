@@ -41,8 +41,8 @@ class Estandar
         try {
             $sentencia = $this->bd->prepare($query);
             $sentencia->execute($this->table);
-        } catch (Throwable $th) {
-            //throw $th;
+        } catch (PDOException $ex) {
+            echo $ex->getMessage();
         }
     }
 }
