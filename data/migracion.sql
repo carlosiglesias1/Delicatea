@@ -1,10 +1,3 @@
-create DATABASE tutorialCRUD;
+use delicatea;
 
-use tutorialCRUD;
-
-create TABLE users
-(
-    nick varchar (15),
-    email varchar (100),
-    PRIMARY key (nick, email)
-);
+SELECT * FROM articulo;

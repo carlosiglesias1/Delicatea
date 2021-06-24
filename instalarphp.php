@@ -7,7 +7,7 @@ try {
     $sql = file_get_contents("data/migracion.sql");
 
     $conexion->exec($sql);
-    echo  $lang['Inicio'];
+    echo  $lang['conexion'];
 } catch (PDOException $error) {
     echo $error->getMessage();
 }

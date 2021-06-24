@@ -9,7 +9,8 @@ $lang = array(
     "Titular" => "Mi Página Web en Español",
     "en" => "Inglés",
     "es" => "Español",
-    "it" => "Italiano"
+    "it" => "Italiano",
+    "errorContraseña" => "Error! Las contraseñas no coinciden"
 )
 
 ?>

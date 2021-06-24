@@ -1,5 +1,5 @@
 <?php
-
+include '../Delicatea/Lenguajes/es.php';
 if (isset($_POST['submit'])) {
 
     $resultado = [
@@ -15,23 +15,22 @@ if (isset($_POST['submit'])) {
         // Código que insertará un usuario
         $usuario = array(
             "nickname" => $_POST['nickname'],
-            "email" => $_POST['email'],
+            "contraseña" => $_POST['contraseña'],
+            "RepContraseña" => $_POST['repContraseña']
         );
-        $consultaSQL = "INSERT INTO users (nick, email) values(:" . implode(", :", array_keys($usuario)) . ")";
-        $sentencia = $conexion->prepare($consultaSQL);
-        $sentencia->execute($usuario);
-        echo "Suu";
+        if ($usuario["contraseña"] != $usuario["RepContraseña"]) {
+            echo $lang["errorContraseña"];
+        } else {
+            $consultaSQL = "INSERT INTO users (nick, email) values(:" . implode(", :", array_keys($usuario)) . ")";
+            $sentencia = $conexion->prepare($consultaSQL);
+            $sentencia->execute($usuario);
+            echo "Suu";
+        }
     } catch (PDOException $error) {
         $resultado['error'] = true;
         echo $error->getMessage();
     }
 }
 ?>
-
-<form method="POST">
-    <label for="nickname">nickname</label>
-    <input type="text" name="nickname">
-    <label for="email">email</label>
-    <input type="email" name="email">
-    <input type="submit" name="submit">
-</form>
+<?php
+include '../../Vistas/Usuario/crear.php';
