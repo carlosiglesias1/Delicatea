@@ -4,7 +4,7 @@ class Estandar
     private $table;
     private $bd;
 
-    public function __construct($tabla)
+    public function __construct(string $tabla)
     {
         $this->table = $tabla;
         require_once '../../Conexion/Conectar.php';
@@ -17,14 +17,38 @@ class Estandar
         return $this->bd;
     }
 
-    public function insert($campos, $valores)
+    public function getTable()
     {
-        $query =  "INSERT INTO $this->table (:" . implode(", :", array_keys($campos)) . ") values(:" . implode(", :", array_keys($valores)) . ")";
+        return $this->table;
+    }
+
+    public function getAll()
+    {
+        $query = "SELECT * FROM $this->table";
         try {
             $sentencia = $this->bd->prepare($query);
-            $sentencia->execute($this->table);
+            $sentencia->execute();
+            return $sentencia;
         } catch (PDOException $ex) {
-            echo $ex->getMessage();
+            throw $ex->getMessage();
+        }
+    }
+
+    public function insert($campos, $valores)
+    {
+        $query = "INSERT INTO $this->table (" . implode(", ", $campos) . ") values(:" . implode(", :", array_keys($valores)) . ")";
+        try {
+            $this->bd->beginTransaction();
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute($valores);
+            try {
+                $this->bd->commit();
+            } catch (PDOException $error) {
+                $this->bd->rollBack();
+                throw $error;
+            }
+        } catch (PDOException $excpt) {
+            throw $excpt;
         }
     }
 
@@ -35,12 +59,20 @@ class Estandar
             $sentencia = $this->bd->prepare($query);
             $sentencia->execute($this->table, $id);
         } catch (PDOException $ex) {
-            echo $ex->getMessage();
+            throw $ex->getMessage();
         }
+        return $sentencia;
     }
 
-    public function deleteBy ($campo, $value){
+    public function deleteBy($campo, $value)
+    {
         $query = "DELETE FROM $this->table WHERE $campo = $value";
+        try {
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute($this->table);
+        } catch (PDOException $ex) {
+            echo $ex->getMessage();
+        }
     }
 
     public function deleteAll()

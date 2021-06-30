@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.table {
+    width: 100%;
+}
+
+.New_User {
+    font-family: verdana, arial, sans-serif;
+    font-size: 100%;
+    font-weight: bold;
+    padding: 4px;
+    background-color: #27c2b5;
+    color: #666666;
+    text-decoration: none;
+    border-radius: 10%;
+}
