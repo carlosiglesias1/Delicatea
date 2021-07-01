@@ -1,5 +1,5 @@
 <?php
-class Estandar
+abstract class Estandar
 {
     private $table;
     private $bd;
@@ -34,6 +34,18 @@ class Estandar
         }
     }
 
+    public function getBy($campo, $valor)
+    {
+        $query = "SELECT * FROM $this->table WHERE $campo = $valor";
+        try {
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute();
+            return $sentencia;
+        } catch (PDOException $ex) {
+            throw $ex->getMessage();
+        }
+    }
+
     public function insert($campos, $valores)
     {
         $query = "INSERT INTO $this->table (" . implode(", ", $campos) . ") values(:" . implode(", :", array_keys($valores)) . ")";
@@ -52,24 +64,13 @@ class Estandar
         }
     }
 
-    public function deleteByID($id)
-    {
-        $query = "DELETE FROM $this->table WHERE ID = '$id'";
-        try {
-            $sentencia = $this->bd->prepare($query);
-            $sentencia->execute($this->table, $id);
-        } catch (PDOException $ex) {
-            throw $ex->getMessage();
-        }
-        return $sentencia;
-    }
-
     public function deleteBy($campo, $value)
     {
         $query = "DELETE FROM $this->table WHERE $campo = $value";
         try {
             $sentencia = $this->bd->prepare($query);
-            $sentencia->execute($this->table);
+            $sentencia->execute();
+            return $sentencia->rowCount();
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -83,13 +84,49 @@ class Estandar
             $sentencia = $this->bd->prepare($query);
             $sentencia->execute($this->table);
         } catch (PDOException $ex) {
-            echo $ex->getMessage();
+            throw $ex;
         }
         try {
             $sentencia = $this->bd->prepare($query2);
             $sentencia->execute($this->table);
         } catch (PDOException $ex) {
-            echo $ex->getMessage();
+            throw $ex;
+        }
+    }
+
+    public function update($cadena, $campo, $valor)
+    {
+        /**
+         * La cadena incluirá todos los campos y los valores
+         * de la tabla, para que el update se complete con éxito:
+         * Para ello, en cada update especifico, hay que concatenar
+         * todos los campos de las tablas con los valores que introduzca
+         * el usuario.
+         */
+        $query = "UPDATE $this->table SET $cadena WHERE $campo = $valor";
+        try {
+            $this->bd->beginTransaction();
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute();
+            try {
+                $this->bd->commit();
+            } catch (PDOException $error) {
+                $this->bd->rollBack();
+                throw $error;
+            }
+        } catch (PDOException $excpt) {
+            throw $excpt;
+        }
+    }
+
+    public function existsBy($campo, $valor)
+    {
+        try {
+            $sentencia = $this->bd->prepare("SELECT * FROM usuarios WHERE $campo = $valor");
+            $sentencia->execute();
+            return $sentencia->rowCount();
+        } catch (PDOException $ex) {
+            throw $ex;
         }
     }
 }

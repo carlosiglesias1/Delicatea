@@ -31,11 +31,9 @@ $titulo = isset($_POST['apellido']) ? 'Usuarios: (' . $_POST['apellido'] . ')' :
 <?php
 }*/
 ?>
-
-<head>
-    <link rel="stylesheet" href="../Estilos/indexUsers.css">
-</head>
-
+<?php
+    include "../../Includes/headUsers.php";
+?>
 <body>
     <div class="container">
         <div class="row">
@@ -73,8 +71,8 @@ $titulo = isset($_POST['apellido']) ? 'Usuarios: (' . $_POST['apellido'] . ')' :
                                     <td><?php echo escapar($fila["idUsr"]); ?></td>
                                     <td><?php echo escapar($fila["nick"]); ?></td>
                                     <td>
-                                        <a href="<?= 'Cusers.php?menu=2?id=' . escapar($fila["idUsr"]) ?>">🗑️Borrar</a>
-                                        <!--<a href="<?= 'editar.php?id=' . escapar($fila["idUsr"]) ?>">✏️Editar</a>-->
+                                        <a href="<?= 'Cusers.php?menu=2&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>">🗑️Borrar</a>
+                                        <a href="<?= 'Cusers.php?menu=3&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>">✏️Editar</a>
                                     </td>
                                 </tr>
                         <?php
