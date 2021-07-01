@@ -1,12 +1,12 @@
+<!--PHP-->
 <?php
-function escapar($html) {
+function escapar($html)
+{
   return htmlspecialchars($html, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
 }
 
-function csrf() {
-
-  session_start();
-
+function csrf()
+{
   if (empty($_SESSION['csrf'])) {
     if (function_exists('random_bytes')) {
       $_SESSION['csrf'] = bin2hex(random_bytes(32));
@@ -17,3 +17,22 @@ function csrf() {
     }
   }
 }
+
+function concatenar(array $array)
+{
+  $cadena = "";
+  reset($array);
+  foreach ($array as $key => $value) {
+    $cadena .= $key . " = '" . $value . "',";
+  }
+  return substr($cadena, 0, strlen($cadena) - 1);
+}
+
+
+?>
+<!--SCRIPTS-->
+<script>
+  function confirmar(message) {
+    return confirm(message);
+  }
+</script>

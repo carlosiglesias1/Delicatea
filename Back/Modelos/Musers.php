@@ -1,5 +1,5 @@
 <?php
-require('../Modelos/Mestandar.php');
+require_once('../Modelos/Mestandar.php');
 class Usuarios extends Estandar
 {
 
@@ -24,22 +24,28 @@ class Usuarios extends Estandar
         }
     }
 
-    /*public function update()
+    public function updateUser(string $id)
     {
-        
-    }*/
+        $campos = array(
+            "nick" => $_POST['nickname'],
+            "pass" => hash("sha512", $_POST['password'])
+        );
+        $string = concatenar($campos);
+        return parent::update($string, 'idUsr', $id);
+    }
 
     public function getByID($id){
         return parent::getBy('idUsr', $id);
-    }
-
-    private function exists($nickname)
-    {
-        return parent::existsBy('nick', "'" . $nickname . "'");
     }
 
     public function deleteByID($id)
     {
         return parent::deleteBy('idUsr', $id);
     }
+
+    private function exists($nickname)
+    {
+        return parent::existsBy('nick', "'" . $nickname . "'");
+    }
+    
 }

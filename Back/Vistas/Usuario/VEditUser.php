@@ -1,18 +1,7 @@
-<?php
-$usr = [
-    "id"        => $_GET['id'],
-    "nickname"    => $_POST['nick']
-];
-?>
-
 <!DOCTYPE html>
 <form method="POST">
     <label for="nickname">nickname</label>
-    <input type="text" name="nickname" value=>
-    <label for="password">Password</label>
-    <input type="text" name="password">
-    <label for="RepPassword">Repetir Password</label>
-    <input type="text" name="repPassword">
+    <input type="text" name="nickname" value="<?php echo escapar($campos['nick']) ?>">
     <button name="submit" type="submit"><?php if ($_GET['menu'] == 1) {
                                             echo "Registrarse";
                                         } else {

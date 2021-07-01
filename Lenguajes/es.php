@@ -1,6 +1,5 @@
 <?php
 $lang = array(
-
     "conexion" => "la conexion se ha establecido con éxtio",
     "Inicio" => "Inicio",
     "Precios" => "Precios",
@@ -10,7 +9,9 @@ $lang = array(
     "en" => "Inglés",
     "es" => "Español",
     "it" => "Italiano",
-    "errorPassword" => "Error! Las contraseñas no coinciden"
+    "gl" => "Galego",
+    "errorPassword" => "Error! Las contraseñas no coinciden",
+    "confirmacion" => "¿Está seguro de borrar el registro?",
+    "Nuevo usuario" => "Nuevo usuario",
 )
-
 ?>

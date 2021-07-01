@@ -94,7 +94,7 @@ abstract class Estandar
         }
     }
 
-    public function update($cadena, $campo, $valor)
+    public function update(string $cadena, string $campo,  string $valor)
     {
         /**
          * La cadena incluirá todos los campos y los valores

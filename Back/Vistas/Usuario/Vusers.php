@@ -1,6 +1,6 @@
 <?php
 include '../../Funciones/funciones.php';
-//require_once ('../../Modelos/Musers.php');
+require_once '../../Lenguajes/config.php';
 
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
@@ -9,36 +9,18 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 $usuario = new Usuarios('usuarios');
 $users = $usuario->getAll()->fetchAll();
 
-
 $titulo = isset($_POST['apellido']) ? 'Usuarios: (' . $_POST['apellido'] . ')' : 'Usuarios:';
 ?>
 
-<?php //include "templates/header.php"; 
+<?php
+include "../../Includes/headUsers.php";
 ?>
 
-<?php
-/*if ($error) {
-?>
-    <div class="container mt-2">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-danger" role="alert">
-                    <?= $error ?>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php
-}*/
-?>
-<?php
-    include "../../Includes/headUsers.php";
-?>
 <body>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <a href="Cusers.php?menu=1" class="New_User">Nuevo Usuario</a>
+                <a href="Cusers.php?menu=1" class="New_User"><?php echo $lang['Nuevo usuario']?></a>
                 <hr>
                 <form method="post" class="form-inline">
                     <div class="form-group mr-3">
@@ -71,8 +53,9 @@ $titulo = isset($_POST['apellido']) ? 'Usuarios: (' . $_POST['apellido'] . ')' :
                                     <td><?php echo escapar($fila["idUsr"]); ?></td>
                                     <td><?php echo escapar($fila["nick"]); ?></td>
                                     <td>
-                                        <a href="<?= 'Cusers.php?menu=2&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>">🗑️Borrar</a>
-                                        <a href="<?= 'Cusers.php?menu=3&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>">✏️Editar</a>
+                                        
+                                        <a href="<?= 'Cusers.php?menu=2&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')">🗑️Borrar</a>
+                                        <a href="<?= 'Cusers.php?menu=3&id=' . escapar($fila["idUsr"]) ?>">✏️Editar</a>
                                     </td>
                                 </tr>
                         <?php
@@ -85,6 +68,3 @@ $titulo = isset($_POST['apellido']) ? 'Usuarios: (' . $_POST['apellido'] . ')' :
         </div>
     </div>
 </body>
-
-<?php //include "templates/footer.php"; 
-?>
