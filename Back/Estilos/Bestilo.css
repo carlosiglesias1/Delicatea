@@ -1,0 +1,67 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: gainsboro;
+}
+
+.table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.form-control{
+    background-color: white;
+    border-radius: 8%;
+    border: solid;
+    border-width: thin medium;
+}
+
+.New_User {
+    font-family: verdana, arial, sans-serif;
+    font-size: 100%;
+    font-weight: bold;
+    padding: 4px;
+    background-color: #12ee66;
+    color: #666666;
+    text-decoration: none;
+    border-radius: 5%;
+}
+
+tr .options{
+    width: 20%;
+}
+
+tr a{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    color: rgb(78, 235, 201);
+    text-decoration: none;
+}
+
+thead{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+    font-size: larger;
+    text-decoration: underline;
+}
+
+.dataTables_info{
+    font-family: 'Courier New', Courier, monospace;
+    background-color: cornsilk;
+}
+
+tbody{
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+tbody tr:nth-child(odd){
+    background-color: gray;
+    font-size: large;
+}
+
+tbody tr:nth-child(even){
+    background-color: gainsboro;
+    font-size: large;
+}

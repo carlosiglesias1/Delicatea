@@ -13,6 +13,15 @@ $lang = array(
     "errorPassword" => "Error! Os contrasinais non coinciden",
     "confirmacion" => "¿Está seguro de borrar o rexistro?",
     "Nuevo usuario" => "Novo usuario",
+    "Tabla Usuarios"=> array(
+        "Titulo" => "Usuarios",
+        "ID"=> "#",
+        "Nickname" => "Nickname",
+        "Acciones" => "Accións",
+        "Borrar" => "Borrar",
+        "Editar" => "Editar"
+    ),
+    
 )
 
 ?>

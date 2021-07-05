@@ -7,41 +7,48 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     die();
 }
 $usuario = new Usuarios('usuarios');
-$users = $usuario->getAll()->fetchAll();
-
-$titulo = isset($_POST['apellido']) ? 'Usuarios: (' . $_POST['apellido'] . ')' : 'Usuarios:';
+$users = $usuario->getAll()->fetchAll(PDO::FETCH_ASSOC);
+/*print_r($users);
+echo "<br>";
+orderBy($users, 'nick');
+print_r($users);*/
 ?>
 
 <?php
-include "../../Includes/headUsers.php";
+//include "../../Includes/headUsers.php";
 ?>
+<html>
 
+<head>
+    <link href="../Estilos/Bestilo.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#myTable").DataTable({
+                language: {
+                    url: selectLng()
+                }
+            });
+        });
+    </script>
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <a href="Cusers.php?menu=1" class="New_User"><?php echo $lang['Nuevo usuario']?></a>
-                <hr>
-                <form method="post" class="form-inline">
-                    <div class="form-group mr-3">
-                        <input type="text" id="apellido" name="apellido" placeholder="Buscar por nickname" class="form-control">
-                    </div>
-                    <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
-                    <button type="submit" name="submit" class="btn btn-primary">Ver resultados</button>
-                </form>
-            </div>
+        <a href="Cusers.php?menu=1" class="New_User"><?php echo $lang['Nuevo usuario'] ?></a>
+        <hr>
         </div>
     </div>
-
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="mt-3"><?= $titulo ?></h2>
-                <table class="table">
+                <h2 class="mt-3"><?= $lang['Tabla Usuarios']['Titulo'];?></h2>
+                <table id="myTable" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>NickName</th>
+                            <th><?= $lang['Tabla Usuarios']['ID'];?></th>
+                            <th><?= $lang['Tabla Usuarios']['Nickname'];?></th>
+                            <th><?= $lang['Tabla Usuarios']['Acciones'];?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,10 +59,9 @@ include "../../Includes/headUsers.php";
                                 <tr>
                                     <td><?php echo escapar($fila["idUsr"]); ?></td>
                                     <td><?php echo escapar($fila["nick"]); ?></td>
-                                    <td>
-                                        
-                                        <a href="<?= 'Cusers.php?menu=2&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')">🗑️Borrar</a>
-                                        <a href="<?= 'Cusers.php?menu=3&id=' . escapar($fila["idUsr"]) ?>">✏️Editar</a>
+                                    <td class="options">
+                                        <a href="<?= 'Cusers.php?menu=2&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')">🗑️<?= $lang['Tabla Usuarios']['Borrar'];?></a>
+                                        <a href="<?= 'Cusers.php?menu=3&id=' . escapar($fila["idUsr"]) ?>">✏️<?= $lang['Tabla Usuarios']['Editar'];?></a>
                                     </td>
                                 </tr>
                         <?php
@@ -68,3 +74,5 @@ include "../../Includes/headUsers.php";
         </div>
     </div>
 </body>
+
+</html>
