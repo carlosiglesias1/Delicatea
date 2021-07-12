@@ -4,6 +4,8 @@ $menu = $_GET['menu'];
 switch ($menu) {
 
   case 1:
+    require_once("../cabecera.php");
+    areUAllowed([1]);
     require_once("../Modelos/Musers.php");
     //Llamar a la clase Usuarios
     $usuario = new Usuarios('usuarios');
@@ -14,6 +16,8 @@ switch ($menu) {
     break;
 
   case 2:
+    require_once("../cabecera.php");
+    areUAllowed([1]);
     require_once("../Modelos/Musers.php");
     $usuario = new Usuarios('usuarios');
     $id = intval($_GET['id']);
@@ -26,6 +30,8 @@ switch ($menu) {
     break;
 
   case 3:
+    require_once("../cabecera.php");
+    areUAllowed([1]);
     require_once("../../Funciones/funciones.php");
     require_once("../Modelos/Musers.php");
     $usuario = new Usuarios('usuarios');
@@ -35,7 +41,7 @@ switch ($menu) {
     if (isset($_POST['submit']))
       try {
         $usuario->updateUser($id);
-        header('Location: BCcontrol.php?menu=1');
+        header('Location: BCcontrol.php?menu=1&lang=' . $_GET['lang']);
       } catch (PDOException $ex) {
         echo $ex->getMessage();
       }
@@ -43,6 +49,6 @@ switch ($menu) {
     break;
 
   default:
-    header("location:index.php");
+    require_once("./BCcontrol.php");
     break;
 }

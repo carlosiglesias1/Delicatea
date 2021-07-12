@@ -2,7 +2,6 @@
 include '../../Lenguajes/es.php';
 //include '../../Conexion/Conectar.php';
 if (isset($_POST['submit'])) {
-
     $resultado = [
         'error' => false,
     ];

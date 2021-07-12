@@ -1,5 +1,5 @@
 <?php
-require_once('../Modelos/Mestandar.php');
+require_once($_SESSION['WORKING_PATH'].'Back/Modelos/Mestandar.php');
 class Usuarios extends Estandar
 {
 
@@ -18,7 +18,7 @@ class Usuarios extends Estandar
         $valor = $this->exists($valores['nickname']);
         if ($valor == 0) {
             parent::insert($campos, $valores);
-            header("Location: BCcontrol.php?menu=1");
+            header("Location: BCcontrol.php?menu=1&lang=es");
         } else {
             header("Location: ../Vistas/Usuario/BVUsuariofail.php");
         }
@@ -28,7 +28,7 @@ class Usuarios extends Estandar
     {
         $campos = array(
             "nick" => $_POST['nickname'],
-            "pass" => hash("sha512", $_POST['password'])
+            "rol" => $_POST['rol']
         );
         $string = concatenar($campos);
         return parent::update($string, 'idUsr', $id);
@@ -36,6 +36,10 @@ class Usuarios extends Estandar
 
     public function getByID($id){
         return parent::getBy('idUsr', $id);
+    }
+
+    public function getByName($name){
+        return parent::getBy('nick', "'".$name."'");
     }
 
     public function deleteByID($id)

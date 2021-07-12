@@ -28,19 +28,49 @@ function concatenar(array $array)
   return substr($cadena, 0, strlen($cadena) - 1);
 }
 
-function orderBy(array $array, string $campo)
+function logIn(string $name, string $password)
 {
-  //La idea es que le pases el array de la consulta SQL y lo ordene en base a un entero
-  //(id, precio, edad,...) del que le hay que pasar el nombre
-  $aux = array();
-  foreach ($array as $key => $fila) {
-    $aux[$key]  = $fila[$campo];
+  require_once '../Modelos/Musers.php';
+  $usuario = new Usuarios('usuarios');
+  try {
+    $query = $usuario->getByName($name);
+    $array = $query->fetchAll(PDO::FETCH_ASSOC);
+    if ($query->rowCount() == 0) {
+      header('Location: BCcontrol.php?menu=0&lang=es');
+    } else {
+      if ($array[0]['pass'] == $password) {
+        session_start();
+        $_SESSION['menu'] = $array[0]['rol'];
+        $_SESSION['id'] = $array[0]['idUsr'];
+        header('Location: BCcontrol.php?menu=3&lang=es');
+      }
+    }
+  } catch (PDOException $e) {
+    throw $e;
   }
-  array_multisort($aux, SORT_ASC, $array);
 }
 
+/** AreUAllowed: Comprueba si el usuario está autorizado a entrar en el sitio web, 
+ * Nota: protegerá de posibles intentos de "saltarse" los protocolos de inicio de 
+ * sesión e intentar acceder desde la url a las opciones de gestión que estén restringidas
+ * para ese usuario
+ */
+function areUAllowed(array $rolesPermitidos)
+{
+  if (isset($_SESSION['menu']))
+    $usrRol = $_SESSION['menu'];
+  else {
+    echo '<p>No tienes permiso para acceder a este sitio</p> <br> <a href="' . $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=0&lang=es' . '">Volver al Login</a>';
+    exit;
+  }
 
+  if (!in_array($usrRol, $rolesPermitidos)) {
+    echo '<p>No tienes permiso para acceder a este sitio</p> <br> <a href="' . $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=0&lang=es' . '">Volver al Login</a>';
+    exit;
+  }
+}
 ?>
+
 <!--SCRIPTS-->
 <script>
   function confirmar(message) {
@@ -52,5 +82,19 @@ function orderBy(array $array, string $campo)
   function selectLng() {
     var lng = "<?php echo $_GET['lang']; ?>";
     return "../../Lenguajes/" + lng + ".json";
+  }
+</script>
+
+<script>
+  function dataTableInit() {
+    $(document).ready(function() {
+      $("#myTable").DataTable({
+        language: {
+          url: selectLng()
+        },
+        "scrollY": "400px",
+        "scrollCollapse": true,
+      });
+    });
   }
 </script>

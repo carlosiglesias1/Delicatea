@@ -34,15 +34,15 @@ abstract class Estandar
         }
     }
 
-    public function getBy($campo, $valor)
+    public function getBy(string $campo, $valor)
     {
         $query = "SELECT * FROM $this->table WHERE $campo = $valor";
         try {
             $sentencia = $this->bd->prepare($query);
             $sentencia->execute();
             return $sentencia;
-        } catch (PDOException $ex) {
-            throw $ex->getMessage();
+        } catch (PDOException $e) {
+            throw $e;
         }
     }
 

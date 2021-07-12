@@ -4,7 +4,7 @@ body {
     background-color: gainsboro;
 }
 
-.table {
+.display {
     width: 100%;
     text-align: center;
     border-collapse: collapse;
@@ -51,6 +51,10 @@ thead{
     background-color: cornsilk;
 }
 
+[class ~= "paginate_button next"]{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
 tbody{
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
@@ -64,4 +68,8 @@ tbody tr:nth-child(odd){
 tbody tr:nth-child(even){
     background-color: gainsboro;
     font-size: large;
+}
+
+button{
+    width: fit-content;
 }

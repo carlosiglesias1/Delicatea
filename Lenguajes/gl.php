@@ -12,16 +12,29 @@ $lang = array(
     "gl" => "Galego",
     "errorPassword" => "Error! Os contrasinais non coinciden",
     "confirmacion" => "¿Está seguro de borrar o rexistro?",
-    "Nuevo usuario" => "Novo usuario",
+    "Nuevo Usuario" => array(
+        "Boton" => "Novo usuario",
+        "Nombre" => "Nome de usuario",
+        "Contraseña" => "Contrasinal",
+        "Repetir Contraseña" => "Repite o contrasinal",
+        "Registrarse" => "Rexístrate",
+        "Actualizar"=> "Actualizar",
+        "Cancelar" => "Cancelar.",
+        "Fail" => "Volver al Inicio"
+    ),
+    "Iniciar sesion" => "Iniciar Sesión", 
     "Tabla Usuarios"=> array(
         "Titulo" => "Usuarios",
         "ID"=> "#",
         "Nickname" => "Nickname",
+        "Rol" => "Rol",
         "Acciones" => "Accións",
         "Borrar" => "Borrar",
         "Editar" => "Editar"
     ),
-    
-)
-
-?>
+    "Menu BackOffice"=>[
+        "Usuarios"=>"Usuarios",
+        "Productos" => "Produtos",
+        
+    ],
+);
