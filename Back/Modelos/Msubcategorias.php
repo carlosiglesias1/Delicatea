@@ -1,6 +1,6 @@
 <?php
 require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
-class Usuarios extends Estandar
+class SubCategoria extends Estandar
 {
 
     public function __construct($tabla)
@@ -8,7 +8,7 @@ class Usuarios extends Estandar
         parent::__construct($tabla);
     }
 
-    public function newUser()
+    public function newSubCat()
     {
         $campos = ['nick', 'pass'];
         $valores = array(

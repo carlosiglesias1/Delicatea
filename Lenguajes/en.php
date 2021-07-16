@@ -5,13 +5,15 @@ $lang = array(
     "Precios" => "Prices",
     "Contacto" => "Contact",
     "Descripcion" => "This is the description of my website in Spanish",
-    "Titular" => "My website in Spanish",
+    "Titular" => "Delicatea",
     "en" => "English",
     "es" => "Español",
     "it" => "Italiano",
     "gl" => "Galego",
     "errorPassword" => "Error!Passwords do not match",
     "confirmacion" => "Are you sure to delete the record?",
+    "Iniciar sesion" => "Log in", 
+    "Log Out" => "Log Out",
     "Nuevo Usuario" => array(
         "Boton" => "New User",
         "Nombre" => "Username",
@@ -22,7 +24,6 @@ $lang = array(
         "Cancelar" => "Cancel",
         "Fail" => "Back to Index"
     ),
-    "Iniciar sesion" => "Log in", 
     "Tabla Usuarios"=> array(
         "Titulo" => "Users",
         "ID"=> "#",
@@ -32,10 +33,32 @@ $lang = array(
         "Borrar" => "Delete",
         "Editar" => "Edit"
     ),
+    "Nueva Marca" => array(
+        "Boton"=>"New brand",
+        "Nombre"=> "Name",
+        "Registrarse" => "Register",
+        "Actualizar" => "Update",
+        "Cancelar" => "Cancel",
+        "Fail" => "Something has failed"
+    ),
+    "Tabla Marcas" => array(
+        "Titulo" => "Marks",
+        "ID"=> "#",
+        "Nombre" => "Brand",
+        "Acciones" => "Actions",
+        "Borrar" => "Delete",
+        "Editar" => "Edit"
+    ),
     "Menu BackOffice"=>[
         "Usuarios"=>"Users",
-        "Productos" => "Stock",
-        
+        "Marcas" => "Marks",
+        "Productos" => "Products",
+        "Categorias" => "Categories",
+        "Subcategorias" => "Subcategories",
+        "Clientes" => "Customers",
+        "Facturas" => "Invoices",
+        "Ventas" => "Sales",
+        "Contabilidad" => "Accounting"      
     ],
 )
 ?>

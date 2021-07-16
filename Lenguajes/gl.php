@@ -12,6 +12,8 @@ $lang = array(
     "gl" => "Galego",
     "errorPassword" => "Error! Os contrasinais non coinciden",
     "confirmacion" => "¿Está seguro de borrar o rexistro?",
+    "Iniciar sesion" => "Acceder", 
+    "Log Out" => "Saír",
     "Nuevo Usuario" => array(
         "Boton" => "Novo usuario",
         "Nombre" => "Nome de usuario",
@@ -19,10 +21,9 @@ $lang = array(
         "Repetir Contraseña" => "Repite o contrasinal",
         "Registrarse" => "Rexístrate",
         "Actualizar"=> "Actualizar",
-        "Cancelar" => "Cancelar.",
+        "Cancelar" => "Cancelar",
         "Fail" => "Volver al Inicio"
     ),
-    "Iniciar sesion" => "Iniciar Sesión", 
     "Tabla Usuarios"=> array(
         "Titulo" => "Usuarios",
         "ID"=> "#",
@@ -32,9 +33,31 @@ $lang = array(
         "Borrar" => "Borrar",
         "Editar" => "Editar"
     ),
+    "Nueva Marca" => array(
+        "Boton"=>"Nova marca",
+        "Nombre"=> "Nome",
+        "Registrarse" => "Rexistrar",
+        "Actualizar" => "Para actualizar",
+        "Cancelar" => "Cancelar",
+        "Fail" => "Algo fallou"
+    ),
+    "Tabla Marcas" => array(
+        "Titulo" => "Marcas",
+        "ID"=> "#",
+        "Nombre" => "Marca",
+        "Acciones" => "Accións",
+        "Borrar" => "Borrar",
+        "Editar" => "Editar"
+    ),
     "Menu BackOffice"=>[
         "Usuarios"=>"Usuarios",
+        "Marcas" => "Marcas",
         "Productos" => "Produtos",
-        
+        "Categorias" => "Categorías",
+        "Subcategorias" => "Subcategorías",
+        "Clientes" => "Clientes",
+        "Facturas" => "Facturas",
+        "Ventas" => "Vendas",
+        "Contabilidad" => "Contabilidade"      
     ],
 );

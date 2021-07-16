@@ -1,10 +1,4 @@
 <?php
-if ($_SESSION['menu'] != 1) {
-    //echo "wrong session";
-    //echo 'Location : '.$_SESSION['INDEX_PATH'].'Back/Controladores/BCcontrol.php?menu=0&lang=es';
-    header('Location : ' . $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=0&lang=es');
-    exit;
-}
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
@@ -31,19 +25,20 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
         <div class="breadcrumb">
             <ul>
                 <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=1&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Usuarios']['Titulo'] ?></a></li>
-                <li><?= $lang['Nuevo Usuario']['Boton'] ?></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=2&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Marcas']['Titulo'] ?></a></li>
+                <li><?= $lang['Nueva Marca']['Boton'] ?></li>
             </ul>
         </div>
         <form method="POST" class="FormNewObject">
-            <label for="nickname"><?php echo $lang['Nuevo Usuario']['Nombre'] ?></label>
-            <input type="text" name="nickname">
-            <label for="password"><?php echo $lang['Nuevo Usuario']['Contraseña'] ?></label>
-            <input type="text" name="password">
-            <label for="RepPassword"><?php echo $lang['Nuevo Usuario']['Repetir Contraseña'] ?></label>
-            <input type="text" name="repPassword">
+            <label for="name"><?php echo $lang['Nueva Marca']['Nombre'] ?></label>
+            <?php if ($_GET['menu'] == 1) { ?>
+                <input type="text" name="name">
+            <?php } else {
+            ?>
+                <input type="text" name="name" value="<?= escapar($campos['nombre']) ?>">
+            <?php } ?>
             <button name="submit" type="submit"><?php if ($_GET['menu'] == 1) {
-                                                    echo $lang["Nuevo Usuario"]["Registrarse"];
+                                                    echo $lang["Nueva Marca"]["Registrarse"];
                                                 } else {
                                                     echo "Actualizar";
                                                 } ?></button>

@@ -12,6 +12,8 @@ $lang = array(
     "gl" => "Galego",
     "errorPassword" => "Error! Las contraseñas no coinciden",
     "confirmacion" => "¿Está seguro de borrar el registro?",
+    "Iniciar sesion" => "Iniciar Sesión",
+    "Log Out" => "Log Out",
     "Nuevo Usuario" => array(
         "Boton" => "Nuevo usuario",
         "Nombre" => "Nombre de Usuario",
@@ -21,8 +23,7 @@ $lang = array(
         "Actualizar"=> "Actualizar",
         "Cancelar" => "Cancelar",
         "Fail" => "Volver al Inicio"
-    ),
-    "Iniciar sesion" => "Iniciar Sesión",  
+    ),  
     "Tabla Usuarios"=> array(
         "Titulo" => "Usuarios",
         "ID"=> "#",
@@ -32,9 +33,47 @@ $lang = array(
         "Borrar" => "Borrar",
         "Editar" => "Editar"
     ),
+    "Nueva Marca" => array(
+        "Boton"=>"Nueva Marca",
+        "Nombre"=> "Nombre",
+        "Registrarse" => "Registrar",
+        "Actualizar" => "Actualizar",
+        "Cancelar" => "Cancelar",
+        "Fail" => "Algo ha fallado"
+    ),
+    "Tabla Marcas" => array(
+        "ID"=> "#",
+        "Titulo" => "Marcas",
+        "Nombre" => "Marca",
+        "Acciones" => "Acciones",
+        "Borrar" => "Borrar",
+        "Editar" => "Editar"
+    ),
+    "Nueva Subcategoria" => array(
+        "Boton"=>"Nueva Subcategoria",
+        "Nombre"=> "Nombre",
+        "Registrarse" => "Registrar",
+        "Actualizar" => "Actualizar",
+        "Cancelar" => "Cancelar",
+        "Fail" => "Algo ha fallado"
+    ),
+    "Tabla Subcategorias" => array(
+        "ID"=> "#",
+        "Titulo" => "Marcas",
+        "Nombre" => "Marca",
+        "Acciones" => "Acciones",
+        "Borrar" => "Borrar",
+        "Editar" => "Editar"
+    ),
     "Menu BackOffice"=>[
         "Usuarios"=>"Usuarios",
-        "Productos" => "Productos",      
+        "Marcas" => "Marcas",
+        "Productos" => "Productos",
+        "Categorias" => "Categorías",
+        "Subcategorias" => "Subcategorías",
+        "Clientes" => "Clientes",
+        "Facturas" => "Facturas",
+        "Ventas" => "Ventas",
+        "Contabilidad" => "Contabilidad"      
     ],
-)
-?>
+);

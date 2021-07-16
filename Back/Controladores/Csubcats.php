@@ -5,27 +5,27 @@ switch ($menu) {
   case 1:
     require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/Musers.php");
+    require_once("../Modelos/Msubcategorias.php");
     if (isset($_POST['cancelar'])) {
-      header('Location: BCcontrol.php?menu=1&lang=' . $_GET['lang']);
+      header('Location: BCcontrol.php?menu=4&lang=' . $_GET['lang']);
     }
-    //Llamar a la clase Usuarios
-    $usuario = new Usuarios('usuarios');
+    //Llamar a la clase subcategorias
+    $subcategoria = new SubCategoria('subcategoria');
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     if (isset($_POST['submit']))
-      $usuario->newUser();
-    require_once("../Vistas/Usuario/VCreateUser.php");
+      $subcategoria->newSubCat();
+    require_once("../Vistas/subcategoria/VCreateUser.php");
     break;
 
   case 2:
     require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/Musers.php");
-    $usuario = new Usuarios('usuarios');
+    require_once("../Modelos/Msubcategorias.php");
+    $subcategoria = new SubCategoria('subcategoria');
     $id = intval($_GET['id']);
     try {
-      $usuario->deleteByID($id);
-      header('Location: BCcontrol.php?menu=1&lang='.$_SESSION['lang']);
+      $subcategoria->deleteByID($id);
+      header('Location: BCcontrol.php?menu=4&lang='.$_SESSION['lang']);
     } catch (PDOException $ex) {
       echo $ex->getMessage();
     }
@@ -35,19 +35,19 @@ switch ($menu) {
     require_once("../cabecera.php");
     areUAllowed([1]);
     require_once("../../Funciones/funciones.php");
-    require_once("../Modelos/Musers.php");
-    $usuario = new Usuarios('usuarios');
+    require_once("../Modelos/Msubcategorias.php");
+    $subcategoria = new SubCategoria('subcategoria');
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     $id = $_GET['id'];
-    $campos = $usuario->getByID($id)->fetch(PDO::FETCH_ASSOC);
+    $campos = $subcategoria->getByID($id)->fetch(PDO::FETCH_ASSOC);
     if (isset($_POST['submit']))
       try {
-        $usuario->updateUser($id);
-        header('Location: BCcontrol.php?menu=1&lang=' . $_GET['lang']);
+        $subcategoria->updateUser($id);
+        header('Location: BCcontrol.php?menu=4&lang=' . $_GET['lang']);
       } catch (PDOException $ex) {
         echo $ex->getMessage();
       }
-    require_once("../Vistas/Usuario/VEditUser.php");
+    require_once("../Vistas/subcategoria/VEditUser.php");
     break;
 
   default:

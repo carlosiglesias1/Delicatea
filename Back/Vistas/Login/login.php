@@ -1,8 +1,8 @@
 <?php
-if (session_status() == PHP_SESSION_ACTIVE) {
-    session_destroy();
-}
 if (isset($_POST['submit'])) {
+    if (session_status() == PHP_SESSION_ACTIVE) {
+        session_destroy();
+    }
     $name = $_POST['username'];
     $password = "";
     if (isset($_POST["password"]))
@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -29,16 +29,12 @@ if (isset($_POST['submit'])) {
         <?php //require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; 
         ?>
     </div>
-    <div class="sidebar">
-        <?php //include $_SESSION['WORKING_PATH']."Back/menu.php"; 
-        ?>
-    </div>
     <div class="contenedor">
         <form method="post">
             <label for="username"><?php echo $lang['Nuevo Usuario']['Nombre']; ?></label>
             <input type="text" name="username">
             <label for="password"><?php echo $lang['Nuevo Usuario']['Contraseña'] ?></label>
-            <input type="text" name="password">
+            <input type="password" name="password">
             <input type="submit" name="submit">
         </form>
     </div>

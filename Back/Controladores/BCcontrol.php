@@ -10,22 +10,26 @@ switch ($menu) {
     areUAllowed([1]);
     require_once("../Modelos/Musers.php");
     require_once("../Vistas/Usuario/Vusers.php");
-
     break;
 
   case 2:
     require_once("../cabecera.php");
-    require_once("../Modelos/Musers.php");
-    require_once("../Vistas/Producto/VProductos.php");
+    areUAllowed([1,2]);
+    require_once("../Modelos/Mmarcas.php");
+    require_once("../Vistas/Marcas/VMarcas.php");
     break;
 
   case 3:
     require_once("../cabecera.php");
     require_once("../Modelos/Musers.php");
     require_once("../Vistas/Login/success.php");
-    echo $_SESSION['menu'];
     break;
 
+  case 4:
+    require_once("../cabecera.php");
+    require_once("../Modelos/Msubcategorias.php");
+    require_once("../Vistas/Subcategorias/Vsubcategorias.php");
+    break;
   default:
     header("./BCcontrol.php?menu=0&lang=es");
     break;

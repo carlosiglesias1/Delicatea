@@ -24,7 +24,6 @@ $users = $usuario->getByID($_SESSION['id'])->fetchAll(PDO::FETCH_ASSOC);
         include $_SESSION['WORKING_PATH'] . "Back/menu.php"; ?>
     </div>
     <div class="contenedor">
-
         Bienvenido <?php echo $users[0]['nick']; ?>
     </div>
 </body>

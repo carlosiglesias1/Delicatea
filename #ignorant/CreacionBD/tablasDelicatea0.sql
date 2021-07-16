@@ -62,3 +62,18 @@ CREATE TABLE valoresArticulo (
     caracteristica int REFERENCES caracteristicas (idCaracteristica),
     valor VARCHAR (20)    
 );
+
+CREATE TABLE roles (
+    idRol INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR (50),
+);
+
+CREATE TABLE usuarios (
+    idUsr INT (11) AUTO_INCREMENT PRIMARY KEY,
+    nick VARCHAR (50),
+    pass VARCHAR (50),
+    token VARCHAR (255),
+    verificado TINYINT (1),
+    rol TINYINT,
+    mail VARCHAR (255),
+)

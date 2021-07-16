@@ -46,6 +46,31 @@ abstract class Estandar
         }
     }
 
+    public function getForeignValue(string $foreignValue, string $foreignTable, string $value, string $foreignKey)
+    {
+        /**
+         * $foreignValue => el valor que queremos obtener
+         * $foreignTable => la tabla de la que vamos a obtener el valor
+         * $value => valor que tenemos en la tabla de origen
+         * $foreignKey => campo de union en la tabla destino
+        */
+        $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ";
+        try {
+            $this->bd->beginTransaction();
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute();
+            try {
+                $this->bd->commit();
+                return $sentencia;
+            } catch (PDOException $error) {
+                $this->bd->rollBack();
+                throw $error;
+            }
+        } catch (PDOException $exception) {
+            throw $exception;
+        }
+    }
+
     public function insert($campos, $valores)
     {
         $query = "INSERT INTO $this->table (" . implode(", ", $campos) . ") values(:" . implode(", :", array_keys($valores)) . ")";
@@ -122,7 +147,7 @@ abstract class Estandar
     public function existsBy($campo, $valor)
     {
         try {
-            $sentencia = $this->bd->prepare("SELECT * FROM usuarios WHERE $campo = $valor");
+            $sentencia = $this->bd->prepare("SELECT * FROM " . $this->getTable() . " WHERE $campo = $valor");
             $sentencia->execute();
             return $sentencia->rowCount();
         } catch (PDOException $ex) {

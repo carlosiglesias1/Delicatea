@@ -1,6 +1,6 @@
 <?php
 require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
-class Usuarios extends Estandar
+class Categorias extends Estandar
 {
 
     public function __construct($tabla)
@@ -8,12 +8,12 @@ class Usuarios extends Estandar
         parent::__construct($tabla);
     }
 
-    public function newUser()
+    public function newCategorie()
     {
-        $campos = ['nick', 'pass'];
+        $campos = ['nombre', 'descripcion'];
         $valores = array(
             "nickname" => $_POST['nickname'],
-            "password" => hash("sha512", $_POST['password'])
+            "password" => $_POST['password']
         );
         $valor = $this->exists($valores['nickname']);
         if ($valor == 0) {
