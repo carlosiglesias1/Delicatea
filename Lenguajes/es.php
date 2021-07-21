@@ -49,9 +49,31 @@ $lang = array(
         "Borrar" => "Borrar",
         "Editar" => "Editar"
     ),
-    "Nueva Subcategoria" => array(
-        "Boton"=>"Nueva Subcategoria",
+    
+    "Nueva Categoria" => array(
+        "Boton"=>"Nueva Categoría",
         "Nombre"=> "Nombre",
+        "Descripcion" => "Descrpición",
+        "Registrarse" => "Registrar",
+        "Actualizar" => "Actualizar",
+        "Cancelar" => "Cancelar",
+        "Fail" => "Algo ha fallado"
+    ),
+    "Tabla Categorias" => array(
+        "ID"=> "#",
+        "Titulo" => "Categorías",
+        "Nombre" => "Nombre",
+        "Descripcion" => "Descripción",
+        "Acciones" => "Acciones",
+        "Borrar" => "Borrar",
+        "Editar" => "Editar"
+    ),
+
+    "Nueva Subcategoria" => array(
+        "Boton"=>"Nueva Subcategoría",
+        "Nombre"=> "Nombre",
+        "Descripcion" => "Descrpición",
+        "Categoria" => "Categoría",
         "Registrarse" => "Registrar",
         "Actualizar" => "Actualizar",
         "Cancelar" => "Cancelar",
@@ -59,8 +81,29 @@ $lang = array(
     ),
     "Tabla Subcategorias" => array(
         "ID"=> "#",
-        "Titulo" => "Marcas",
-        "Nombre" => "Marca",
+        "Titulo" => "Subcategorías",
+        "Nombre" => "Nombre",
+        "Descripcion" => "Descripción",
+        "Acciones" => "Acciones",
+        "Borrar" => "Borrar",
+        "Editar" => "Editar"
+    ),
+    "Nuevo Articulo" => array(
+        "Boton"=>"Nuevo Artículo",
+        "Nombre"=> "Nombre",
+        "Descripcion" => "Descrpición",
+        "DescripcionL" => "Descripción Larga",
+        "Registrarse" => "Registrar",
+        "Actualizar" => "Actualizar",
+        "Cancelar" => "Cancelar",
+        "Fail" => "Algo ha fallado"
+    ),
+    "Tabla Articulos" => array(
+        "ID"=> "#",
+        "Titulo" => "Artículos",
+        "Nombre" => "Nombre",
+        "Descripcion" => "Descripción",
+        "DescripcionL" => "Descripción Larga",
         "Acciones" => "Acciones",
         "Borrar" => "Borrar",
         "Editar" => "Editar"
@@ -68,7 +111,7 @@ $lang = array(
     "Menu BackOffice"=>[
         "Usuarios"=>"Usuarios",
         "Marcas" => "Marcas",
-        "Productos" => "Productos",
+        "Articulos" => "Artículos",
         "Categorias" => "Categorías",
         "Subcategorias" => "Subcategorías",
         "Clientes" => "Clientes",

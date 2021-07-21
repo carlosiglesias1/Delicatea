@@ -64,7 +64,7 @@ CREATE TABLE valoresArticulo (
 );
 
 CREATE TABLE roles (
-    idRol INT AUTO_INCREMENT PRIMARY KEY,
+    idRol TINYINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR (50),
 );
 
@@ -74,6 +74,13 @@ CREATE TABLE usuarios (
     pass VARCHAR (50),
     token VARCHAR (255),
     verificado TINYINT (1),
-    rol TINYINT,
+    rol TINYINT REFERENCES roles (idRol),
     mail VARCHAR (255),
-)
+);
+
+CREATE TABLE TiposIva(
+    idIva int AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR (50),
+    porcentage FLOAT
+);
+INSERT INTO tiposiva (tipo,porcentage) VALUES ('General', 0.21), ('Reducido', 0.1), ('Superreducido', 0.4);

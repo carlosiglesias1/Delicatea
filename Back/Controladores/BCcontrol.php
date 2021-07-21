@@ -14,7 +14,7 @@ switch ($menu) {
 
   case 2:
     require_once("../cabecera.php");
-    areUAllowed([1,2]);
+    areUAllowed([1, 2]);
     require_once("../Modelos/Mmarcas.php");
     require_once("../Vistas/Marcas/VMarcas.php");
     break;
@@ -27,8 +27,23 @@ switch ($menu) {
 
   case 4:
     require_once("../cabecera.php");
+    areUAllowed([1, 2]);
     require_once("../Modelos/Msubcategorias.php");
+    $subcategoria = new SubCategoria();
+    $subcats = $subcategoria->getAll()->fetchAll(PDO::FETCH_ASSOC);
     require_once("../Vistas/Subcategorias/Vsubcategorias.php");
+    break;
+  case 5:
+    require_once("../cabecera.php");
+    areUAllowed([1, 2]);
+    require_once("../Modelos/Mcategorias.php");
+    require_once("../Vistas/Categorias/Vcategorias.php");
+    break;
+  case 6:
+    require_once("../cabecera.php");
+    areUAllowed([1, 2]);
+    require_once("../Modelos/Mproductos.php");
+    require_once("../Vistas/Productos/VProductos.php");
     break;
   default:
     header("./BCcontrol.php?menu=0&lang=es");

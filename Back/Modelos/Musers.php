@@ -3,9 +3,9 @@ require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
 class Usuarios extends Estandar
 {
 
-    public function __construct($tabla)
+    public function __construct()
     {
-        parent::__construct($tabla);
+        parent::__construct('usuarios');
     }
 
     public function newUser()

@@ -22,8 +22,8 @@ require_once $_SESSION['WORKING_PATH'] . 'Lenguajes/config.php';
     <title>Delicatea</title>
     <link rel="stylesheet" href="<?php echo  $_SESSION['INDEX_PATH'] . "icofont/icofont.min.css"; ?>">
     <link rel="stylesheet" href="<?php echo  $_SESSION['INDEX_PATH'] . 'Back/Estilos/Estilos.css'; ?>">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="<?= $_SESSION['INDEX_PATH'].'Includes/jquery-3.5.1.js'?>"></script>
+    <script src="<?= $_SESSION['INDEX_PATH'].'Includes/DataTables/dataTables.min.js'?>"></script>
 </head>
 
 <div class="cabecera">

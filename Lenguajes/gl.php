@@ -49,10 +49,27 @@ $lang = array(
         "Borrar" => "Borrar",
         "Editar" => "Editar"
     ),
+    "Nueva Subcategoria" => array(
+        "Boton"=>"Nova subcategoría",
+        "Nombre"=> "Nome",
+        "Registrarse" => "Rexistrar",
+        "Actualizar" => "Actualizar",
+        "Cancelar" => "Cancelar",
+        "Fail" => "Algo fallou"
+    ),
+    "Tabla Subcategorias" => array(
+        "ID"=> "#",
+        "Titulo" => "Subcategorías",
+        "Nombre" => "Nome",
+        "Descripcion" => "Descrición",
+        "Acciones" => "Accións",
+        "Borrar" => "Eliminar",
+        "Editar" => "Editar"
+    ),
     "Menu BackOffice"=>[
         "Usuarios"=>"Usuarios",
         "Marcas" => "Marcas",
-        "Productos" => "Produtos",
+        "Articulos" => "Produtos",
         "Categorias" => "Categorías",
         "Subcategorias" => "Subcategorías",
         "Clientes" => "Clientes",

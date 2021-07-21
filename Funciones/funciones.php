@@ -43,7 +43,7 @@ function logIn(string $name, string $password)
         $_SESSION['menu'] = $array[0]['rol'];
         $_SESSION['id'] = $array[0]['idUsr'];
         $_SESSION['lang'] = $_GET['lang'];
-        header('Location: BCcontrol.php?menu=3&lang='.$_GET['lang']);
+        header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
       }
     }
   } catch (PDOException $e) {
@@ -72,6 +72,7 @@ function areUAllowed(array $rolesPermitidos)
 }
 ?>
 
+
 <!--SCRIPTS-->
 <script>
   function confirmar(message) {
@@ -96,10 +97,13 @@ function areUAllowed(array $rolesPermitidos)
         "scrollY": "580px",
         "scrollCollapse": true,
         "info": false,
-        "columnDefs":[
-          {"type": "html-num", "targets":[0]}
-        ]
+        "columnDefs": [{
+          "type": "html-num",
+          "targets": [0]
+        }]
       });
     });
   }
 </script>
+
+<!--HTML-->

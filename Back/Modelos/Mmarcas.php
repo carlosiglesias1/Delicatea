@@ -2,9 +2,9 @@
 require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
 class Marcas extends Estandar
 {
-    public function __construct(string $table)
+    public function __construct()
     {
-        parent::__construct($table);
+        parent::__construct('marca');
     }
 
     public function getById(int $id)

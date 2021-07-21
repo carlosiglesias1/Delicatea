@@ -3,59 +3,59 @@ require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
 class Categorias extends Estandar
 {
 
-    public function __construct($tabla)
+    public function __construct()
     {
-        parent::__construct($tabla);
+        parent::__construct('categoria');
     }
 
     public function newCategorie()
     {
         $campos = ['nombre', 'descripcion'];
         $valores = array(
-            "nickname" => $_POST['nickname'],
-            "password" => $_POST['password']
+            "name" => $_POST['name'],
+            "password" => $_POST['descripcion']
         );
-        $valor = $this->exists($valores['nickname']);
+        $valor = $this->exists($valores['name']);
         if ($valor == 0) {
             parent::insert($campos, $valores);
-            header("Location: BCcontrol.php?menu=1&lang=es");
+            header("Location: BCcontrol.php?menu=5&lang=es");
         } else {
             header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Vistas/Usuario/BVUsuariofail.php");
         }
     }
 
-    public function updateUser(int $id)
+    public function updateCat(int $id)
     {
         $campos = array(
-            "nick" => $_POST['nickname'],
-            "rol" => $_POST['rol']
+            "nombre" => $_POST['name'],
+            "descripcion" => $_POST['descripcion']
         );
         $string = concatenar($campos);
-        return parent::update($string, 'idUsr', $id);
+        return parent::update($string, 'idCategoria', $id);
     }
 
-    public function getByID($id)
+    public function getByID(int $id)
     {
-        return parent::getBy('idUsr', $id);
+        return parent::getBy('idCategoria', $id);
     }
 
     public function getByName($name)
     {
-        return parent::getBy('nick', "'" . $name . "'");
+        return parent::getBy('nombre', "'" . $name . "'");
     }
 
-    public function getRol($idRol)
+    public function getSubcategorias($idSubCategoria)
     {
-        return parent::getForeignValue("nombre", "roles", $idRol , "idRol")->fetchAll(PDO::FETCH_ASSOC);
+        return parent::getForeignValue("nombre", "roles", $idSubCategoria , "idRol")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function deleteByID($id)
     {
-        return parent::deleteBy('idUsr', $id);
+        return parent::deleteBy('idCategoria', $id);
     }
 
-    private function exists($nickname)
+    private function exists($name)
     {
-        return parent::existsBy('nick', "'" . $nickname . "'");
+        return parent::existsBy('nombre', "'" . $name . "'");
     }
 }

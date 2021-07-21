@@ -25,23 +25,27 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
         <div class="breadcrumb">
             <ul>
                 <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=2&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Marcas']['Titulo'] ?></a></li>
-                <li><?= $lang['Nueva Marca']['Boton'] ?></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=5&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Categorias']['Titulo'] ?></a></li>
+                <li><?= $lang['Nueva Categoria']['Boton'] ?></li>
             </ul>
         </div>
         <form method="POST" class="FormNewObject">
-            <label for="name"><?php echo $lang['Nueva Marca']['Nombre'] ?></label>
+            <label for="name"><?php echo $lang['Nueva Categoria']['Nombre'] ?></label>
             <?php if ($_GET['menu'] == 1) { ?>
                 <input type="text" name="name">
+                <label for="name"><?php echo $lang['Nueva Categoria']['Descripcion'] ?></label>
+                <input type="text" name="descripcion">
             <?php } else {
             ?>
                 <input type="text" name="name" value="<?= escapar($campos['nombre']) ?>">
+                <label for="name"><?php echo $lang['Nueva Categoria']['Descripcion'] ?></label>
+                <input type="text" name="descripcion" value="<?= escapar($campos['descripcion']) ?>">
             <?php } ?>
-            <button name="submit" type="submit"><?php if ($_GET['menu'] == 1) {
-                                                    echo $lang["Nueva Marca"]["Registrarse"];
-                                                } else {
-                                                    echo "Actualizar";
-                                                } ?></button>
+            <button name=" submit" type="submit"><?php if ($_GET['menu'] == 1) {
+                                                        echo $lang["Nueva Categoria"]["Registrarse"];
+                                                    } else {
+                                                        echo "Actualizar";
+                                                    } ?></button>
             <button name="cancelar"><?php echo $lang['Nuevo Usuario']['Cancelar'] ?></button>
         </form>
     </div>

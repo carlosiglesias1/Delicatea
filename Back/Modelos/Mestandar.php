@@ -46,15 +46,20 @@ abstract class Estandar
         }
     }
 
-    public function getForeignValue(string $foreignValue, string $foreignTable, string $value, string $foreignKey)
+    public function getForeignValue(string $foreignValue = null, string $foreignTable, string $value = null, string $foreignKey = null)
     {
         /**
          * $foreignValue => el valor que queremos obtener
          * $foreignTable => la tabla de la que vamos a obtener el valor
          * $value => valor que tenemos en la tabla de origen
          * $foreignKey => campo de union en la tabla destino
-        */
-        $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ";
+         */
+        if ($foreignValue == null && $foreignKey == null) {
+            $query = "SELECT * FROM $foreignTable";
+        } else if ($foreignValue == null) {
+            $query = "SELECT * FROM $foreignTable WHERE $foreignKey = $value";
+        } else
+            $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ";
         try {
             $this->bd->beginTransaction();
             $sentencia = $this->bd->prepare($query);
@@ -89,6 +94,24 @@ abstract class Estandar
         }
     }
 
+    public function foreignInsert($table, $campos, $valores)
+    {
+        $query = "INSERT INTO $table (" . implode(", ", $campos) . ") values(:" . implode(", :", array_keys($valores)) . ")";
+        try {
+            $this->bd->beginTransaction();
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute($valores);
+            try {
+                $this->bd->commit();
+            } catch (PDOException $error) {
+                $this->bd->rollBack();
+                throw $error;
+            }
+        } catch (PDOException $excpt) {
+            throw $excpt;
+        }
+    }
+
     public function deleteBy($campo, $value)
     {
         $query = "DELETE FROM $this->table WHERE $campo = $value";
@@ -97,7 +120,19 @@ abstract class Estandar
             $sentencia->execute();
             return $sentencia->rowCount();
         } catch (PDOException $ex) {
-            echo $ex->getMessage();
+            throw $ex;
+        }
+    }
+
+    public function foreignDelete(string $table, string $campo, mixed $value)
+    {
+        $query = "DELETE FROM $table WHERE $campo = $value";
+        try {
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute();
+            return $sentencia->rowCount();
+        } catch (PDOException $ex) {
+            throw $ex;
         }
     }
 

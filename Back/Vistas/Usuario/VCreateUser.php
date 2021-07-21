@@ -53,7 +53,3 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 </body>
 
 </html>
-<!--Scripts-->
-<script>
-    dataTableInit();
-</script>
