@@ -3,8 +3,8 @@ csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
 }
-$usuario = new Usuarios('usuarios');
-$users = $usuario->getAll()->fetchAll(PDO::FETCH_ASSOC);
+$tipoIVA = new IVA();
+$tiposIVA = $tipoIVA->getAll()->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,30 +30,32 @@ $users = $usuario->getAll()->fetchAll(PDO::FETCH_ASSOC);
             </ul>
         </div>
         <div class="contenido">
-            <h4><?= $lang['Tabla Usuarios']['Titulo']; ?></h4>
+            <h4><?= $lang['Tabla IVA']['Titulo']; ?></h4>
             <a href="<?= "Cusers.php?menu=1&lang=" . $_GET['lang'] ?>" class="New_Button"><?php echo $lang['Nuevo Usuario']['Boton'] ?></a>
         </div>
         <table id="myTable" class="display">
             <thead>
                 <tr>
-                    <th><?= $lang['Tabla Usuarios']['ID']; ?></th>
-                    <th><?= $lang['Tabla Usuarios']['Nickname']; ?></th>
-                    <th><?= $lang['Tabla Usuarios']['Rol']; ?></th>
-                    <th><?= $lang['Tabla Usuarios']['Acciones']; ?></th>
+                    <th><?= $lang['Tabla IVA']['ID']; ?></th>
+                    <th><?= $lang['Tabla IVA']['Tipo']; ?></th>
+                    <th><?= $lang['Tabla IVA']['Porcentage']; ?></th>
+                    <th><?= $lang['Tabla IVA']['Recargo'] ?></th>
+                    <th><?= $lang['Tabla IVA']['Acciones']; ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                if ($users && $usuario->getAll()->rowCount() > 0) {
-                    foreach ($users as $fila) {
+                if ($tiposIVA && $tipoIVA->getAll()->rowCount() > 0) {
+                    foreach ($tiposIVA as $fila) {
                 ?>
                         <tr>
-                            <td><?php echo escapar($fila["idUsr"]); ?></td>
-                            <td><?php echo escapar($fila["nick"]); ?></td>
-                            <td><?php echo $usuario->getRol($fila["rol"])[0]['nombre']; ?></td>
-                           <td class="options">
-                                <a href="<?= 'Cusers.php?menu=2&campo=idUsr&id=' . escapar($fila["idUsr"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Usuarios']['Borrar']; ?></a>
-                                <a href="<?= 'Cusers.php?menu=3&id=' . escapar($fila["idUsr"]) . "&lang=" . $_GET['lang'] ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Usuarios']['Editar']; ?></a>
+                            <td><?php echo escapar($fila["idIva"]); ?></td>
+                            <td><?php echo escapar($fila["tipo"]); ?></td>
+                            <td><?php echo escapar($fila["porcentage"]) ?></td>
+                            <td><?= escapar($fila["recargoEquivalencia"]) ?></td>
+                            <td class="options">
+                                <a href="<?= 'CIva.php?menu=2&id=' . escapar($fila["idIva"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla IVA']['Borrar']; ?></a>
+                                <a href="<?= 'CIva.php?menu=3&id=' . escapar($fila["idIva"]) . "&lang=" . $_GET['lang'] ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla IVA']['Editar']; ?></a>
                             </td>
                         </tr>
                 <?php

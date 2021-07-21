@@ -49,9 +49,29 @@ $lang = array(
         "Borrar" => "Delete",
         "Editar" => "Edit"
     ),
+    "Nueva Categoria" => array(
+        "Boton"=>"New category",
+        "Nombre"=> "Name",
+        "Descripcion" => "Descripción",
+        "Registrarse" => "registrar",
+        "Actualizar" => "To update",
+        "Cancelar" => "Cancel",
+        "Fail" => "Something has failed"
+    ),
+    "Tabla Categorias" => array(
+        "ID"=> "#",
+        "Titulo" => "Categories",
+        "Nombre" => "Name",
+        "Descripcion" => "Description",
+        "Acciones" => "Actions",
+        "Borrar" => "Delete",
+        "Editar" => "Edit"
+    ),
     "Nueva Subcategoria" => array(
         "Boton"=>"New subcategory",
         "Nombre"=> "Name",
+        "Descripcion" => "Description",
+        "Categoria" => "Category",
         "Registrarse" => "Register",
         "Actualizar" => "Update",
         "Cancelar" => "Cancel",
@@ -62,8 +82,29 @@ $lang = array(
         "Titulo" => "Subcategories",
         "Nombre" => "Name",
         "Descripcion" => "Description",
+        "Categoria" => "Category",
         "Acciones" => "Actions",
         "Borrar" => "Delete",
+        "Editar" => "Edit"
+    ),
+    "Nuevo Articulo" => array(
+        "Boton"=>"New item",
+        "Nombre"=> "Name",
+        "Descripcion" => "Descripción",
+        "DescripcionL" => "Long description",
+        "Registrarse" => "registrar",
+        "Actualizar" => "To update",
+        "Cancelar" => "Cancel",
+        "Fail" => "Something has failed"
+    ),
+    "Tabla Articulos" => array(
+        "ID"=> "#",
+        "Titulo" => "Articles",
+        "Nombre" => "Name",
+        "Descripcion" => "Description",
+        "DescripcionL" => "Long description",
+        "Acciones" => "Actions",
+        "Borrar" => "Erase",
         "Editar" => "Edit"
     ),
     "Menu BackOffice"=>[
@@ -75,7 +116,8 @@ $lang = array(
         "Clientes" => "Customers",
         "Facturas" => "Invoices",
         "Ventas" => "Sales",
-        "Contabilidad" => "Accounting"      
+        "Contabilidad" => "Accounting",
+        "IVA" => "IVA"      
     ],
 )
 ?>

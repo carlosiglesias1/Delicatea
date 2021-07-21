@@ -108,6 +108,26 @@ $lang = array(
         "Borrar" => "Borrar",
         "Editar" => "Editar"
     ),
+    "Nuevo IVA"=>[
+        "Boton"=> "Nuevo tipo de IVA",
+        "Nombre"=> "Tipo",
+        "Porcentage" => "Porcentage",
+        "Recargo" => "Recargo",
+        "Registrarse" => "Registrar",
+        "Actualizar" => "Actualizar",
+        "Cancelar" => "Cancelar",
+        "Fail" => "Algo ha fallado"
+    ],
+    "Tabla IVA"=>[
+        "ID"=> "#",
+        "Titulo" => "IVA's",
+        "Tipo" => "Tipo",
+        "Porcentage" => "Porcentage",
+        "Recargo" => "Recargo",
+        "Acciones" => "Acciones",
+        "Borrar" => "Borrar",
+        "Editar" => "Editar"
+    ],
     "Menu BackOffice"=>[
         "Usuarios"=>"Usuarios",
         "Marcas" => "Marcas",
@@ -117,6 +137,7 @@ $lang = array(
         "Clientes" => "Clientes",
         "Facturas" => "Facturas",
         "Ventas" => "Ventas",
-        "Contabilidad" => "Contabilidad"      
+        "Contabilidad" => "Contabilidad",
+        "IVA" => "IVA"      
     ],
 );

@@ -18,6 +18,7 @@ switch ($_SESSION['menu']) {
                 <li><?php echo $lang['Menu BackOffice']['Facturas'] ?></li>
                 <li><?php echo $lang['Menu BackOffice']['Ventas'] ?></li>
                 <li><?php echo $lang['Menu BackOffice']['Contabilidad'] ?></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=7&lang=' . $_GET['lang'] ?>"><?php echo $lang['Menu BackOffice']['IVA'] ?></li>
                 <li><a href="#openModal">Abrir modal</a></li>
             </ul>
         </nav>

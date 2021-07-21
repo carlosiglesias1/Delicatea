@@ -45,6 +45,12 @@ switch ($menu) {
     require_once("../Modelos/Mproductos.php");
     require_once("../Vistas/Productos/VProductos.php");
     break;
+  case 7:
+    require_once("../cabecera.php");
+    areUAllowed([1]);
+    require_once("../Modelos/MIva.php");
+    require_once("../Vistas/IVA/VIva.php");
+    break;
   default:
     header("./BCcontrol.php?menu=0&lang=es");
     break;
