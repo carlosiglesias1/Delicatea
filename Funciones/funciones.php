@@ -40,10 +40,10 @@ function logIn(string $name, string $password)
     } else {
       if ($array[0]['pass'] == $password) {
         session_start();
-        $_SESSION['menu'] = $array[0]['rol'];
         $_SESSION['id'] = $array[0]['idUsr'];
         $_SESSION['lang'] = $_GET['lang'];
         header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
+        $_SESSION['modal'] = 2;
       }
     }
   } catch (PDOException $e) {
@@ -54,20 +54,200 @@ function logIn(string $name, string $password)
 /** AreUAllowed: Comprueba si el usuario está autorizado a entrar en el sitio web, 
  * Nota: protegerá de posibles intentos de "saltarse" los protocolos de inicio de 
  * sesión e intentar acceder desde la url a las opciones de gestión que estén restringidas
- * para ese usuario
+ * para ese usuario.
  */
-function areUAllowed(array $rolesPermitidos)
+function areUAllowed(array $PermisosRequeridos)
 {
-  if (isset($_SESSION['menu']))
-    $usrRol = $_SESSION['menu'];
+  if (isset($_SESSION['ventanasMenu']))
+    $usrRol = array_column($_SESSION['ventanasMenu'], 'permiso');
   else {
     echo '<p>No tienes permiso para acceder a este sitio</p> <br> <a href="' . $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=0&lang=es' . '">Volver al Login</a>';
     exit;
   }
-
-  if (!in_array($usrRol, $rolesPermitidos)) {
+  if (array_intersect($usrRol, $PermisosRequeridos) == null) {
     echo '<p>No tienes permiso para acceder a este sitio</p> <br> <a href="' . $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=0&lang=es' . '">Volver al Login</a>';
     exit;
+  }
+}
+
+function getArticulos(Tarifa $tarifa, array $campos)
+{
+  //Si opero sobre el coste final
+  if ($campos['coste'] == 0 || $campos['origen'] == 0) {
+    /*
+    *Creo una cadena con todas las condiciones que quiero para aplicarlas en la consulta
+    *Las condiciones deben variar segun los filtros
+    */
+    if ($campos["marca"] == 0 && $campos['categoria'] == 0 && $campos['subcategoria'] == 0) {
+      $articulos = $tarifa->getForeignValue(null, 'articulo')->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($campos["marca"] != 0 && $campos['categoria'] == 0 && $campos['subcategoria'] == 0) {
+      $conditional = 'marca = ' . $campos["marca"];
+      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($campos["marca"] == 0 && $campos['categoria'] != 0 && $campos['subcategoria'] == 0) {
+      $conditional = 'categoria = ' . $campos['categoria'];
+      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($campos["marca"] == 0 && $campos['categoria'] == 0 && $campos['subcategoria'] != 0) {
+      $conditional = 'subcategoria = ' . $campos['subcategoria'];
+      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($campos["marca"] != 0 && $campos['categoria'] != 0 && $campos['subcategoria'] == 0) {
+      $conditional = 'marca = ' . $campos["marca"] . ' AND categoria = ' . $campos['categoria'] . ' AND subcategoria = ' . $campos['subcategoria'];
+      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($campos["marca"] != 0 && $campos['categoria'] == 0 && $campos['subcategoria'] != 0) {
+      $conditional = 'marca = ' . $campos["marca"] . ' AND subcategoria = ' . $campos['subcategoria'];
+      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($campos["marca"] == 0 && $campos['categoria'] != 0 && $campos['subcategoria'] != 0) {
+      $conditional = 'categoria = ' . $campos['categoria'] . ' AND subcategoria = ' . $campos['subcategoria'];
+      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+      $conditional = 'marca = ' . $campos["marca"] . ' AND categoria = ' . $campos['categoria'] . ' AND subcategoria = ' . $campos['subcategoria'];
+      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+    }
+  } //Si actualizo una tarifa sobre otra
+  else {
+    if ($campos['coste'] == -1 || $campos['origen'] == -1) {
+      $productos = $tarifa->getForeignValue(null, 'tarifasproductos')->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($productos as $fila => $campo) {
+        $articulos[$fila]['coste'] = $campo['costeFinal'];
+        $articulos[$fila]['idArticulo'] = $campo['idPrd'];
+      }
+    } else {
+      $productos = $tarifa->getForeignValue(null, 'tarifasproductos', $campos['coste'], 'idTarifa')->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($productos as $fila => $campo) {
+        $articulos[$fila]['coste'] = $campo['costeFinal'];
+        $articulos[$fila]['idArticulo'] = $campo['idPrd'];
+      }
+    }
+  }
+  return $articulos;
+}
+
+/**
+ * CALCULO LOS COSTES FINALES DE LOS ARTICULOS SEGUN SU TARIFA
+ */
+function calculoCostes(array $campos, float $incremento, int $RA, Tarifa $tarifa, int $index)
+{
+  $articulos = getArticulos($tarifa, $campos);
+  //Si escogí incrementar el precio
+  if ($campos['opera'] == '1') {
+    //Compruebo que lo incremento en un importe fijo
+    if ($campos['opc'] == '0') {
+      foreach ($articulos as $fila) {
+        switch ($RA) {
+          case 4:
+          case 8:
+            $resultado = round($fila['coste'] + $incremento, 0);
+            break;
+          case 5:
+          case 9:
+            $resultado = round($fila['coste'] + $incremento, 1, PHP_ROUND_HALF_UP);
+            break;
+          case 6:
+            $resultado = round((float)($fila['coste']) + (float)$incremento, 1, PHP_ROUND_HALF_UP) - (float)0.01;
+            break;
+          case 7:
+            $resultado = round($fila['coste'] + $incremento, 2, PHP_ROUND_HALF_UP) - 0.001;
+            break;
+          case 10:
+            $resultado = round($fila['coste'] + $incremento, 1, PHP_ROUND_HALF_UP) - 0.05;
+            break;
+          case 11:
+            $resultado = round($fila['coste'] + $incremento, 2, PHP_ROUND_HALF_UP) - 0.005;
+            break;
+        }
+        if ($resultado < 0)
+          $resultado = 0;
+        $tarifa->foreignInsert('tarifasproductos', ['idPrd', 'idTarifa', 'costeFinal'], ["idProd" => $fila['idArticulo'], "idTarifa" => $index, "resultado" => $resultado]);
+      }
+      //Si incremento en un porcentaje
+    } else {
+      foreach ($articulos as $fila) {
+        switch ($RA) {
+          case 4:
+          case 8:
+            $resultado = round($fila['coste'] + ($fila['coste'] * $incremento / 100), 0);
+            break;
+          case 5:
+          case 9:
+            $resultado = round($fila['coste'] + ($fila['coste'] * $incremento / 100), 1, PHP_ROUND_HALF_UP);
+            break;
+          case 6:
+            $resultado = round($fila['coste'] + ($fila['coste'] * $incremento / 100), 1, PHP_ROUND_HALF_UP) - 0.01;
+            break;
+          case 7:
+            $resultado = round($fila['coste'] + ((float) ($fila['coste']) * $incremento / 100), 2, PHP_ROUND_HALF_UP) - 0.001;
+            break;
+          case 10:
+            $resultado = round($fila['coste'] + ((float) ($fila['coste']) * $incremento / 100), 1, PHP_ROUND_HALF_UP) - 0.05;
+            break;
+          case 11:
+            $resultado = round($fila['coste'] + ((float) ($fila['coste']) * $incremento / 100), 2, PHP_ROUND_HALF_UP) - 0.005;
+            break;
+        }
+        if ($resultado < 0)
+          $resultado = 0;
+        $tarifa->foreignInsert('tarifasproductos', ['idPrd', 'idTarifa', 'costeFinal'], ["idProd" => $fila['idArticulo'], "idTarifa" => $index, "resultado" => $resultado]);
+      }
+    }
+    //Si decremento en importe fijo
+  } else {
+    if ($campos['opc'] == '0') {
+      foreach ($articulos as $fila) {
+        switch ($RA) {
+          case 4:
+          case 8:
+            $resultado = round($fila['coste'] - $incremento, 0);
+            break;
+          case 5:
+          case 9:
+            $resultado = round($fila['coste'] - $incremento, 1, PHP_ROUND_HALF_UP);
+            break;
+          case 6:
+            $resultado = round(($fila['coste']) - $incremento, 1, PHP_ROUND_HALF_UP) - 0.01;
+            break;
+          case 7:
+            $resultado = round($fila['coste'] - $incremento, 2, PHP_ROUND_HALF_UP) - 0.001;
+            break;
+          case 10:
+            $resultado = round($fila['coste'] - $incremento, 1, PHP_ROUND_HALF_UP) - 0.05;
+            break;
+          case 11:
+            $resultado = round($fila['coste'] - $incremento, 2, PHP_ROUND_HALF_UP) - 0.005;
+            break;
+        }
+        if ($resultado < 0)
+          $resultado = 0;
+        $tarifa->foreignInsert('tarifasproductos', ['idPrd', 'idTarifa', 'costeFinal'], ["idProd" => $fila['idArticulo'], "idTarifa" => $index, "resultado" => $resultado]);
+      }
+      //Si decremento en porcentaje
+    } else {
+      foreach ($articulos as $fila) {
+        switch ($RA) {
+          case 4:
+          case 8:
+            $resultado = round($fila['coste'] - ($fila['coste'] * $incremento / 100), 0);
+            break;
+          case 5:
+          case 9:
+            $resultado = round($fila['coste'] - ($fila['coste'] * $incremento / 100), 1, PHP_ROUND_HALF_UP);
+            break;
+          case 6:
+            $resultado = round($fila['coste'] - ($fila['coste'] * $incremento / 100), 1, PHP_ROUND_HALF_UP) - 0.01;
+            break;
+          case 7:
+            $resultado = round($fila['coste'] - ((float) ($fila['coste']) * $incremento / 100), 2, PHP_ROUND_HALF_UP) - 0.001;
+            break;
+          case 10:
+            $resultado = round($fila['coste'] - ((float) ($fila['coste']) * $incremento / 100), 1, PHP_ROUND_HALF_UP) - 0.05;
+            break;
+          case 11:
+            $resultado = round($fila['coste'] - ((float) ($fila['coste']) * $incremento / 100), 2, PHP_ROUND_HALF_UP) - 0.005;
+            break;
+        }
+        if ($resultado < 0)
+          $resultado = 0;
+        $tarifa->foreignInsert('tarifasproductos', ['idPrd', 'idTarifa', 'costeFinal'], ["idProd" => $fila['idArticulo'], "idTarifa" => $index, "resultado" => $resultado]);
+      }
+    }
   }
 }
 ?>
@@ -90,7 +270,7 @@ function areUAllowed(array $rolesPermitidos)
 <script>
   function dataTableInit() {
     $(document).ready(function() {
-      $("#myTable").DataTable({
+      $("#myTable").dataTable({
         language: {
           url: selectLng()
         },
@@ -98,11 +278,76 @@ function areUAllowed(array $rolesPermitidos)
         "scrollCollapse": true,
         "info": false,
         "columnDefs": [{
+          "width": "10%",
           "type": "html-num",
           "targets": [0]
         }]
       });
     });
+  }
+
+  function changeclass(elementID, eventElementID, actualElement) {
+    /**
+     * Cambia la clase de un elemento -> Para las listas ocultas, 
+     * está pensado para alternar entre "nested" y "active"
+     */
+    var element = document.getElementById(elementID);
+    if (actualElement.id !== eventElementID) {
+      element.className = 'nested';
+    } else {
+      element.className = 'active';
+    }
+  }
+
+  function changeValue(changeElementID, elementID) {
+    /**
+     * Cambia el valor de un elemento por el valor del elemento que se pase en el segundo parametro
+     */
+    change = document.getElementById(changeElementID);
+    change.value = document.getElementById(elementID).value;
+  }
+
+  function selectInit() {
+    let checkboxes = document.querySelectorAll('input.option'),
+      checkall = document.getElementById('selectAll');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].onclick = function() {
+        let checkedCount = document.querySelectorAll('input.option:checked').length;
+        if (!checkall.checked) {
+          checkall.checked = checkedCount > 0;
+          checkall.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+        } else {
+          checkall.checked = checkedCount > 0;
+          checkall.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+        }
+      }
+    }
+
+    checkall.onclick = function() {
+      let checkedCount = -1;
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = this.checked;
+      }
+    }
+  }
+
+  function changeModal() {
+    var modal = document.getElementById("modal");
+    if (!modal.classList.contains("abrir")) {
+      modal.classList.add("abrir");
+    } else {
+      modal.classList.remove("abrir");
+    }
+  }
+
+  function cargarModal(modo) {
+    $.ajax({
+      url: "<?= $_SESSION['INDEX_PATH'] ?>" + "Includes/modal.php?modo=" + modo + "&lang=" + "<?= $_GET['lang'] ?>",
+      success: function(data) {
+        $('#modal').html(data);
+      }
+    })
   }
 </script>
 

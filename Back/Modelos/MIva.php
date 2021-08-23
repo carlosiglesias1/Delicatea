@@ -8,17 +8,18 @@ class IVA extends Estandar
         parent::__construct('tiposiva');
     }
 
-    public function newUser()
+    public function newIVA()
     {
-        $campos = ['tipo', 'pass'];
+        $campos = ['tipo', 'porcentage', 'recargoEquivalencia'];
         $valores = array(
-            "tiponame" => $_POST['tiponame'],
-            "password" => hash("sha512", $_POST['password'])
+            "tipo" => $_POST['tipo'],
+            "porcentage" => $_POST['porcentage'],
+            "recargo"=> $_POST['recargo']
         );
-        $valor = $this->exists($valores['tiponame']);
+        $valor = $this->exists($valores['tipo']);
         if ($valor == 0) {
             parent::insert($campos, $valores);
-            header("Location: BCcontrol.php?menu=1&lang=es");
+            header("Location: BCcontrol.php?menu=7&lang=es");
         } else {
             header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Vistas/Usuario/BVUsuariofail.php");
         }
@@ -28,7 +29,8 @@ class IVA extends Estandar
     {
         $campos = array(
             "tipo" => $_POST['tipo'],
-            "porcentage" => $_POST['porcentage']
+            "porcentage" => $_POST['porcentage'],
+            "recargoEquivalencia"=> $_POST['recargo']
         );
         $string = concatenar($campos);
         return parent::update($string, 'idIva', $id);

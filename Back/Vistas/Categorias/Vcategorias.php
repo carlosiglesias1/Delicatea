@@ -3,8 +3,6 @@ csrf();
 if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
 }
-$categoria = new Categorias();
-$cats = $categoria->getAll()->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,50 +23,65 @@ $cats = $categoria->getAll()->fetchAll(PDO::FETCH_ASSOC);
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a>
+                </li>
                 <li><?= $lang['Tabla Categorias']['Titulo'] ?></li>
             </ul>
         </div>
         <div class="contenido">
             <h4><?= $lang['Tabla Categorias']['Titulo']; ?></h4>
             <a href="<?= "Ccats.php?menu=1&lang=" . $_GET['lang'] ?>" class="New_Button"><?php echo $lang['Nueva Categoria']['Boton'] ?></a>
+            <button name="Borrar" class="Borrar" onclick="cargarModal(2);changeModal()"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Marcas']['Borrar']; ?></button>
+            <button type="submit" name="Editar" class="Editar" form="Categorias"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Usuarios']['Editar']; ?></button>
         </div>
-        <table id="myTable" class="display">
-            <thead>
-                <tr>
-                    <th><?= $lang['Tabla Categorias']['ID']; ?></th>
-                    <th><?= $lang['Tabla Categorias']['Nombre']; ?></th>
-                    <th><?= $lang['Tabla Categorias']['Descripcion']; ?></th>
-                    <th>Ver Subcategorias</th>
-                    <th><?= $lang['Tabla Categorias']['Acciones']; ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($cats && $categoria->getAll()->rowCount() > 0) {
-                    foreach ($cats as $fila) {
-                ?>
-                        <tr>
-                            <td><?php echo escapar($fila["idCategoria"]); ?></td>
-                            <td><?php echo escapar($fila["nombre"]); ?></td>
-                            <td><?php echo escapar($fila["descripcion"]) ?></td>
-                            <td><a href="<?= 'Ccats.php?menu=4&idCat=' . escapar($fila["idCategoria"]) . "&lang=" . $_GET['lang']  ?>" class="Special"><i class="icofont-list"></i> Ver</a></td>
-                            <td class="options">
-                                <a href="<?= 'Ccats.php?menu=2&campo=idCategoria&id=' . escapar($fila["idCategoria"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Categorias']['Borrar']; ?></a>
-                                <a href="<?= 'Ccats.php?menu=3&id=' . escapar($fila["idCategoria"]) . "&lang=" . $_GET['lang'] ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Categorias']['Editar']; ?></a>
-                            </td>
-                        </tr>
-                <?php
+        <form method="POST" id="Categorias">
+            <table id="myTable" class="display">
+                <thead>
+                    <tr>
+                        <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll"></th>
+                        <th><?= $lang['Tabla Categorias']['Nombre']; ?></th>
+                        <th><?= $lang['Tabla Categorias']['Descripcion']; ?></th>
+                        <th>Ver Subcategorias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($cats && $categoria->getAll()->rowCount() > 0) {
+                        foreach ($cats as $fila) {
+                    ?>
+                            <tr>
+                                <td><input type="checkbox" name="<?= escapar($fila["idCategoria"]); ?>" id="<?= escapar($fila["idCategoria"]); ?>" class="option"></td>
+                                <td><label for="<?= escapar($fila["idCategoria"]); ?>"><?= escapar($fila["nombre"]); ?></label>
+                                </td>
+                                <td><label for="<?= escapar($fila["idCategoria"]); ?>"><?= escapar($fila["descripcion"]) ?></label>
+                                </td>
+                                <td><a href="<?= 'Ccats.php?menu=4&idCat=' . escapar($fila["idCategoria"]) . "&lang=" . $_GET['lang']  ?>" class="Special"><i class="icofont-list"></i> Ver</a></td>
+                            </tr>
+                    <?php
+                        }
                     }
-                }
-                ?>
-            <tbody>
-        </table>
+                    ?>
+                <tbody>
+            </table>
+            <?php
+            if (isset($_SESSION['error'])) {
+            ?> <div class="modal abrir" id="modal">
+                    <script>
+                        cargarModal(<?= $_SESSION['error'] ?>)
+                    </script>
+                </div> <?php
+                    } else { ?>
+                <div class="modal" id="modal">
+                </div><?php
+                    }
+                    unset($_SESSION['error']);  ?>
+        </form>
     </div>
 </body>
 
 </html>
 <!--Scripts-->
 <script>
+    selectInit();
     dataTableInit();
 </script>

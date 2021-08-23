@@ -1,10 +1,11 @@
 <?php
+ob_start();
 $menu = $_GET['menu'];
 switch ($menu) {
 
     case 1:
         require_once("../cabecera.php");
-        areUAllowed([1, 2]);
+        areUAllowed([4]);
         require_once("../Modelos/Mcategorias.php");
         if (isset($_POST['cancelar'])) {
             header('Location: BCcontrol.php?menu=5&lang=' . $_GET['lang']);
@@ -19,12 +20,13 @@ switch ($menu) {
 
     case 2:
         require_once("../cabecera.php");
-        areUAllowed([1, 2]);
+        areUAllowed([4]);
         require_once("../Modelos/Mcategorias.php");
         $marca = new Categorias();
-        $id = intval($_GET['id']);
+        $selected = unserialize($_GET['selected']);
         try {
-            $marca->deleteByID($id);
+            foreach($selected as $fila)
+                $marca->deleteByID($fila);
             header('Location: BCcontrol.php?menu=5&lang=' . $_GET['lang']);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
@@ -33,7 +35,7 @@ switch ($menu) {
 
     case 3:
         require_once("../cabecera.php");
-        areUAllowed([1]);
+        areUAllowed([4]);
         require_once("../../Funciones/funciones.php");
         require_once("../Modelos/Mcategorias.php");
         if (isset ($_POST['cancelar'])){
@@ -54,12 +56,13 @@ switch ($menu) {
         break;
     case 4:
         require_once("../cabecera.php");
-        areUAllowed([1]);
+        areUAllowed([4]);
         require_once("../../Funciones/funciones.php");
         require_once("../Modelos/Mcategorias.php");
         $categoria = new Categorias();
         //Llamamos a la funcion de la clase y almacenamos el return en una variable
         $id = $_GET['idCat'];
+        $nombreCat = $categoria->getByID($id)->fetchAll(PDO::FETCH_ASSOC);
         $subcats = $categoria->getForeignValue(null,'subcategoria',$id, 'categoria')->fetchAll(PDO::FETCH_ASSOC);
         require_once("../Vistas/Subcategorias/VSubCategorias.php");
         break;
@@ -68,3 +71,4 @@ switch ($menu) {
         require_once("./BCcontrol.php");
         break;
 }
+ob_end_flush();

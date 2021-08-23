@@ -3,8 +3,6 @@ csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
 }
-$tipoIVA = new IVA();
-$tiposIVA = $tipoIVA->getAll()->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,44 +24,56 @@ $tiposIVA = $tipoIVA->getAll()->fetchAll(PDO::FETCH_ASSOC);
         <div class="breadcrumb">
             <ul>
                 <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
-                <li><?= $lang['Nuevo Usuario']['Boton'] ?></li>
+                <li><?= $lang['Tabla IVA']['Titulo'] ?></li>
             </ul>
         </div>
         <div class="contenido">
             <h4><?= $lang['Tabla IVA']['Titulo']; ?></h4>
-            <a href="<?= "Cusers.php?menu=1&lang=" . $_GET['lang'] ?>" class="New_Button"><?php echo $lang['Nuevo Usuario']['Boton'] ?></a>
+            <a href="<?= "CIva.php?menu=1&lang=" . $_GET['lang'] ?>" class="New_Button"><?php echo $lang['Nuevo IVA']['Boton'] ?></a>
+            <button class="Borrar" name="Borrar" onclick="cargarModal(2); changeModal()"><i class="icofont-delete-alt"></i> <?= $lang['Tabla IVA']['Borrar']; ?></button>
+            <button class="Editar" name="Editar" form="Iva"><i class="icofont-edit-alt"></i> <?= $lang['Tabla IVA']['Editar']; ?></button>
+
         </div>
-        <table id="myTable" class="display">
-            <thead>
-                <tr>
-                    <th><?= $lang['Tabla IVA']['ID']; ?></th>
-                    <th><?= $lang['Tabla IVA']['Tipo']; ?></th>
-                    <th><?= $lang['Tabla IVA']['Porcentage']; ?></th>
-                    <th><?= $lang['Tabla IVA']['Recargo'] ?></th>
-                    <th><?= $lang['Tabla IVA']['Acciones']; ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($tiposIVA && $tipoIVA->getAll()->rowCount() > 0) {
-                    foreach ($tiposIVA as $fila) {
-                ?>
-                        <tr>
-                            <td><?php echo escapar($fila["idIva"]); ?></td>
-                            <td><?php echo escapar($fila["tipo"]); ?></td>
-                            <td><?php echo escapar($fila["porcentage"]) ?></td>
-                            <td><?= escapar($fila["recargoEquivalencia"]) ?></td>
-                            <td class="options">
-                                <a href="<?= 'CIva.php?menu=2&id=' . escapar($fila["idIva"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla IVA']['Borrar']; ?></a>
-                                <a href="<?= 'CIva.php?menu=3&id=' . escapar($fila["idIva"]) . "&lang=" . $_GET['lang'] ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla IVA']['Editar']; ?></a>
-                            </td>
-                        </tr>
-                <?php
+        <form method="post" id="Iva">
+            <table id="myTable" class="display">
+                <thead>
+                    <tr>
+                        <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll"></th>
+                        <th><?= $lang['Tabla IVA']['Tipo']; ?></th>
+                        <th><?= $lang['Tabla IVA']['Porcentage']; ?></th>
+                        <th><?= $lang['Tabla IVA']['Recargo'] ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($tiposIVA && $tipoIVA->getAll()->rowCount() > 0) {
+                        foreach ($tiposIVA as $fila) {
+                    ?>
+                            <tr>
+                                <td><input type="checkbox" name="<?= escapar($fila["idIva"]); ?>" id="<?= escapar($fila["idIva"]); ?>"></td>
+                                <td><label for="<?= escapar($fila["idIva"]); ?>"><?php echo escapar($fila["tipo"]); ?></label></td>
+                                <td><label for="<?= escapar($fila["idIva"]); ?>"><?php echo escapar($fila["porcentage"]) ?></label></td>
+                                <td><label for="<?= escapar($fila["idIva"]); ?>"><?= escapar($fila["recargoEquivalencia"]) ?></label></td>
+                            </tr>
+                    <?php
+                        }
                     }
-                }
-                ?>
-            <tbody>
-        </table>
+                    ?>
+                <tbody>
+            </table>
+            <?php
+            if (isset($_SESSION['error'])) {
+            ?> <div class="modal abrir" id="modal">
+                    <script>
+                        cargarModal(<?= $_SESSION['error'] ?>)
+                    </script>
+                </div> <?php
+                    } else { ?>
+                <div class="modal" id="modal">
+                </div><?php
+                    }
+                    unset($_SESSION['error']);  ?>
+        </form>
     </div>
 </body>
 

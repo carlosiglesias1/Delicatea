@@ -17,4 +17,7 @@ class Conectar
     {
         return new PDO('mysql:host=' . $this->host . ';dbname=' . $this->database . '', $this->user, $this->pass, $this->options);
     }
+    public function getDB(){
+        return $this->database;
+    }
 }

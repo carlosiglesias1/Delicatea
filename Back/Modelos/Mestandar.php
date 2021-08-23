@@ -46,7 +46,7 @@ abstract class Estandar
         }
     }
 
-    public function getForeignValue(string $foreignValue = null, string $foreignTable, string $value = null, string $foreignKey = null)
+    public function getForeignValue(?string $foreignValue = null, string $foreignTable, ?string $value = null, ?string $foreignKey = null, ?string $orderBy = null)
     {
         /**
          * $foreignValue => el valor que queremos obtener
@@ -54,12 +54,21 @@ abstract class Estandar
          * $value => valor que tenemos en la tabla de origen
          * $foreignKey => campo de union en la tabla destino
          */
-        if ($foreignValue == null && $foreignKey == null) {
-            $query = "SELECT * FROM $foreignTable";
-        } else if ($foreignValue == null) {
-            $query = "SELECT * FROM $foreignTable WHERE $foreignKey = $value";
-        } else
-            $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ";
+        if ($orderBy == null) {
+            if ($foreignValue == null && $foreignKey == null) {
+                $query = "SELECT * FROM $foreignTable";
+            } else if ($foreignValue == null) {
+                $query = "SELECT * FROM $foreignTable WHERE $foreignKey = $value";
+            } else
+                $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ";
+        } else {
+            if ($foreignValue == null && $foreignKey == null) {
+                $query = "SELECT * FROM $foreignTable ORDER BY $orderBy";
+            } else if ($foreignValue == null) {
+                $query = "SELECT * FROM $foreignTable WHERE $foreignKey = $value ORDER BY $orderBy";
+            } else
+                $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ORDER BY $orderBy";
+        }
         try {
             $this->bd->beginTransaction();
             $sentencia = $this->bd->prepare($query);
@@ -76,7 +85,40 @@ abstract class Estandar
         }
     }
 
-    public function insert($campos, $valores)
+    public function getForeignValueString(string $foreignValue = null, string $foreignTable, string $conditional, string $orderBy = null)
+    {
+        if ($orderBy == null) {
+            if ($foreignValue == null && $conditional == null) {
+                $query = "SELECT * FROM $foreignTable";
+            } else if ($foreignValue == null) {
+                $query = "SELECT * FROM $foreignTable WHERE $conditional";
+            } else
+                $query = "SELECT $foreignValue FROM $foreignTable WHERE $conditional";
+        } else {
+            if ($foreignValue == null && $conditional == null) {
+                $query = "SELECT * FROM $foreignTable ORDER BY $orderBy";
+            } else if ($foreignValue == null) {
+                $query = "SELECT * FROM $foreignTable WHERE $conditional ORDER BY $orderBy";
+            } else
+                $query = "SELECT $foreignValue FROM $foreignTable WHERE $conditional ORDER BY $orderBy";
+        }
+        try {
+            $this->bd->beginTransaction();
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute();
+            try {
+                $this->bd->commit();
+                return $sentencia;
+            } catch (PDOException $error) {
+                $this->bd->rollBack();
+                throw $error;
+            }
+        } catch (PDOException $exception) {
+            throw $exception;
+        }
+    }
+
+    public function insert($campos, $valores, $return = null)
     {
         $query = "INSERT INTO $this->table (" . implode(", ", $campos) . ") values(:" . implode(", :", array_keys($valores)) . ")";
         try {
@@ -85,6 +127,7 @@ abstract class Estandar
             $sentencia->execute($valores);
             try {
                 $this->bd->commit();
+                return $this->getAutoIncrement()->fetchAll(PDO::FETCH_ASSOC)[0]['AUTO_INCREMENT'];
             } catch (PDOException $error) {
                 $this->bd->rollBack();
                 throw $error;
@@ -116,8 +159,15 @@ abstract class Estandar
     {
         $query = "DELETE FROM $this->table WHERE $campo = $value";
         try {
+            $this->bd->beginTransaction();
             $sentencia = $this->bd->prepare($query);
             $sentencia->execute();
+            try {
+                $this->bd->commit();
+            } catch (PDOException $error) {
+                $this->bd->rollBack();
+                throw $error;
+            }
             return $sentencia->rowCount();
         } catch (PDOException $ex) {
             throw $ex;
@@ -142,13 +192,13 @@ abstract class Estandar
         $query2 = "ALTER TABLE $this->table AUTO_INCREMENT = 1";
         try {
             $sentencia = $this->bd->prepare($query);
-            $sentencia->execute($this->table);
+            $sentencia->execute();
         } catch (PDOException $ex) {
             throw $ex;
         }
         try {
             $sentencia = $this->bd->prepare($query2);
-            $sentencia->execute($this->table);
+            $sentencia->execute();
         } catch (PDOException $ex) {
             throw $ex;
         }
@@ -187,6 +237,19 @@ abstract class Estandar
             return $sentencia->rowCount();
         } catch (PDOException $ex) {
             throw $ex;
+        }
+    }
+
+    private function getAutoIncrement()
+    {
+        try {
+            $this->bd->beginTransaction();
+            $sentencia = $this->bd->prepare("SELECT AUTO_INCREMENT from information_schema.tables where table_schema = 'delicatea' AND table_name = '" . $this->getTable() . "'");
+            $sentencia->execute();
+            $this->bd->commit();
+            return $sentencia;
+        } catch (PDOException $error) {
+            throw $error;
         }
     }
 }

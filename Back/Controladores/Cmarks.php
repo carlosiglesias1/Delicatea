@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $menu = $_GET['menu'];
 switch ($menu) {
 
@@ -22,10 +23,11 @@ switch ($menu) {
         areUAllowed([1, 2]);
         require_once("../Modelos/Mmarcas.php");
         $marca = new Marcas('marca');
-        $id = intval($_GET['id']);
+        $selected = unserialize($_GET['selected']);
         try {
-            $marca->deleteByID($id);
-            header('Location: BCcontrol.php?menu=2&lang=' . $_GET['lang']);
+            foreach ($selected as $fila)
+                $marca->deleteByID($fila);
+            header("Location:" . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=2&lang=" . $_GET['lang']);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -36,12 +38,12 @@ switch ($menu) {
         areUAllowed([1]);
         require_once("../../Funciones/funciones.php");
         require_once("../Modelos/Mmarcas.php");
-        if (isset ($_POST['cancelar'])){
-            header("Location: ".$_SESSION['INDEX_PATH']."Back/Controladores/BCcontrol.php?menu=2&lang=".$_GET['lang']);
+        if (isset($_POST['cancelar'])) {
+            header("Location:" . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=2&lang=" . $_GET['lang']);
         }
         $marca = new Marcas('marca');
         //Llamamos a la funcion de la clase y almacenamos el return en una variable
-        $id = $_GET['id'];
+        $id = intval($_GET['id']);
         $campos = $marca->getById($id)->fetch(PDO::FETCH_ASSOC);
         if (isset($_POST['submit']))
             try {
@@ -57,3 +59,4 @@ switch ($menu) {
         require_once("./BCcontrol.php");
         break;
 }
+ob_end_flush();

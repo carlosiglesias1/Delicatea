@@ -10,27 +10,44 @@ class Articulo extends Estandar
 
     public function newArticle()
     {
-        $campos = ['nombre', 'descripcionCorta', 'descripcionLarga'];
+        //$campos = ['nombre', 'descripcionCorta', 'descripcionLarga', 'codigo', 'sku', 'pn', 'marca', 'categoria', 'subcategoria', 'coste', 'iva', 'puntoVerde', 'impuestoAlcochol'];
+        $campos = ['nombre', 'descripcionCorta', 'descripcionLarga', 'marca', 'categoria', 'subcategoria', 'coste'];
         $valores = array(
             "nickname" => $_POST['name'],
             "descripcion" =>  $_POST['descripcion'],
-            "description2" => $_POST['descripcion2']
+            "description2" => $_POST['descripcion2'],
+            /*"codigo" => $_POST['codigo'],
+            "sku" => $_POST['sku'],
+            "pn" => $_POST['pn'],/*/
+            "marca" => $_POST['marca'],
+            "categoria" => $_POST['categoria'],
+            "subcategoria" => $_POST['subcategoria'],
+            "coste" => $_POST['coste'],
+            /*"iva" => $_POST['iva'],
+            "puntoVerde" => $_POST['puntoVerde'],
+            "impuestoAlcochol" => $_POST['impuestoAlcohol']*/
         );
-        $valor = $this->exists($valores['name']);
-        if ($valor == 0) {
+        $valor = $this->exists($valores['nickname']);
+        if ($valor == 0)
             parent::insert($campos, $valores);
-            header("Location: BCcontrol.php?menu=6&lang=es");
-        } else {
-            header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Vistas/Usuario/BVUsuariofail.php");
-        }
     }
 
     public function updateArticle(int $id)
     {
         $campos = array(
             "nombre" => $_POST['name'],
-            "descripcionCorta" =>  $_POST['descripcion'],
-            "descripcionLarga" => $_POST['descripcion2']
+            "descripcionCorta" => $_POST['descripcion'],
+            "descripcionLarga" => $_POST['descripcion2'],
+            /*"codigo" => $_POST['codigo'],
+            "sku" => $_POST['sku'],
+            "pn" => $_POST['pn'],*/
+            "marca" => $_POST['marca'],
+            "categoria" => $_POST['categoria'],
+            "subcategoria" => $_POST['subcategoria'],
+            "coste" => $_POST['coste'],
+            /*"iva" => $_POST['iva'],
+            "puntoVerde" => $_POST['puntoVerde'],
+            "impuestoAlcochol" => $_POST['impuestoAlcohol']*/
         );
         $string = concatenar($campos);
         return parent::update($string, 'idArticulo', $id);

@@ -34,48 +34,55 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             </ul>
         </div>
         <div class="contenido">
-            <h4><?= $lang['Tabla Subcategorias']['Titulo']; ?></h4>
+            <h4><?php if ($_GET['idCat'] == 0)
+                    echo $lang['Tabla Subcategorias']['Titulo'];
+                else
+                    echo $lang['Tabla Subcategorias']['Titulo'] . " :  " . $nombreCat[0]['nombre']; ?></h4>
             <a href="<?= "Csubcats.php?menu=1&lang=" . $_GET['lang'] . '&idCat=' . $_GET['idCat'] ?>" class="New_Button"><?php echo $lang['Nueva Subcategoria']['Boton'] ?></a>
+            <button onclick="cargarModal(2);changeModal()" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Subcategorias']['Borrar']; ?></button>
+            <button type="submit" class="Editar" name="Editar" form="SubCats"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Subcategorias']['Editar']; ?></button>
             <?php if ($_GET['idCat'] != 0) { ?>
-                <button><a href="<?= $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=5&lang=' . $_GET['lang'] ?>"><?= $lang['Nueva Subcategoria']['Cancelar'] ?></a></button>
+                <a href="<?= $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=5&lang=' . $_GET['lang'] ?>" class="return"><?= $lang['Tabla Subcategorias']['Volver'] ?></a>
             <?php } ?>
         </div>
-        <table id="myTable" class="display">
-            <thead>
-                <tr>
-                    <th><?= $lang['Tabla Subcategorias']['ID']; ?></th>
-                    <th><?= $lang['Tabla Subcategorias']['Nombre']; ?></th>
-                    <th><?= $lang['Tabla Subcategorias']['Descripcion']; ?></th>
-                    <th><?= $lang['Tabla Subcategorias']['Acciones']; ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($subcats && sizeof($subcats) > 0) {
-                    foreach ($subcats as $fila) {
-                ?>
-                        <tr>
-                            <td><?php echo escapar($fila["idSubCategoria"]); ?></td>
-                            <td><?php echo escapar($fila["nombre"]); ?></td>
-                            <td><?php echo escapar($fila["descripcion"]) ?></td>
-                            <?php if ($_GET['idCat'] != 0) { ?>
-                                <td class="options">
-                                    <a href="<?= 'Csubcats.php?menu=2&campo=idSubcategoria&id=' . escapar($fila["idSubCategoria"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Subcategorias']['Borrar']; ?></a>
-                                    <a href="<?= 'Csubcats.php?menu=3&id=' . escapar($fila["idSubCategoria"]) . "&lang=" . $_GET['lang'] . '&idCat=' . $_GET['idCat'] ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Subcategorias']['Editar']; ?></a>
-                                </td>
-                            <?php } else { ?>
-                                <td class="options">
-                                    <a href="<?= 'Csubcats.php?menu=2&campo=idSubcategoria&id=' . escapar($fila["idSubCategoria"]) ?>" onclick="return confirmar('<?php echo $lang['confirmacion']; ?>')" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Subcategorias']['Borrar']; ?></a>
-                                    <a href="<?= 'Csubcats.php?menu=3&id=' . escapar($fila["idSubCategoria"]) . "&lang=" . $_GET['lang'] . '&idCat=0' ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Subcategorias']['Editar']; ?></a>
-                                </td>
-                            <?php } ?>
-                        </tr>
-                <?php
+        <form method="POST" id="SubCats">
+            <table id="myTable" class="display">
+                <thead>
+                    <tr>
+                        <th><label for="selectAll">Seleccionar Todos</label><input type="checkbox" id="selectAll"></th>
+                        <th><?= $lang['Tabla Subcategorias']['Nombre']; ?></th>
+                        <th><?= $lang['Tabla Subcategorias']['Descripcion']; ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($subcats && sizeof($subcats) > 0) {
+                        foreach ($subcats as $fila) {
+                    ?>
+                            <tr>
+                                <td><input type="checkbox" name="<?= $fila['idSubCategoria'] ?>" id="<?= $fila['idSubCategoria'] ?>" class="option"></td>
+                                <td><label for="<?= escapar($fila['idSubCategoria']) ?>"><?= escapar($fila["nombre"]); ?></label></td>
+                                <td><label for="<?= escapar($fila['idSubCategoria']) ?>"><?= escapar($fila["descripcion"]) ?></label></td>
+                            </tr>
+                    <?php
+                        }
                     }
-                }
-                ?>
-            <tbody>
-        </table>
+                    ?>
+                <tbody>
+            </table>
+            <?php
+            if (isset($_SESSION['error'])) {
+            ?> <div class="modal abrir" id="modal">
+                    <script>
+                        cargarModal(<?= $_SESSION['error'] ?>)
+                    </script>
+                </div> <?php
+                    } else { ?>
+                <div class="modal" id="modal">
+                </div><?php
+                    }
+                    unset($_SESSION['error']);  ?>
+        </form>
     </div>
 </body>
 
@@ -83,4 +90,5 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 <!--Scripts-->
 <script>
     dataTableInit();
+    selectInit();
 </script>

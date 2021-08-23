@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $menu = $_GET['menu'];
 switch ($menu) {
 
@@ -17,9 +18,9 @@ switch ($menu) {
     $subcategoria = new SubCategoria('subcategoria');
     //Invocamos los datos de la tabla de categorias
     //Si ya pasamos un id de Categoria simplemente buscamos el nombre de ese id
-    if($_GET['idCat']==0)
+    if ($_GET['idCat'] == 0)
       $categorias = $subcategoria->getForeignValue(null, 'categoria', null, null)->fetchAll(PDO::FETCH_ASSOC);
-    else{
+    else {
       $categorias = $subcategoria->getForeignValue('nombre', 'categoria', $_GET['idCat'], 'idCategoria')->fetchAll(PDO::FETCH_ASSOC);
     }
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
@@ -37,13 +38,11 @@ switch ($menu) {
     areUAllowed([1]);
     require_once("../Modelos/Msubcategorias.php");
     $subcategoria = new SubCategoria('subcategoria');
-    $id = intval($_GET['id']);
+    $selected = unserialize($_GET['selected']);
     try {
-      $subcategoria->deleteByID($id);
-      if ($_GET['idCat'] != 0)
-        header('Location: Ccats.php?menu=4&lang=' . $_GET['lang'] . '&idCat=' . $_GET['idCat']);
-      else
-        header('Location: BCcontrol.php?menu=4&lang=' . $_GET['lang'] . '&idCat=0');
+      foreach ($selected as $fila)
+        $subcategoria->deleteByID($fila);
+      header("Location: BCcontrol.php?menu=4&lang=" . $_GET['lang'] . "&idCat=" . $_GET['idCat']);
     } catch (PDOException $ex) {
       echo $ex->getMessage();
     }
@@ -69,7 +68,10 @@ switch ($menu) {
     if (isset($_POST['submit']))
       try {
         $subcategoria->updateSubcat($id);
-        header('Location: BCcontrol.php?menu=4&lang=' . $_GET['lang']);
+        if ($_GET['idCat'] != 0)
+          header('Location: Ccats.php?menu=4&lang=' . $_GET['lang'] . '&idCat=' . $_GET['idCat']);
+        else
+          header('Location: BCcontrol.php?menu=4&lang=' . $_GET['lang'] . '&idCat=0');
       } catch (PDOException $ex) {
         echo $ex->getMessage();
       }
@@ -80,3 +82,4 @@ switch ($menu) {
     require_once("./BCcontrol.php");
     break;
 }
+ob_end_flush();

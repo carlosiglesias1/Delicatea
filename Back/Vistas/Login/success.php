@@ -3,8 +3,6 @@ csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
 }
-$usuario = new Usuarios('usuarios');
-$users = $usuario->getByID($_SESSION['id'])->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">

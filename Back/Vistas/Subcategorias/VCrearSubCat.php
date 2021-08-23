@@ -60,7 +60,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <label for="categoria"><?php echo $lang['Nueva Subcategoria']['Categoria'] ?></label>
                 <select name="categoria">
                     <option selected value="<?= $campos['categoria'] ?>"><?= $catSubCat[0]['nombre'] ?></option>
-                    <hr>
                     <?php
                     foreach ($categorias as $fila) {
                         if ($fila['nombre'] != $catSubCat[0]['nombre']) {

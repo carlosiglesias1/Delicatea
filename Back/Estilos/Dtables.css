@@ -374,7 +374,7 @@ table.dataTable, table.dataTable th, table.dataTable td {
 
 .dataTables_wrapper:after {
     visibility: hidden;
-    display: block;
+    display: inline-block;
     content: "";
     clear: both;
     height: 0

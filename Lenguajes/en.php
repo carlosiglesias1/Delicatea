@@ -102,10 +102,11 @@ $lang = array(
         "Titulo" => "Articles",
         "Nombre" => "Name",
         "Descripcion" => "Description",
-        "DescripcionL" => "Long description",
+        "Datos Producto" => "Product Data",
         "Acciones" => "Actions",
         "Borrar" => "Erase",
-        "Editar" => "Edit"
+        "Editar" => "Edit",
+        "Detalle" => "See in detail"
     ),
     "Menu BackOffice"=>[
         "Usuarios"=>"Users",

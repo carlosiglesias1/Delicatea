@@ -1,10 +1,4 @@
 <?php
-if ($_SESSION['menu'] != 1) {
-    //echo "wrong session";
-    //echo 'Location : '.$_SESSION['INDEX_PATH'].'Back/Controladores/BCcontrol.php?menu=0&lang=es';
-    header('Location : ' . $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=0&lang=es');
-    exit;
-}
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
