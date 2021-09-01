@@ -13,6 +13,7 @@ require_once $_SESSION['WORKING_PATH'] . 'Lenguajes/config.php';
 
 ?>
 <!DOCTYPE html>
+<html lang="<?= $_GET['lang'] ?>">
 
 <head>
     <title>Delicatea</title>

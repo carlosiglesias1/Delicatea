@@ -29,7 +29,7 @@ class Articulo extends Estandar
         );
         $valor = $this->exists($valores['nickname']);
         if ($valor == 0)
-            parent::insert($campos, $valores);
+            return parent::insert($campos, $valores);
     }
 
     public function updateArticle(int $id)

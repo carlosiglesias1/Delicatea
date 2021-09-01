@@ -259,3 +259,7 @@ CREATE TABLE tarifasProductos(
     idTarifa int REFERENCES tarifas(idTarifa),
     costeFinal FLOAT
   );
+CREATE Table imagenesArticulos(
+    path VARCHAR(255) PRIMARY KEY,
+    articulo INT REFERENCES articulo(idArtiuclo)
+  );

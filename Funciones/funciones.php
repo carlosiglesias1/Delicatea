@@ -349,6 +349,30 @@ function calculoCostes(array $campos, float $incremento, int $RA, Tarifa $tarifa
       }
     })
   }
+
+  function handleFiles(files) {
+    var d = document.getElementById("fileList");
+    var list = document.getElementById("imgList");
+    while (list.getElementsByTagName("li").length > 0) {
+      list.removeChild(list.getElementsByTagName("li")[0]);
+    }
+    for (var i = 0; i < files.length; i++) {
+      var li = document.createElement("li");
+      list.appendChild(li);
+
+      var img = document.createElement("img");
+      img.src = window.URL.createObjectURL(files[i]);
+      img.height = 100;
+      img.onload = function() {
+        window.URL.revokeObjectURL(this.src);
+      }
+      li.appendChild(img);
+
+      var info = document.createElement("span");
+      info.innerHTML = files[i].name;
+      li.appendChild(info);
+    }
+  }
 </script>
 
 <!--HTML-->

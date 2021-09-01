@@ -59,8 +59,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 </div> <?php
                     } else { ?>
                 <div class="modal" id="modal">
-                </div><?php
-                    }
+                </div><?php }
                     unset($_SESSION['error']);  ?>
         </form>
     </div>

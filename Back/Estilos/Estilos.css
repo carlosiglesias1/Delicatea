@@ -3,6 +3,11 @@ ESTILOS MENU PRINCIPAL -- ORGANIZACIÓN DE LOS CONTENEDORES
 */
 
 @import url("Dtables.css");
+
+/*ESTILOS DEL ÁREA DE SUBIR IMÁGENES*/
+
+@import "image-uploader.css";
+
 body {
     margin: 0% !important;
     padding: 0% !important;
@@ -345,7 +350,7 @@ tbody tr td input {
     margin-right: 2%;
 }
 
-.modal input.btn-confirm:hover{
+.modal input.btn-confirm:hover {
     background-color: #01DF3A;
     color: white;
 }
@@ -360,7 +365,7 @@ tbody tr td input {
     color: #3e64ff;
 }
 
-.modal span.btn-regect:hover{
+.modal span.btn-regect:hover {
     background-color: #3e64ff;
     color: white;
 }
@@ -429,4 +434,16 @@ ul li:hover {
 .Editar:hover {
     background-color: white;
     color: #01DF3A;
+}
+
+/*LISTA DE IMÁGENES*/
+
+#imgList {
+    list-style: none;
+}
+
+#imgList li {
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: 1.5%;
 }
