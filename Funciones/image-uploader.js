@@ -62,7 +62,6 @@
                     for (let i = 0; i < plugin.settings.preloaded.length; i++) {
                         $uploadedContainer.append(createImg(plugin.settings.preloaded[i].src, plugin.settings.preloaded[i].id, true));
                     }
-
                 }
 
             });
@@ -175,7 +174,7 @@
                 // Get the parent element
                 let $parent = $container.parent();
 
-                // If is not a preloaded image
+                // If it is a preloaded image
                 if ($container.data('preloaded') === true) {
 
                     // Remove from preloaded array
@@ -348,6 +347,7 @@
 
             // Update input files
             $input.prop('files', dataTransfer.files);
+            console.log(dataTransfer.files);
 
         };
 

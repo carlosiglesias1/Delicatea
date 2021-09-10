@@ -11,7 +11,7 @@ switch ($menu) {
       header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     }
     //Llamar a la clase subcategorias
-    $articulo = new Articulo('articulo');
+    $articulo = new Articulo();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     if (isset($_POST['submit']))
       try {
@@ -60,13 +60,28 @@ switch ($menu) {
     if (isset($_POST['cancelar'])) {
       header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     }
-    $articulo = new Articulo('articulo');
+    $articulo = new Articulo();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     $id = $_GET['id'];
     $campos = $articulo->getByID($id)->fetch(PDO::FETCH_ASSOC);
     $imagenes = $articulo->getForeignValue('path', 'imagenesArticulos', $id, 'articulo')->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_POST['submit']))
       try {
+        $directorio = $directorio = $_SESSION['WORKING_PATH'] . "Back/Imagenes/Articulos/$id";
+        require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
+        if (!empty($deleteDB)) {
+          foreach ($deleteDB as $fila) {
+            echo $fila;
+            $articulo->foreignDelete('imagenesarticulos', 'path', "'" . $fila . "'");
+          }
+        }
+        $src = $_SESSION['INDEX_PATH'] . "Back/Imagenes/Articulos/$id";
+        if (!empty($insertDb)) {
+          print_r($insertDb);
+          foreach ($insertDb as $fila) {
+            $articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$fila", $id]);
+          }
+        }
         $articulo->updateArticle($id);
         header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
       } catch (PDOException $ex) {
