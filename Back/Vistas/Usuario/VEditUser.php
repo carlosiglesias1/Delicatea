@@ -15,9 +15,9 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     <div class="contenedor">
         <form method="POST">
             <label for="nickname"><?php echo $lang['Nuevo Usuario']['Nombre'] ?></label>
-            <input type="text" name="nickname" value="<?php echo escapar($campos['nick']) ?>">
+            <input type="text" name="nickname" value="<?php echo escapar($campos->getNick()) ?>">
             <label for="nickname"><?php echo $lang['Tabla Usuarios']['Rol'] ?></label>
-            <input type="text" name="rol" value="<?php echo escapar($campos['rol']) ?>">
+            <input type="text" name="rol" value="<?php echo escapar($campos->getRol()) ?>">
             <button name="submit" type="submit"><?php if ($_GET['menu'] == 1) {
                                                     echo $lang["Nuevo Usuario"]["Registrarse"];
                                                 } else {

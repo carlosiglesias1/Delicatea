@@ -5,9 +5,12 @@ if (isset($_POST['submit'])) {
     }
     $name = $_POST['username'];
     $password = "";
-    if (isset($_POST["password"]))
+    if (isset($_POST["password"])) {
         $password = substr(hash("sha512", $_POST['password']), 0, 50);
+    }
+
     try {
+        echo $name . "</br>" . $password . "</br>";
         logIn($name, $password);
     } catch (PDOException $e) {
         echo $e->getMessage();

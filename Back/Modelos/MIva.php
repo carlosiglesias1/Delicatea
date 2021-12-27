@@ -33,7 +33,7 @@ class IVA extends Estandar
             "recargoEquivalencia"=> $_POST['recargo']
         );
         $string = concatenar($campos);
-        return parent::update($string, 'idIva', $id);
+        return parent::updateItem($string, 'idIva', $id);
     }
 
     public function getByID($id)

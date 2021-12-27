@@ -30,23 +30,27 @@ function concatenar(array $array)
 
 function logIn(string $name, string $password)
 {
-  require_once '../Modelos/Musers.php';
-  $usuario = new Usuarios('usuarios');
+  require_once $_SESSION['WORKING_PATH'] . "Back/Modelos/DAO/UsuarioDAO.php";
+  $usuario = new UsuarioDAO('usuarios');
   try {
-    $query = $usuario->getByName($name);
-    $array = $query->fetchAll(PDO::FETCH_ASSOC);
-    if ($query->rowCount() == 0) {
-      header('Location: BCcontrol.php?menu=0&lang=es');
-    } else {
-      if ($array[0]['pass'] == $password) {
+    $query = $usuario->searchByName($name);
+    print_r($query);
+    $array = $usuario->getList();
+    echo "</br>";
+    print_r($array);
+    if (in_array($query, $array)) {
+      if ($query->getPass() == $password) {
         session_start();
-        $_SESSION['id'] = $array[0]['idUsr'];
+        $_SESSION['id'] = $query->getIdUsr();
         $_SESSION['lang'] = $_GET['lang'];
         header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
         $_SESSION['modal'] = 2;
       }
+    } else {
+      header('Location: BCcontrol.php?menu=0&lang=es');
     }
   } catch (PDOException $e) {
+    error_log($e->getMessage());
     throw $e;
   }
 }

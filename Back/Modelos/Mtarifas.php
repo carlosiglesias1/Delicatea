@@ -45,7 +45,7 @@ class Tarifa extends Estandar
             'subcategoria' => $_POST['subcategoria']*/
         );
         $string = concatenar($campos);
-        return parent::update($string, 'idTarifa', $id);
+        return parent::updateItem($string, 'idTarifa', $id);
     }
 
     public function getByID($id)

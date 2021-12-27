@@ -36,7 +36,7 @@ class SubCategoria extends Estandar
             "categoria" => $_POST['categoria']
         );
         $string = concatenar($campos);
-        return parent::update($string, 'idSubCategoria', $id);
+        return parent::updateItem($string, 'idSubCategoria', $id);
     }
 
     public function getByID($id)

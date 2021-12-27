@@ -31,7 +31,7 @@ class Categorias extends Estandar
             "descripcion" => $_POST['descripcion']
         );
         $string = concatenar($campos);
-        return parent::update($string, 'idCategoria', $id);
+        return parent::updateItem($string, 'idCategoria', $id);
     }
 
     public function getByID(int $id)

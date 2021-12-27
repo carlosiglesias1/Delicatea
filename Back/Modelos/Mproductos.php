@@ -50,7 +50,7 @@ class Articulo extends Estandar
             "impuestoAlcochol" => $_POST['impuestoAlcohol']*/
         );
         $string = concatenar($campos);
-        return parent::update($string, 'idArticulo', $id);
+        return parent::updateItem($string, 'idArticulo', $id);
     }
 
     public function getByID($id)

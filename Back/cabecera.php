@@ -10,7 +10,6 @@ $_SESSION['WORKING_PATH'] = "C:/Users/carlo/Documents/www/Delicatea/";
 $_SESSION['INDEX_PATH'] = "http://localhost/Delicatea/";
 require_once $_SESSION['WORKING_PATH'] . 'Funciones/funciones.php';
 require_once $_SESSION['WORKING_PATH'] . 'Lenguajes/config.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="<?= $_GET['lang'] ?>">

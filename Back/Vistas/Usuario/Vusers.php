@@ -44,13 +44,13 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 </thead>
                 <tbody>
                     <?php
-                    if ($users && $usuario->getAll()->rowCount() > 0) {
-                        foreach ($users as $fila) {
+                    if ($users && sizeof($users) > 0) {
+                        foreach ($users as $value) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= $fila['idUsr'] ?>" id="<?= escapar($fila["idUsr"]); ?>" class="option"></td>
-                                <td><?php echo escapar($fila["nick"]); ?></td>
-                                <td><a href="<?= 'Cusers.php?menu=4&id=' . escapar($fila["idUsr"]) . "&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Usuarios']['Ver'] ?></a></td>
+                                <td><input type="checkbox" name="<?= $value->getIdUsr() ?>" id="<?= escapar($value->getIdUsr()); ?>" class="option"></td>
+                                <td><?php echo escapar($value->getNick()); ?></td>
+                                <td><a href="<?= 'Cusers.php?menu=4&id=' . escapar($value->getIdUsr()) . "&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Usuarios']['Ver'] ?></a></td>
                             </tr>
                     <?php
                         }

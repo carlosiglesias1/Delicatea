@@ -42,6 +42,9 @@ require_once 'cabecera.php';
                 case 11:
                 ?><li><a href="<?= $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=8&lang=' . $_GET['lang'] ?>"><?= $lang['Menu BackOffice']['Tarifas'] ?></a></li>
         <?php break;
+                default:
+                    echo "No hay menús disponibles";
+                    break;
             }
         } ?>
     </ul>

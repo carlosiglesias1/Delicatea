@@ -9,15 +9,15 @@ switch ($menu) {
   case 1:
     require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/Musers.php");
-    $usuario = new Usuarios();
-    $users = $usuario->getAll()->fetchAll(PDO::FETCH_ASSOC);
+    require_once("../Modelos/DAO/UsuarioDAO.php");
+    $usuario = new UsuarioDAO();
+    $users = $usuario->getList();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
       for ($i = 0; $i < sizeof($users); $i++) {
-        if (isset($_POST[$users[$i]['idUsr']])) {
-          $selected[$j] = $users[$i]['idUsr'];
+        if (isset($_POST[$users[$i]->getIdUsr()])) {
+          $selected[$j] = $users[$i]->getIdUsr();
           $j++;
         }
       }
@@ -25,30 +25,27 @@ switch ($menu) {
       $selected = urldecode($selected);
       header("Location: Cusers.php?menu=2&lang=" . $_GET['lang'] . "&selected=" . $selected);
     }
-    if (isset($_POST['Editar'])) {
-      if (!array_key_exists('error', $_GET)) {
-        for ($i = 0; $i < sizeof($users); $i++) {
-          if (isset($_POST[$users[$i]['idUsr']])) {
-            $selected[$j] = $users[$i]['idUsr'];
-            $j++;
-          }
+    if (isset($_POST['Editar']) && !array_key_exists('error', $_GET)) {
+      for ($i = 0; $i < sizeof($users); $i++) {
+        if (isset($_POST[$users[$i]->getIdUsr()])) {
+          $selected[$j] = $users[$i]->getIdUsr();
+          $j++;
         }
-        if (sizeof($selected) != 1) {
-          $_SESSION['error'] = 3;
-        } else {
-          header("Location: Cusers.php?menu=3&lang=" . $_GET['lang'] . "&id=" . $selected[0]);
-        }
+      }
+      if (sizeof($selected) != 1) {
+        $_SESSION['error'] = 3;
+      } else {
+        header("Location: Cusers.php?menu=3&lang=" . $_GET['lang'] . "&id=" . $selected[0]);
       }
     }
     require_once("../Vistas/Usuario/Vusers.php");
     break;
-
   case 2:
     require_once("../cabecera.php");
     areUAllowed([2]);
-    require_once("../Modelos/Mmarcas.php");
-    $marca = new Marcas();
-    $marcas = $marca->getAll()->fetchAll(PDO::FETCH_ASSOC);
+    require_once("../Modelos/DAO/MarcasDAO.php");
+    $marca = new MarcaDAO();
+    $marcas = $marca->getList();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
@@ -64,8 +61,8 @@ switch ($menu) {
     }
     if (isset($_POST['Editar'])) {
       for ($i = 0; $i < sizeof($marcas); $i++) {
-        if (isset($_POST[$marcas[$i]['idMarca']])) {
-          $selected[$j] = $marcas[$i]['idMarca'];
+        if (isset($_POST[$marcas[$i]->getIdMarca()])) {
+          $selected[$j] = $marcas[$i]->getIdMarca();
           $j++;
         }
       }
@@ -82,10 +79,10 @@ switch ($menu) {
 
   case 3:
     require_once("../cabecera.php");
-    require_once("../Modelos/Musers.php");
-    $usuario = new Usuarios();
-    $users = $usuario->getByID($_SESSION['id'])->fetchAll(PDO::FETCH_ASSOC);
-    $_SESSION['ventanasMenu'] = $usuario->getForeignValue('permiso', 'permisosmenu', $_SESSION['id'], 'usuario', 'permiso')->fetchAll(PDO::FETCH_ASSOC);
+    require_once("../Modelos/DAO/UsuarioDAO.php");
+    $usuario = new UsuarioDAO();
+    $users = $usuario->searchRow($_SESSION['id']);
+    $_SESSION['ventanasMenu'] = $usuario->getForeignValue('permisosmenu', 'permiso', $_SESSION['id'], 'usuario', 'permiso')->fetchAll(PDO::FETCH_ASSOC);
     require_once("../Vistas/Login/success.php");
     break;
 
@@ -175,7 +172,7 @@ switch ($menu) {
       }
       $selected = serialize($selected);
       $selected = urldecode($selected);
-      header("Location: Cprods.php?menu=2&lang=" . $_GET['lang'] . "&selected=" . $selected."&idTarifa=".$_GET['idTarifa']);
+      header("Location: Cprods.php?menu=2&lang=" . $_GET['lang'] . "&selected=" . $selected . "&idTarifa=" . $_GET['idTarifa']);
     }
     if (isset($_POST['Editar'])) {
       for ($i = 0; $i < sizeof($prods); $i++) {

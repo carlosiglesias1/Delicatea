@@ -27,26 +27,30 @@ abstract class Estandar
         $query = "SELECT * FROM $this->table";
         try {
             $sentencia = $this->bd->prepare($query);
+            $sentencia->setFetchMode(PDO::FETCH_ASSOC);
             $sentencia->execute();
-            return $sentencia;
+            return $sentencia->fetchAll();
         } catch (PDOException $ex) {
-            throw $ex->getMessage();
+            error_log($ex->getMessage());
+            throw $ex;
         }
     }
 
-    public function getBy(string $campo, $valor)
+    public function getBy(string $campo, $valor, int $tipo)
     {
-        $query = "SELECT * FROM $this->table WHERE $campo = $valor";
+        $query = "SELECT * FROM $this->table WHERE $campo = :valor";
         try {
             $sentencia = $this->bd->prepare($query);
+            $sentencia->bindParam(":valor", $valor, $tipo);
             $sentencia->execute();
             return $sentencia;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             throw $e;
         }
     }
 
-    public function getForeignValue(?string $foreignValue = null, string $foreignTable, ?string $value = null, ?string $foreignKey = null, ?string $orderBy = null)
+    public function getForeignValue(string $foreignTable, ?string $foreignValue = null, ?string $value = null, ?string $foreignKey = null, ?string $orderBy = null)
     {
         /**
          * $foreignValue => el valor que queremos obtener
@@ -59,15 +63,17 @@ abstract class Estandar
                 $query = "SELECT * FROM $foreignTable";
             } else if ($foreignValue == null) {
                 $query = "SELECT * FROM $foreignTable WHERE $foreignKey = $value";
-            } else
+            } else {
                 $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ";
+            }
         } else {
             if ($foreignValue == null && $foreignKey == null) {
                 $query = "SELECT * FROM $foreignTable ORDER BY $orderBy";
             } else if ($foreignValue == null) {
                 $query = "SELECT * FROM $foreignTable WHERE $foreignKey = $value ORDER BY $orderBy";
-            } else
+            } else {
                 $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ORDER BY $orderBy";
+            }
         }
         try {
             $this->bd->beginTransaction();
@@ -81,26 +87,29 @@ abstract class Estandar
                 throw $error;
             }
         } catch (PDOException $exception) {
+            error_log($exception->getMessage());
             throw $exception;
         }
     }
 
-    public function getForeignValueString(string $foreignValue = null, string $foreignTable, string $conditional, string $orderBy = null)
+    public function getForeignValueString(string $foreignTable, string $conditional, string $foreignValue = null, string $orderBy = null)
     {
         if ($orderBy == null) {
             if ($foreignValue == null && $conditional == null) {
                 $query = "SELECT * FROM $foreignTable";
             } else if ($foreignValue == null) {
                 $query = "SELECT * FROM $foreignTable WHERE $conditional";
-            } else
+            } else {
                 $query = "SELECT $foreignValue FROM $foreignTable WHERE $conditional";
+            }
         } else {
             if ($foreignValue == null && $conditional == null) {
                 $query = "SELECT * FROM $foreignTable ORDER BY $orderBy";
             } else if ($foreignValue == null) {
                 $query = "SELECT * FROM $foreignTable WHERE $conditional ORDER BY $orderBy";
-            } else
+            } else {
                 $query = "SELECT $foreignValue FROM $foreignTable WHERE $conditional ORDER BY $orderBy";
+            }
         }
         try {
             $this->bd->beginTransaction();
@@ -114,17 +123,24 @@ abstract class Estandar
                 throw $error;
             }
         } catch (PDOException $exception) {
+            error_log($exception->getMessage());
             throw $exception;
         }
     }
 
-    public function insert($campos, $valores, $return = null)
+    public function insert(array $campos, array $valores, array $tipos)
     {
-        $query = "INSERT INTO $this->table (" . implode(", ", $campos) . ") values(:" . implode(", :", array_keys($valores)) . ")";
+        //aqui realizo un Prepared Statement de php
+        $query = "INSERT INTO $this->table (" . implode(",", $campos) . ") VALUES (:" . implode(", :", array_keys($valores)) . ")";
         try {
             $this->bd->beginTransaction();
-            $sentencia = $this->bd->prepare($query);
-            $sentencia->execute($valores);
+            $sentencia = $this->bd->prepare($query, [PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL]);
+            $queryParams = array_keys($valores);
+            $valores = array_values($valores);
+            for ($index = 0; $index < sizeof($campos); $index++) {
+                $sentencia->bindParam(":" . $queryParams[$index], $valores[$index], $tipos[$index]);
+            }
+            $sentencia->execute();
             try {
                 $this->bd->commit();
                 return $this->getAutoIncrement()->fetchAll(PDO::FETCH_ASSOC)[0]['AUTO_INCREMENT'];
@@ -133,6 +149,7 @@ abstract class Estandar
                 throw $error;
             }
         } catch (PDOException $excpt) {
+            error_log($excpt->getMessage());
             throw $excpt;
         }
     }
@@ -151,25 +168,35 @@ abstract class Estandar
                 throw $error;
             }
         } catch (PDOException $excpt) {
+            error_log($excpt->getMessage());
             throw $excpt;
         }
     }
 
-    public function deleteBy($campo, $value)
+    public function deleteBy($campo, $value, int $type)
     {
-        $query = "DELETE FROM $this->table WHERE $campo = $value";
+        $query = "DELETE FROM $this->table 
+                        WHERE $campo = :valor";
+        echo $query . "</br>";
+        echo $campo;
+        echo $value . " " . $type . "</br>";
         try {
             $this->bd->beginTransaction();
             $sentencia = $this->bd->prepare($query);
-            $sentencia->execute();
-            try {
-                $this->bd->commit();
-            } catch (PDOException $error) {
-                $this->bd->rollBack();
-                throw $error;
+            $sentencia->bindParam(":valor", $value, $type);
+            if ($sentencia->execute()) {
+                try {
+                    $this->bd->commit();
+                } catch (PDOException $error) {
+                    $this->bd->rollBack();
+                    throw $error;
+                }
+                return $sentencia->rowCount();
+            } else {
+                return -1;
             }
-            return $sentencia->rowCount();
         } catch (PDOException $ex) {
+            error_log($ex->getMessage());
             throw $ex;
         }
     }
@@ -182,6 +209,7 @@ abstract class Estandar
             $sentencia->execute();
             return $sentencia->rowCount();
         } catch (PDOException $ex) {
+            error_log($ex->getMessage());
             throw $ex;
         }
     }
@@ -194,17 +222,44 @@ abstract class Estandar
             $sentencia = $this->bd->prepare($query);
             $sentencia->execute();
         } catch (PDOException $ex) {
+            error_log($ex->getMessage());
             throw $ex;
         }
         try {
             $sentencia = $this->bd->prepare($query2);
             $sentencia->execute();
         } catch (PDOException $ex) {
+            error_log($ex->getMessage());
             throw $ex;
         }
     }
+    /**
+     * @param string $campo       nombre del campo a cambiar
+     * @param mixed $nuevoValor   nuevo valor del campo
+     * @param int $tipo            tipo de dato para validar
+     * @param string $identificador nombre del campo por el que voy a buscar el elemento que voy a actualizar
+     * @param int $valor         valor del identificador
+     * @return void
+     */
+    public function updateValue(string $campo, mixed $nuevoValor, int $tipo, string $identificador, int $valor)
+    {
+        $query = "UPDATE $this->table SET $campo = :valor WHERE $identificador = :id";
+        try {
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->bindParam(":valor", $nuevoValor, $tipo);
+            $sentencia->bindParam(":id", $valor, PDO::PARAM_INT);
+            if($sentencia->execute()){
+                $this->bd->commit();
+            }else{
+                $this->bd->rollBack();
+            }
+        } catch (PDOException $ex) {
+            error_log($ex->getMessage());
+            throw ($ex);
+        }
+    }
 
-    public function update(string $cadena, string $campo,  string $valor)
+    public function updateItem(string $cadena, string $campo,  string $valor)
     {
         /**
          * La cadena incluirá todos los campos y los valores
@@ -225,17 +280,20 @@ abstract class Estandar
                 throw $error;
             }
         } catch (PDOException $excpt) {
+            error_log($excpt->getMessage());
             throw $excpt;
         }
     }
 
-    public function existsBy($campo, $valor)
+    public function existsBy($campo, $valor, $tipo)
     {
         try {
-            $sentencia = $this->bd->prepare("SELECT * FROM " . $this->getTable() . " WHERE $campo = $valor");
+            $sentencia = $this->bd->prepare("SELECT * FROM " . $this->getTable() . " WHERE $campo = :valor");
+            $sentencia->bindParam(":valor", $valor, $tipo);
             $sentencia->execute();
             return $sentencia->rowCount();
         } catch (PDOException $ex) {
+            error_log($ex->getMessage());
             throw $ex;
         }
     }
@@ -249,6 +307,7 @@ abstract class Estandar
             $this->bd->commit();
             return $sentencia;
         } catch (PDOException $error) {
+            error_log($error->getMessage());
             throw $error;
         }
     }

@@ -41,8 +41,8 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         foreach ($marcas as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= $fila['idMarca'] ?>" id="<?= escapar($fila["idMarca"]); ?>" class="option"></td>
-                                <td><label for="<?= escapar($fila["idMarca"]); ?>"><?= escapar($fila["nombre"]); ?></label></td>
+                                <td><input type="checkbox" name="<?= $fila->getIdMarca() ?>" id="<?= escapar($fila->getIdMarca()); ?>" class="option"></td>
+                                <td><label for="<?= escapar($fila->getIdMarca()); ?>"><?= escapar($fila->getNombre()); ?></label></td>
                             </tr>
                     <?php
                         }

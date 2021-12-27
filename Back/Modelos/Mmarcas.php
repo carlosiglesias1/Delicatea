@@ -42,7 +42,7 @@ class Marcas extends Estandar
             "nombre"=>$_POST['name']
         );
         $string = concatenar($campos);
-        return parent::update($string, 'idMarca', $id);
+        return parent::updateItem($string, 'idMarca', $id);
     }
 
     public function deleteById(int $id){
