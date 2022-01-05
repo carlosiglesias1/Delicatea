@@ -43,7 +43,7 @@ switch ($menu) {
   case 2:
     require_once("../cabecera.php");
     areUAllowed([2]);
-    require_once("../Modelos/DAO/MarcasDAO.php");
+    require_once("../Modelos/DAO/MarcaDAO.php");
     $marca = new MarcaDAO();
     $marcas = $marca->getList();
     $selected = [];
@@ -82,7 +82,7 @@ switch ($menu) {
     require_once("../Modelos/DAO/UsuarioDAO.php");
     $usuario = new UsuarioDAO();
     $users = $usuario->searchRow($_SESSION['id']);
-    $_SESSION['ventanasMenu'] = $usuario->getForeignValue('permisosmenu', 'permiso', $_SESSION['id'], 'usuario', 'permiso')->fetchAll(PDO::FETCH_ASSOC);
+    $_SESSION['ventanasMenu'] = $usuario->getForeignValue('permisosmenu', 'permiso', $_SESSION['id'], 'usuario', 'permiso');
     require_once("../Vistas/Login/success.php");
     break;
 

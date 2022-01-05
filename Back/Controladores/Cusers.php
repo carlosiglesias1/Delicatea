@@ -64,14 +64,15 @@ switch ($menu) {
   case 4:
     require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/Musers.php");
+    require_once("../Modelos/DAO/UsuarioDAO.php");
+    require_once "../Modelos/Classes/Permiso.php";
     if (isset($_POST['cancelar'])) {
       header('Location: BCcontrol.php?menu=1&lang=' . $_GET['lang']);
     }
     $usuario = new UsuarioDAO();
     $id = $_GET['id'];
-    $permisos = $usuario->getForeignValue('permisosmenu', $id, 'usuario')->fetchAll(PDO::FETCH_ASSOC);
-    $nombrePermiso = $usuario->getForeignValue('columnasmenu')->fetchAll(PDO::FETCH_ASSOC);
+    $permisos = $usuario->getPermissions($id);
+    $nombrePermiso = $usuario->getForeignValue('columnasmenu');
     if (isset($_POST['submit'])) {
       try {
         foreach ($nombrePermiso as $fila) {

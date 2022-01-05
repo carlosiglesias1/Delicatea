@@ -234,6 +234,10 @@ thead {
     cursor: pointer;
 }
 
+thead th label {
+    cursor: pointer;
+}
+
 tbody {
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
@@ -250,6 +254,11 @@ tbody tr {
 tbody tr td {
     padding: 0;
     margin: 0;
+}
+
+tbody tr td label:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 tbody tr td input {

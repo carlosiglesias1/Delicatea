@@ -1,13 +1,14 @@
 <?php
-/*csrf();
+csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
+    <title>Delicatea</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,14 +30,14 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             </ul>
         </div>
         <div class="contenido">
-            <h4><?php echo $lang['Tabla Usuarios']['Permisos'] . ": " . $usuario->getByID($_GET['id'])->fetch(PDO::FETCH_ASSOC)['nick'];  ?></h4>
+            <h4><?php echo $lang['Tabla Usuarios']['Permisos'] . ": " . $usuario->searchRow($_GET['id'])->getNick();  ?></h4>
             <a href="<?= "CRoles.php?menu=1&lang=" . $_GET['lang'] ?>" class="New_Button"><?php echo $lang['Nuevo Permiso']['Boton'] ?></a>
         </div>
         <form method="POST" class="permisos">
             <ul>
                 <?php foreach ($nombrePermiso as $fila => $clave) {
                     if ($clave['columnaPadre'] == null) {
-                        $hijos = $usuario->getForeignValue(null, 'columnasmenu', $clave['idCol'], 'columnaPadre')->fetchAll(PDO::FETCH_ASSOC);
+                        $hijos = $usuario->getForeignValue('columnasmenu', null, $clave['idCol'], 'columnaPadre');
                         if (sizeof($hijos) > 0) { ?>
                             <li>
                                 <label for="<?= $clave['nombre'] ?>"><?= $clave['nombre'] ?></label>

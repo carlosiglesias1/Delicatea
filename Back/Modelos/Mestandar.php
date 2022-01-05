@@ -81,7 +81,7 @@ abstract class Estandar
             $sentencia->execute();
             try {
                 $this->bd->commit();
-                return $sentencia;
+                return $sentencia->fetchAll();
             } catch (PDOException $error) {
                 $this->bd->rollBack();
                 throw $error;
@@ -245,6 +245,7 @@ abstract class Estandar
     {
         $query = "UPDATE $this->table SET $campo = :valor WHERE $identificador = :id";
         try {
+            $this->bd->beginTransaction();
             $sentencia = $this->bd->prepare($query);
             $sentencia->bindParam(":valor", $nuevoValor, $tipo);
             $sentencia->bindParam(":id", $valor, PDO::PARAM_INT);

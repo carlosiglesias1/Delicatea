@@ -48,6 +48,10 @@ class UsuarioDAO extends Estandar implements DAO
         }
         return $list;
     }
+    public function getPermissions($id)
+    {
+        return parent::getForeignValue('permisosmenu', null, $id, 'usuario');
+    }
     public function searchRow(int $id)
     {
         return new Usuario((parent::getBy("idUsr", $id, PDO::PARAM_INT))->fetch(PDO::FETCH_ASSOC));
