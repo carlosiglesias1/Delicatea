@@ -50,8 +50,8 @@ switch ($menu) {
     $j = 0;
     if (isset($_POST['confirmar'])) {
       for ($i = 0; $i < sizeof($marcas); $i++) {
-        if (isset($_POST[$marcas[$i]['idMarca']])) {
-          $selected[$j] = $marcas[$i]['idMarca'];
+        if (isset($_POST[$marcas[$i]->getIdMarca()])) {
+          $selected[$j] = $marcas[$i]->getIdMarca();
           $j++;
         }
       }
@@ -92,7 +92,7 @@ switch ($menu) {
     areUAllowed([4, 5]);
     require_once("../Modelos/Msubcategorias.php");
     $subcategoria = new SubCategoria();
-    $subcats = $subcategoria->getAll()->fetchAll(PDO::FETCH_ASSOC);
+    $subcats = $subcategoria->getAll();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
@@ -126,7 +126,7 @@ switch ($menu) {
     areUAllowed([4]);
     require_once("../Modelos/Mcategorias.php");
     $categoria = new Categorias();
-    $cats = $categoria->getAll()->fetchAll(PDO::FETCH_ASSOC);
+    $cats = $categoria->getAll();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
@@ -160,7 +160,7 @@ switch ($menu) {
     areUAllowed([3]);
     require_once("../Modelos/Mproductos.php");
     $articulo = new Articulo();
-    $prods = $articulo->getAll()->fetchAll(PDO::FETCH_ASSOC);
+    $prods = $articulo->getAll();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
@@ -194,7 +194,7 @@ switch ($menu) {
     areUAllowed([10]);
     require_once("../Modelos/MIva.php");
     $tipoIVA = new IVA();
-    $tiposIVA = $tipoIVA->getAll()->fetchAll(PDO::FETCH_ASSOC);
+    $tiposIVA = $tipoIVA->getAll();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
@@ -228,7 +228,7 @@ switch ($menu) {
     areUAllowed([11]);
     require_once("../Modelos/MTarifas.php");
     $tarifa = new Tarifa();
-    $tarifas = $tarifa->getAll()->fetchAll(PDO::FETCH_ASSOC);
+    $tarifas = $tarifa->getAll();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {

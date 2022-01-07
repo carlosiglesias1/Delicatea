@@ -25,7 +25,7 @@ class UsuarioDAO extends Estandar implements DAO
             header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Vistas/Usuario/BVUsuariofail.php");
         }
     }
-    public function update(int $id, array $valores)
+    public function update(int $id, array $valores):void
     {
         $camposYTipos = [
             "nick" => PDO::PARAM_STR,
@@ -39,7 +39,7 @@ class UsuarioDAO extends Estandar implements DAO
     {
         return parent::deleteBy("idUsr", $id, PDO::PARAM_INT);
     }
-    public function getList()
+    public function getList():array
     {
         $array = parent::getAll();
         $list = array_fill(0, sizeof($array), NULL);

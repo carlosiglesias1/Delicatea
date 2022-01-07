@@ -64,7 +64,7 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
                 </thead>
                 <tbody>
                     <?php
-                    if ($prods && $articulo->getAll()->rowCount() > 0) {
+                    if ($prods && sizeof($articulo->getAll()) > 0) {
                         foreach ($prods as $fila) {
                     ?>
                             <tr>

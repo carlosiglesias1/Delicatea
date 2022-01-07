@@ -6,7 +6,7 @@ switch ($menu) {
     case 1:
         require_once("../cabecera.php");
         areUAllowed([1, 2]);
-        require_once("../Modelos/DAO/MarcasDAO.php");
+        require_once("../Modelos/DAO/MarcaDAO.php");
         if (isset($_POST['cancelar'])) {
             header('Location: BCcontrol.php?menu=2&lang=' . $_GET['lang']);
         }
@@ -42,7 +42,7 @@ switch ($menu) {
     case 3:
         require_once("../cabecera.php");
         areUAllowed([1]);
-        require_once("../Modelos/DAO/MarcasDAO.php");
+        require_once("../Modelos/DAO/MarcaDAO.php");
         if (isset($_POST['cancelar'])) {
             header("Location:" . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=2&lang=" . $_GET['lang']);
         }

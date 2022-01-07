@@ -36,17 +36,17 @@ class Categorias extends Estandar
 
     public function getByID(int $id)
     {
-        return parent::getBy('idCategoria', $id);
+        return parent::getBy('idCategoria', $id, PDO::PARAM_INT);
     }
 
     public function getByName($name)
     {
-        return parent::getBy('nombre', "'" . $name . "'");
+        return parent::getBy('nombre', $name, PDO::PARAM_STR);
     }
 
     public function getSubcategorias($idSubCategoria)
     {
-        return parent::getForeignValue("nombre", "roles", $idSubCategoria , "idRol")->fetchAll(PDO::FETCH_ASSOC);
+        return parent::getForeignValue("nombre", "roles", $idSubCategoria, "idRol")->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function deleteByID($id)

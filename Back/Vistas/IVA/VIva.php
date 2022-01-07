@@ -46,7 +46,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 </thead>
                 <tbody>
                     <?php
-                    if ($tiposIVA && $tipoIVA->getAll()->rowCount() > 0) {
+                    if ($tiposIVA && sizeof($tipoIVA->getAll()) > 0) {
                         foreach ($tiposIVA as $fila) {
                     ?>
                             <tr>
