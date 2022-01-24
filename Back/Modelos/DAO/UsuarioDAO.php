@@ -25,7 +25,7 @@ class UsuarioDAO extends Estandar implements DAO
             header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Vistas/Usuario/BVUsuariofail.php");
         }
     }
-    public function update(int $id, array $valores):void
+    public function update(int $id, array $valores): void
     {
         $camposYTipos = [
             "nick" => PDO::PARAM_STR,
@@ -39,7 +39,7 @@ class UsuarioDAO extends Estandar implements DAO
     {
         return parent::deleteBy("idUsr", $id, PDO::PARAM_INT);
     }
-    public function getList():array
+    public function getList(): array
     {
         $array = parent::getAll();
         $list = array_fill(0, sizeof($array), NULL);
@@ -54,11 +54,11 @@ class UsuarioDAO extends Estandar implements DAO
     }
     public function searchRow(int $id)
     {
-        return new Usuario((parent::getBy("idUsr", $id, PDO::PARAM_INT))->fetch(PDO::FETCH_ASSOC));
+        return new Usuario(parent::getBy("idUsr", $id, PDO::PARAM_INT));
     }
     public function searchByName(string $value)
     {
-        return new Usuario((parent::getBy("nick", $value, PDO::PARAM_STR))->fetch(PDO::FETCH_ASSOC));
+        return new Usuario(parent::getBy("nick", $value, PDO::PARAM_STR));
     }
     private function exists($nickname)
     {

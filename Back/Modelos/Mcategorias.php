@@ -44,10 +44,7 @@ class Categorias extends Estandar
         return parent::getBy('nombre', $name, PDO::PARAM_STR);
     }
 
-    public function getSubcategorias($idSubCategoria)
-    {
-        return parent::getForeignValue("nombre", "roles", $idSubCategoria, "idRol")->fetchAll(PDO::FETCH_ASSOC);
-    }
+
 
     public function deleteByID($id)
     {

@@ -34,10 +34,8 @@ function logIn(string $name, string $password)
   $usuario = new UsuarioDAO('usuarios');
   try {
     $query = $usuario->searchByName($name);
-    print_r($query);
     $array = $usuario->getList();
     echo "</br>";
-    print_r($array);
     if (in_array($query, $array)) {
       if ($query->getPass() == $password) {
         session_start();

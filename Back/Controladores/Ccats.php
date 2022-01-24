@@ -37,17 +37,17 @@ switch ($menu) {
         require_once("../cabecera.php");
         areUAllowed([4]);
         require_once("../../Funciones/funciones.php");
-        require_once("../Modelos/Mcategorias.php");
+        require_once("../Modelos/DAO/CategoriaDAO.php");
         if (isset ($_POST['cancelar'])){
             header("Location: ".$_SESSION['INDEX_PATH']."Back/Controladores/BCcontrol.php?menu=5&lang=".$_GET['lang']);
         }
-        $categoria = new Categorias();
+        $categoria = new CategoriaDAO();
         //Llamamos a la funcion de la clase y almacenamos el return en una variable
         $id = $_GET['id'];
-        $campos = $categoria->getById($id)->fetch(PDO::FETCH_ASSOC);
+        $campos = $categoria->searchRow($id);
         if (isset($_POST['submit']))
             try {
-                $categoria->updateCat($id);
+                $categoria->update($id);
                 header('Location: BCcontrol.php?menu=5&lang=' . $_GET['lang']);
             } catch (PDOException $ex) {
                 echo $ex->getMessage();
@@ -58,12 +58,12 @@ switch ($menu) {
         require_once("../cabecera.php");
         areUAllowed([4]);
         require_once("../../Funciones/funciones.php");
-        require_once("../Modelos/Mcategorias.php");
-        $categoria = new Categorias();
+        require_once("../Modelos/DAO/CategoriaDAO.php");
+        $categoria = new CategoriaDAO();
         //Llamamos a la funcion de la clase y almacenamos el return en una variable
         $id = $_GET['idCat'];
-        $nombreCat = $categoria->getByID($id)->fetchAll(PDO::FETCH_ASSOC);
-        $subcats = $categoria->getForeignValue(null,'subcategoria',$id, 'categoria')->fetchAll(PDO::FETCH_ASSOC);
+        $nombreCat = $categoria->searchRow($id);
+        $subcats = $categoria->getSubcategorias($id);
         require_once("../Vistas/Subcategorias/VSubCategorias.php");
         break;
 

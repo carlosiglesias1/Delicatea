@@ -56,12 +56,12 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 </thead>
                 <tbody>
                     <?php
-                    if ($subcats && sizeof($subcats) > 0) {
+                    if (sizeof($subcats) > 0) {
                         foreach ($subcats as $fila) {
                     ?>
                             <tr>
                                 <td><input type="checkbox" name="<?= $fila['idSubCategoria'] ?>" id="<?= $fila['idSubCategoria'] ?>" class="option"></td>
-                                <td><label for="<?= escapar($fila['idSubCategoria']) ?>"><?= escapar($fila["nombre"]); ?></label></td>
+                                <td><label for="<?= escapar($fila->) ?>"><?= escapar($fila["nombre"]); ?></label></td>
                                 <td><label for="<?= escapar($fila['idSubCategoria']) ?>"><?= escapar($fila["descripcion"]) ?></label></td>
                             </tr>
                     <?php

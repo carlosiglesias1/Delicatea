@@ -4,15 +4,6 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
 <body>
     <div class="cabecera">
         <?php require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; ?>
@@ -46,16 +37,16 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
                 </thead>
                 <tbody>
                     <?php
-                    if ($cats && $categoria->getAll()->rowCount() > 0) {
+                    if ($cats && sizeof($categoria->getList()) > 0) {
                         foreach ($cats as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= escapar($fila["idCategoria"]); ?>" id="<?= escapar($fila["idCategoria"]); ?>" class="option"></td>
-                                <td><label for="<?= escapar($fila["idCategoria"]); ?>"><?= escapar($fila["nombre"]); ?></label>
+                                <td><input type="checkbox" name="<?= escapar($fila->getIdCategoria()); ?>" id="<?= escapar($fila->getIdCategoria()); ?>" class="option"></td>
+                                <td><label for="<?= escapar($fila->getIdCategoria()); ?>"><?= escapar($fila->getNombre()); ?></label>
                                 </td>
-                                <td><label for="<?= escapar($fila["idCategoria"]); ?>"><?= escapar($fila["descripcion"]) ?></label>
+                                <td><label for="<?= escapar($fila->getIdCategoria()); ?>"><?= escapar($fila->getDescripcion()) ?></label>
                                 </td>
-                                <td><a href="<?= 'Ccats.php?menu=4&idCat=' . escapar($fila["idCategoria"]) . "&lang=" . $_GET['lang']  ?>" class="Special"><i class="icofont-list"></i> Ver</a></td>
+                                <td><a href="<?= 'Ccats.php?menu=4&idCat=' . escapar($fila->getIdCategoria()) . "&lang=" . $_GET['lang']  ?>" class="Special"><i class="icofont-list"></i> Ver</a></td>
                             </tr>
                     <?php
                         }

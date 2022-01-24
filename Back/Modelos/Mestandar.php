@@ -43,21 +43,23 @@ abstract class Estandar
             $sentencia = $this->bd->prepare($query);
             $sentencia->bindParam(":valor", $valor, $tipo);
             $sentencia->execute();
-            return $sentencia;
+            return $sentencia->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             throw $e;
         }
     }
 
+    /**
+     * @param string $foreignTable la tabla de la que vamos a obtener el valor
+     * @param string $foreignValue el valor que queremos obtener
+     * @param string $value valor que tenemos en la tabla de origen
+     * @param string $foreignKey campo de union en la tabla destino
+     * @param string $orderBy nombre del campo por el que vamos a ordenar
+     * @return array/null
+     */
     public function getForeignValue(string $foreignTable, ?string $foreignValue = null, ?string $value = null, ?string $foreignKey = null, ?string $orderBy = null)
     {
-        /**
-         * $foreignValue => el valor que queremos obtener
-         * $foreignTable => la tabla de la que vamos a obtener el valor
-         * $value => valor que tenemos en la tabla de origen
-         * $foreignKey => campo de union en la tabla destino
-         */
         if ($orderBy == null) {
             if ($foreignValue == null && $foreignKey == null) {
                 $query = "SELECT * FROM $foreignTable";
@@ -81,7 +83,7 @@ abstract class Estandar
             $sentencia->execute();
             try {
                 $this->bd->commit();
-                return $sentencia->fetchAll();
+                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $error) {
                 $this->bd->rollBack();
                 throw $error;
@@ -249,9 +251,9 @@ abstract class Estandar
             $sentencia = $this->bd->prepare($query);
             $sentencia->bindParam(":valor", $nuevoValor, $tipo);
             $sentencia->bindParam(":id", $valor, PDO::PARAM_INT);
-            if($sentencia->execute()){
+            if ($sentencia->execute()) {
                 $this->bd->commit();
-            }else{
+            } else {
                 $this->bd->rollBack();
             }
         } catch (PDOException $ex) {

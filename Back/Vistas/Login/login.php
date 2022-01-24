@@ -10,7 +10,6 @@ if (isset($_POST['submit'])) {
     }
 
     try {
-        echo $name . "</br>" . $password . "</br>";
         logIn($name, $password);
     } catch (PDOException $e) {
         echo $e->getMessage();

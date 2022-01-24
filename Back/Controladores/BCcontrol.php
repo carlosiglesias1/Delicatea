@@ -124,14 +124,14 @@ switch ($menu) {
   case 5:
     require_once("../cabecera.php");
     areUAllowed([4]);
-    require_once("../Modelos/Mcategorias.php");
-    $categoria = new Categorias();
-    $cats = $categoria->getAll();
+    require_once("../Modelos/DAO/CategoriaDAO.php");
+    $categoria = new CategoriaDAO();
+    $cats = $categoria->getList();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
       for ($i = 0; $i < sizeof($cats); $i++) {
-        if (isset($_POST[$cats[$i]['idCategoria']])) {
+        if (isset($_POST[$cats[$i]->getIdCategoria])) {
           $selected[$j] = $cats[$i]['idCategoria'];
           $j++;
         }
