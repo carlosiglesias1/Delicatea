@@ -6,7 +6,7 @@ if (session_status() != PHP_SESSION_ACTIVE) {
 
 /**DEFINICIONES */
 
-$_SESSION['WORKING_PATH'] = "C:/Users/carlo/Documents/www/Delicatea/";
+$_SESSION['WORKING_PATH'] = "C:/xampp/htdocs/Delicatea/";
 $_SESSION['INDEX_PATH'] = "http://localhost/Delicatea/";
 require_once $_SESSION['WORKING_PATH'] . 'Funciones/funciones.php';
 require_once $_SESSION['WORKING_PATH'] . 'Lenguajes/config.php';

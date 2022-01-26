@@ -31,7 +31,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
         </div>
         <div class="contenido">
             <h4><?php echo $lang['Tabla Usuarios']['Permisos'] . ": " . $usuario->searchRow($_GET['id'])->getNick();  ?></h4>
-            <a href="<?= "CRoles.php?menu=1&lang=" . $_GET['lang'] ?>" class="New_Button"><?php echo $lang['Nuevo Permiso']['Boton'] ?></a>
         </div>
         <form method="POST" class="permisos">
             <ul>

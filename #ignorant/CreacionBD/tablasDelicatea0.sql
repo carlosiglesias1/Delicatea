@@ -1,3 +1,4 @@
+use delicatea;
 CREATE TABLE Clientes (
   idCli int AUTO_INCREMENT PRIMARY KEY,
   dni char (9) not null,
@@ -77,7 +78,7 @@ CREATE TABLE valoresArticulo (
   );
 CREATE TABLE roles (
     idRol TINYINT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR (50),
+    nombre VARCHAR (50)
   );
 CREATE TABLE usuarios (
     idUsr INT (11) AUTO_INCREMENT PRIMARY KEY,
@@ -86,7 +87,7 @@ CREATE TABLE usuarios (
     token VARCHAR (255),
     verificado TINYINT (1),
     rol TINYINT REFERENCES roles (idRol),
-    mail VARCHAR (255),
+    mail VARCHAR (255)
   );
 INSERT INTO
   usuarios(nick, pass)
@@ -108,7 +109,7 @@ VALUES
   ('Superreducido', 0.4);
 CREATE Table ColumnasMenu (
     idCol int AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(25) UNIQUE,
+    nombre VARCHAR(25) UNIQUE
   );
 INSERT INTO
   columnasmenu (nombre)
