@@ -1,3 +1,4 @@
+CREATE DATABASE delicatea;
 use delicatea;
 CREATE TABLE Clientes (
   idCli int AUTO_INCREMENT PRIMARY KEY,
@@ -113,19 +114,19 @@ CREATE Table ColumnasMenu (
     columnaPadre INT REFERENCES ColumnasMenu(idCol) 
   );
 INSERT INTO
-  columnasmenu (nombre, idCol)
+  columnasmenu (nombre, columnaPadre)
 VALUES
-  ('Usuarios'),
-  ('Marcas'),
-  ('Articulos'),
-  ('Categorias'),
+  ('Usuarios', NULL),
+  ('Marcas', NULL),
+  ('Articulos', NULL),
+  ('Categorias', NULL),
   ('Subcategorias', 4),
-  ('Clientes'),
-  ('Facturas'),
-  ('Ventas'),
-  ('Contabilidad'),
-  ('Iva'),
-  ('Tarifas');
+  ('Clientes', NULL),
+  ('Facturas', NULL),
+  ('Ventas', NULL),
+  ('Contabilidad', NULL),
+  ('Iva', NULL),
+  ('Tarifas', NULL);
 CREATE Table permisosMenu (
     idPermiso INT AUTO_INCREMENT PRIMARY KEY,
     usuario INT REFERENCES usuarios(idUsr),
