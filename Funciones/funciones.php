@@ -41,11 +41,11 @@ function logIn(string $name, string $password)
         session_start();
         $_SESSION['id'] = $query->getIdUsr();
         $_SESSION['lang'] = $_GET['lang'];
-        header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
+        header('Location: index.php?menu=3&lang=' . $_GET['lang']);
         $_SESSION['modal'] = 2;
       }
     } else {
-      header('Location: BCcontrol.php?menu=0&lang=es');
+      header('Location: index.php?menu=0&lang=es');
     }
   } catch (PDOException $e) {
     error_log($e->getMessage());
