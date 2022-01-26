@@ -109,16 +109,17 @@ VALUES
   ('Superreducido', 0.4);
 CREATE Table ColumnasMenu (
     idCol int AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(25) UNIQUE
+    nombre VARCHAR(25) UNIQUE,
+    columnaPadre INT REFERENCES ColumnasMenu(idCol) 
   );
 INSERT INTO
-  columnasmenu (nombre)
+  columnasmenu (nombre, idCol)
 VALUES
   ('Usuarios'),
   ('Marcas'),
   ('Articulos'),
   ('Categorias'),
-  ('Subcategorias'),
+  ('Subcategorias', 4),
   ('Clientes'),
   ('Facturas'),
   ('Ventas'),
