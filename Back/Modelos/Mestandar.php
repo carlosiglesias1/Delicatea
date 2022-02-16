@@ -56,7 +56,7 @@ abstract class Estandar
      * @param string $value valor que tenemos en la tabla de origen
      * @param string $foreignKey campo de union en la tabla destino
      * @param string $orderBy nombre del campo por el que vamos a ordenar
-     * @return array/null
+     * @return array
      */
     public function getForeignValue(string $foreignTable, ?string $foreignValue = null, ?string $value = null, ?string $foreignKey = null, ?string $orderBy = null)
     {
