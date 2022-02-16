@@ -28,7 +28,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <?php if ($_GET['idCat'] != 0) { ?>
                     <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=5&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Categorias']['Titulo'] ?></a></li>
                 <?php } ?>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=4&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Subcategorias']['Titulo'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=4&lang=" . $_GET['lang'] . "&idCat=0" ?>"><?= $lang['Tabla Subcategorias']['Titulo'] ?></a></li>
                 <li><?= $lang['Nueva Subcategoria']['Boton'] ?></li>
             </ul>
         </div>
@@ -39,7 +39,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <label for="name"><?php echo $lang['Nueva Subcategoria']['Descripcion'] ?></label>
                 <input type="text" name="descripcion">
                 <label for="categoria"><?php echo $lang['Nueva Subcategoria']['Categoria'] ?></label>
-                <?php   if ($_GET['idCat'] > 0) { ?>
+                <?php if ($_GET['idCat'] > 0) { ?>
                     <label for="categoria"><?= $categorias[0]['nombre'] ?></label>
                     <input type="hidden" name="categoria" value="<?= $_GET['idCat'] ?>">
                 <?php } else { ?>
@@ -54,12 +54,12 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <?php } ?>
             <?php } else {
             ?>
-                <input type="text" name="name" value="<?= escapar($campos['nombre']) ?>">
+                <input type="text" name="name" value="<?= escapar($campos->getNombre()) ?>">
                 <label for="name"><?php echo $lang['Nueva Subcategoria']['Descripcion'] ?></label>
-                <input type="text" name="descripcion" value="<?= escapar($campos['descripcion']) ?>">
+                <input type="text" name="descripcion" value="<?= escapar($campos->getDescripcion()) ?>">
                 <label for="categoria"><?php echo $lang['Nueva Subcategoria']['Categoria'] ?></label>
                 <select name="categoria">
-                    <option selected value="<?= $campos['categoria'] ?>"><?= $catSubCat[0]['nombre'] ?></option>
+                    <option selected value="<?= $campos->getCategoria() ?>"><?= $catSubCat[0]['nombre'] ?></option>
                     <?php
                     foreach ($categorias as $fila) {
                         if ($fila['nombre'] != $catSubCat[0]['nombre']) {

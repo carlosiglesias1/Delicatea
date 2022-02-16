@@ -36,8 +36,9 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
         <div class="contenido">
             <h4><?php if ($_GET['idCat'] == 0)
                     echo $lang['Tabla Subcategorias']['Titulo'];
-                else
-                    echo $lang['Tabla Subcategorias']['Titulo'] . " :  " . $nombreCat[0]['nombre']; ?></h4>
+                else {
+                    echo $lang['Tabla Subcategorias']['Titulo'] . " :  " . $nombreCat;
+                } ?></h4>
             <a href="<?= "Csubcats.php?menu=1&lang=" . $_GET['lang'] . '&idCat=' . $_GET['idCat'] ?>" class="New_Button"><?php echo $lang['Nueva Subcategoria']['Boton'] ?></a>
             <button onclick="cargarModal(2);changeModal()" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Subcategorias']['Borrar']; ?></button>
             <button type="submit" class="Editar" name="Editar" form="SubCats"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Subcategorias']['Editar']; ?></button>
@@ -60,9 +61,9 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         foreach ($subcats as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= $fila['idSubCategoria'] ?>" id="<?= $fila['idSubCategoria'] ?>" class="option"></td>
-                                <td><label for="<?= escapar($fila->) ?>"><?= escapar($fila["nombre"]); ?></label></td>
-                                <td><label for="<?= escapar($fila['idSubCategoria']) ?>"><?= escapar($fila["descripcion"]) ?></label></td>
+                                <td><input type="checkbox" name="<?= $fila->getIdSubCategoria() ?>" id="<?= $fila->getIdSubCategoria() ?>" class="option"></td>
+                                <td><label for="<?= escapar($fila->getIdSubCategoria()) ?>"><?= escapar($fila->getNombre()); ?></label></td>
+                                <td><label for="<?= escapar($fila->getIdSubCategoria()) ?>"><?= escapar($fila->getDescripcion()) ?></label></td>
                             </tr>
                     <?php
                         }

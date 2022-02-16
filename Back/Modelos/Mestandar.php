@@ -7,7 +7,7 @@ abstract class Estandar
     public function __construct(string $tabla)
     {
         $this->table = $tabla;
-        require_once '../Conexion/Conectar.php';
+        require_once '../../Conexion/Conectar.php';
         $this->bd = new Conectar;
         $this->bd = $this->bd->conectar();
     }
@@ -77,20 +77,16 @@ abstract class Estandar
                 $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ORDER BY $orderBy";
             }
         }
+        $this->bd->beginTransaction();
+        $sentencia = $this->bd->prepare($query);
+        $sentencia->execute();
         try {
-            $this->bd->beginTransaction();
-            $sentencia = $this->bd->prepare($query);
-            $sentencia->execute();
-            try {
-                $this->bd->commit();
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } catch (PDOException $error) {
-                $this->bd->rollBack();
-                throw $error;
-            }
-        } catch (PDOException $exception) {
-            error_log($exception->getMessage());
-            throw $exception;
+            $this->bd->commit();
+            return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $error) {
+            $this->bd->rollBack();
+            error_log($error->getMessage());
+            return array();
         }
     }
 

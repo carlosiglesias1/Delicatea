@@ -9,7 +9,7 @@ class UsuarioDAO extends Estandar implements DAO
         parent::__construct('usuarios');
     }
 
-    public function newUser(array $valores)
+    public function addElement(array $valores):void
     {
         $campos = ["nick", "pass"];
         $valor = $this->exists($valores['nickname']);

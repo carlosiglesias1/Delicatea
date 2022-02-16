@@ -10,8 +10,6 @@ function csrf()
   if (empty($_SESSION['csrf'])) {
     if (function_exists('random_bytes')) {
       $_SESSION['csrf'] = bin2hex(random_bytes(32));
-    } else if (function_exists('mcrypt_create_iv')) {
-      $_SESSION['csrf'] = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
     } else {
       $_SESSION['csrf'] = bin2hex(openssl_random_pseudo_bytes(32));
     }
@@ -41,11 +39,11 @@ function logIn(string $name, string $password)
         session_start();
         $_SESSION['id'] = $query->getIdUsr();
         $_SESSION['lang'] = $_GET['lang'];
-        header('Location: index.php?menu=3&lang=' . $_GET['lang']);
+        header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
         $_SESSION['modal'] = 2;
       }
     } else {
-      header('Location: index.php?menu=0&lang=es');
+      header('Location: BCcontrol.php?menu=0&lang=es');
     }
   } catch (PDOException $e) {
     error_log($e->getMessage());
@@ -81,39 +79,39 @@ function getArticulos(Tarifa $tarifa, array $campos)
     *Las condiciones deben variar segun los filtros
     */
     if ($campos["marca"] == 0 && $campos['categoria'] == 0 && $campos['subcategoria'] == 0) {
-      $articulos = $tarifa->getForeignValue(null, 'articulo')->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValue('articulo')->fetchAll(PDO::FETCH_ASSOC);
     } else if ($campos["marca"] != 0 && $campos['categoria'] == 0 && $campos['subcategoria'] == 0) {
       $conditional = 'marca = ' . $campos["marca"];
-      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
     } else if ($campos["marca"] == 0 && $campos['categoria'] != 0 && $campos['subcategoria'] == 0) {
       $conditional = 'categoria = ' . $campos['categoria'];
-      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
     } else if ($campos["marca"] == 0 && $campos['categoria'] == 0 && $campos['subcategoria'] != 0) {
       $conditional = 'subcategoria = ' . $campos['subcategoria'];
-      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
     } else if ($campos["marca"] != 0 && $campos['categoria'] != 0 && $campos['subcategoria'] == 0) {
       $conditional = 'marca = ' . $campos["marca"] . ' AND categoria = ' . $campos['categoria'] . ' AND subcategoria = ' . $campos['subcategoria'];
-      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
     } else if ($campos["marca"] != 0 && $campos['categoria'] == 0 && $campos['subcategoria'] != 0) {
       $conditional = 'marca = ' . $campos["marca"] . ' AND subcategoria = ' . $campos['subcategoria'];
-      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
     } else if ($campos["marca"] == 0 && $campos['categoria'] != 0 && $campos['subcategoria'] != 0) {
       $conditional = 'categoria = ' . $campos['categoria'] . ' AND subcategoria = ' . $campos['subcategoria'];
-      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
     } else {
       $conditional = 'marca = ' . $campos["marca"] . ' AND categoria = ' . $campos['categoria'] . ' AND subcategoria = ' . $campos['subcategoria'];
-      $articulos = $tarifa->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
     }
   } //Si actualizo una tarifa sobre otra
   else {
     if ($campos['coste'] == -1 || $campos['origen'] == -1) {
-      $productos = $tarifa->getForeignValue(null, 'tarifasproductos')->fetchAll(PDO::FETCH_ASSOC);
+      $productos = $tarifa->getForeignValue('tarifasproductos')->fetchAll(PDO::FETCH_ASSOC);
       foreach ($productos as $fila => $campo) {
         $articulos[$fila]['coste'] = $campo['costeFinal'];
         $articulos[$fila]['idArticulo'] = $campo['idPrd'];
       }
     } else {
-      $productos = $tarifa->getForeignValue(null, 'tarifasproductos', $campos['coste'], 'idTarifa')->fetchAll(PDO::FETCH_ASSOC);
+      $productos = $tarifa->getForeignValue('tarifasproductos', $campos['coste'], 'idTarifa')->fetchAll(PDO::FETCH_ASSOC);
       foreach ($productos as $fila => $campo) {
         $articulos[$fila]['coste'] = $campo['costeFinal'];
         $articulos[$fila]['idArticulo'] = $campo['idPrd'];

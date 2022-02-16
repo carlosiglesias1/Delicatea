@@ -90,15 +90,23 @@ switch ($menu) {
     require_once("../cabecera.php");
     //Permisos requeridos para acceder al menú
     areUAllowed([4, 5]);
-    require_once("../Modelos/Msubcategorias.php");
-    $subcategoria = new SubCategoria();
-    $subcats = $subcategoria->getAll();
+    require_once("../Modelos/DAO/SubcategoriaDAO.php");
+    require_once("../Modelos/DAO/CategoriaDAO.php");
+    if ($_GET['idCat'] == 0) {
+      $subcategoria = new SubCategoriaDAO();
+      $subcats = $subcategoria->getList();
+    } else {
+      $categoriaDAO = new CategoriaDAO();
+      $id = $_GET['idCat'];
+      $nombreCat = $categoriaDAO->searchRow($id)['nombre'];
+      $subcats = $categoriaDAO->getSubcategorias($id);
+    }
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
       for ($i = 0; $i < sizeof($subcats); $i++) {
-        if (isset($_POST[$subcats[$i]['idSubCategoria']])) {
-          $selected[$j] = $subcats[$i]['idSubCategoria'];
+        if (isset($_POST[$subcats[$i]->getIdSubCategoria()])) {
+          $selected[$j] = $subcats[$i]->getIdSubCategoria();
           $j++;
         }
       }
@@ -108,8 +116,8 @@ switch ($menu) {
     }
     if (isset($_POST['Editar'])) {
       for ($i = 0; $i < sizeof($subcats); $i++) {
-        if (isset($_POST[$subcats[$i]['idSubCategoria']])) {
-          $selected[$j] = $subcats[$i]['idSubCategoria'];
+        if (isset($_POST[$subcats[$i]->getIdSubCategoria()])) {
+          $selected[$j] = $subcats[$i]->getIdSubCategoria();
           $j++;
         }
       }
@@ -142,8 +150,8 @@ switch ($menu) {
     }
     if (isset($_POST['Editar'])) {
       for ($i = 0; $i < sizeof($cats); $i++) {
-        if (isset($_POST[$cats[$i]['idCategoria']])) {
-          $selected[$j] = $cats[$i]['idCategoria'];
+        if (isset($_POST[$cats[$i]->getIdCategoria()])) {
+          $selected[$j] = $cats[$i]->getIdCategoria();
           $j++;
         }
       }

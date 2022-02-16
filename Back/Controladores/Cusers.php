@@ -18,7 +18,7 @@ switch ($menu) {
         "nick" => $_POST['nickname'],
         "pass" => $_POST['password']
       ];
-      $usuario->newUser($valores);
+      $usuario->addElement($valores);
     }
     require_once("../Vistas/Usuario/VCreateUser.php");
     break;
