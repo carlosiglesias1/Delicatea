@@ -41,7 +41,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll"></th>
                         <th><?= $lang['Tabla IVA']['Tipo']; ?></th>
                         <th><?= $lang['Tabla IVA']['Porcentage']; ?></th>
-                        <th><?= $lang['Tabla IVA']['Recargo'] ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +52,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                                 <td><input type="checkbox" name="<?= escapar($fila["idIva"]); ?>" id="<?= escapar($fila["idIva"]); ?>"></td>
                                 <td><label for="<?= escapar($fila["idIva"]); ?>"><?php echo escapar($fila["tipo"]); ?></label></td>
                                 <td><label for="<?= escapar($fila["idIva"]); ?>"><?php echo escapar($fila["porcentage"]) ?></label></td>
-                                <td><label for="<?= escapar($fila["idIva"]); ?>"><?= escapar($fila["recargoEquivalencia"]) ?></label></td>
                             </tr>
                     <?php
                         }

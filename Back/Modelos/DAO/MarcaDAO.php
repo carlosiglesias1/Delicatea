@@ -9,7 +9,7 @@ class MarcaDAO extends Estandar implements DAO
         parent::__construct('marca');
     }
 
-    public function NewMark(array $valores)
+    public function addElement(array $valores):void
     {
         $campos = ['nombre'];
         $tipos = [PDO::PARAM_STR];

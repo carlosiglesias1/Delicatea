@@ -10,22 +10,15 @@ class Articulo extends Estandar
 
     public function newArticle()
     {
-        //$campos = ['nombre', 'descripcionCorta', 'descripcionLarga', 'codigo', 'sku', 'pn', 'marca', 'categoria', 'subcategoria', 'coste', 'iva', 'puntoVerde', 'impuestoAlcochol'];
-        $campos = ['nombre', 'descripcionCorta', 'descripcionLarga', 'marca', 'categoria', 'subcategoria', 'coste'];
+       $campos = ['nombre', 'descripcionCorta', 'descripcionLarga', 'marca', 'categoria', 'subcategoria', 'coste'];
         $valores = array(
             "nickname" => $_POST['name'],
             "descripcion" =>  $_POST['descripcion'],
             "description2" => $_POST['descripcion2'],
-            /*"codigo" => $_POST['codigo'],
-            "sku" => $_POST['sku'],
-            "pn" => $_POST['pn'],/*/
             "marca" => $_POST['marca'],
             "categoria" => $_POST['categoria'],
             "subcategoria" => $_POST['subcategoria'],
             "coste" => $_POST['coste'],
-            /*"iva" => $_POST['iva'],
-            "puntoVerde" => $_POST['puntoVerde'],
-            "impuestoAlcochol" => $_POST['impuestoAlcohol']*/
         );
         $valor = $this->exists($valores['nickname']);
         if ($valor == 0)

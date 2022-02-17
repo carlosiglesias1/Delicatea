@@ -1,6 +1,7 @@
 <?php
 interface DAO
 {
+    public function addElement(array $valores):void;
     public function getList(): array;
     public function update(int $id, array $valores): void;
     public function searchRow(int $id);

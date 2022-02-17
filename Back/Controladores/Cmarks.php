@@ -18,7 +18,7 @@ switch ($menu) {
             $valores = array(
                 "name" => $_POST['name']
             );
-            $marca->NewMark($valores);
+            $marca->addElement($valores);
         }
         require_once("../Vistas/Marcas/VCrearMarca.php");
         break;
@@ -26,7 +26,7 @@ switch ($menu) {
     case 2:
         require_once("../cabecera.php");
         areUAllowed([1, 2]);
-        require_once("../Modelos/DAO/MarcasDAO.php");
+        require_once("../Modelos/DAO/MarcaDAO.php");
         $marca = new MarcaDAO();
         $selected = unserialize($_GET['selected']);
         try {

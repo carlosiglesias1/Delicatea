@@ -56,7 +56,7 @@ abstract class Estandar
      * @param string $value valor que tenemos en la tabla de origen
      * @param string $foreignKey campo de union en la tabla destino
      * @param string $orderBy nombre del campo por el que vamos a ordenar
-     * @return array/null
+     * @return array
      */
     public function getForeignValue(string $foreignTable, ?string $foreignValue = null, ?string $value = null, ?string $foreignKey = null, ?string $orderBy = null)
     {
@@ -77,20 +77,16 @@ abstract class Estandar
                 $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ORDER BY $orderBy";
             }
         }
+        $this->bd->beginTransaction();
+        $sentencia = $this->bd->prepare($query);
+        $sentencia->execute();
         try {
-            $this->bd->beginTransaction();
-            $sentencia = $this->bd->prepare($query);
-            $sentencia->execute();
-            try {
-                $this->bd->commit();
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } catch (PDOException $error) {
-                $this->bd->rollBack();
-                throw $error;
-            }
-        } catch (PDOException $exception) {
-            error_log($exception->getMessage());
-            throw $exception;
+            $this->bd->commit();
+            return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $error) {
+            $this->bd->rollBack();
+            error_log($error->getMessage());
+            return array();
         }
     }
 
