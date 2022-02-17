@@ -6,15 +6,15 @@ switch ($menu) {
     case 1:
         require_once("../cabecera.php");
         areUAllowed([4]);
-        require_once("../Modelos/Mcategorias.php");
+        require_once("../Modelos/DAO/CategoriaDAO.php");
         if (isset($_POST['cancelar'])) {
             header('Location: BCcontrol.php?menu=5&lang=' . $_GET['lang']);
         }
         //Llamar a la clase Categorias
-        $marca = new Categorias();
+        $categoria = new CategoriaDAO();
         //Llamamos a la funcion de la clase y almacenamos el return en una variable
         if (isset($_POST['submit']))
-            $marca->newCategorie();
+            $categoria->;
         require_once("../Vistas/Categorias/VCrearCategoria.php");
         break;
 
