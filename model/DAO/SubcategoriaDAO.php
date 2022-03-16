@@ -1,29 +1,4 @@
 <?php
-<<<<<<< HEAD
-require_once $_SESSION['WORKING_PATH'].'Back/Modelos/Mestandar.php';
-    class SubcategoriaDAO extends Estandar implements DAO{
-        public function getList(): array
-        {
-            $array = parent::getAll();
-        }
-        public function searchRow(int $id)
-        {
-            
-        }
-        public function update(int $id, array $valores): void
-        {
-            
-        }
-        public function delete(int $id)
-        {
-            
-        }
-        public function deleteAll()
-        {
-            
-        }
-    }
-=======
 require_once $_SESSION['WORKING_PATH']."Back/Modelos/Mestandar.php";
 require_once $_SESSION['WORKING_PATH']."Back/Modelos/DAO/DAO.php";
 require_once $_SESSION['WORKING_PATH']."Back/Modelos/Classes/Subcategoria.php";
@@ -75,4 +50,3 @@ class SubcategoriaDAO extends Estandar implements DAO
         return parent::existsBy("nombre", $name, PDO::PARAM_STR);
     }
 }
->>>>>>> 96085a3b29d3f29d3941299df19084de1ef44b8a

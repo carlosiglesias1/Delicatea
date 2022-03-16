@@ -8,7 +8,7 @@ abstract class Estandar
     {
         $this->table = $tabla;
         require_once '../../Conexion/Conectar.php';
-        $this->bd = new Conectar;
+        $this->bd = new Conectar();
         $this->bd = $this->bd->conectar();
     }
 
