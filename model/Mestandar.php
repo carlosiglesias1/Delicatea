@@ -4,12 +4,10 @@ abstract class Estandar
     private $table;
     private $bd;
 
-    public function __construct(string $tabla)
+    public function __construct(PDO $connection,string $tabla)
     {
         $this->table = $tabla;
-        require_once '../../Conexion/Conectar.php';
-        $this->bd = new Conectar();
-        $this->bd = $this->bd->conectar();
+        $this->bd = $connection;
     }
 
     public function getDB()

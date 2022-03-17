@@ -4,12 +4,12 @@ require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
 require_once($_SESSION['WORKING_PATH'] . "Back/Modelos/Classes/Usuario.php");
 class UsuarioDAO extends Estandar implements DAO
 {
-    public function __construct()
+    public function __construct(PDO $connection)
     {
-        parent::__construct('usuarios');
+        parent::__construct($connection, 'usuarios');
     }
 
-    public function addElement(array $valores):void
+    public function addElement(array $valores): void
     {
         $campos = ["nick", "pass"];
         $valor = $this->exists($valores['nickname']);
