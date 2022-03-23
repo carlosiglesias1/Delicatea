@@ -4,7 +4,7 @@ abstract class Estandar
     private $table;
     private $bd;
 
-    public function __construct(PDO $connection,string $tabla)
+    public function __construct(PDO $connection, string $tabla)
     {
         $this->table = $tabla;
         $this->bd = $connection;
@@ -34,7 +34,7 @@ abstract class Estandar
         }
     }
 
-    public function getBy(string $campo, $valor, int $tipo)
+    public function getBy(string $campo, $valor, int $tipo): array
     {
         $query = "SELECT * FROM $this->table WHERE $campo = :valor";
         try {
@@ -124,7 +124,7 @@ abstract class Estandar
         }
     }
 
-    public function insert(array $campos, array $valores, array $tipos)
+    public function insert(array $campos, array $valores, array $tipos): bool
     {
         //aqui realizo un Prepared Statement de php
         $query = "INSERT INTO $this->table (" . implode(",", $campos) . ") VALUES (:" . implode(", :", array_keys($valores)) . ")";
@@ -136,18 +136,18 @@ abstract class Estandar
             for ($index = 0; $index < sizeof($campos); $index++) {
                 $sentencia->bindParam(":" . $queryParams[$index], $valores[$index], $tipos[$index]);
             }
-            $sentencia->execute();
+            $return = $sentencia->execute();
             try {
                 $this->bd->commit();
-                return $this->getAutoIncrement()->fetchAll(PDO::FETCH_ASSOC)[0]['AUTO_INCREMENT'];
+                return $return;
             } catch (PDOException $error) {
                 $this->bd->rollBack();
                 throw $error;
             }
         } catch (PDOException $excpt) {
-            error_log($excpt->getMessage());
-            throw $excpt;
+            throw new PDOException("No he podido insertar nada", 0, $excpt);
         }
+        return $return;
     }
 
     public function foreignInsert($table, $campos, $valores)
@@ -292,20 +292,6 @@ abstract class Estandar
         } catch (PDOException $ex) {
             error_log($ex->getMessage());
             throw $ex;
-        }
-    }
-
-    private function getAutoIncrement()
-    {
-        try {
-            $this->bd->beginTransaction();
-            $sentencia = $this->bd->prepare("SELECT AUTO_INCREMENT from information_schema.tables where table_schema = 'delicatea' AND table_name = '" . $this->getTable() . "'");
-            $sentencia->execute();
-            $this->bd->commit();
-            return $sentencia;
-        } catch (PDOException $error) {
-            error_log($error->getMessage());
-            throw $error;
         }
     }
 }

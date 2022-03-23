@@ -9,6 +9,6 @@ return array(
     'options' => [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_EMULATE_PREPARES => FALSE,
-        PDO::ATTR_TIMEOUT =>1000
+        PDO::ATTR_TIMEOUT => 1000
     ]
 );

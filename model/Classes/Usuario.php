@@ -1,26 +1,38 @@
 <?php
-class Usuario
+class Usuario implements JsonSerializable
 {
     private int $idUsr;
     private string $nick;
     private string $pass;
-    private ?string $email;
+    private ?string $mail;
     private ?string $token;
     private ?bool $verificado;
     private ?int $rol;
 
-    public function __construct(array $parametros)
+    public function __construct(array $parametros = null)
     {
-        foreach ($parametros as $key => $value) {
-            $this->{$key} = $value;
+        if ($parametros != null) {
+            foreach ($parametros as $key => $value) {
+                $this->{$key} = $value;
+            }
         }
+    }
+
+    public function toString(): string
+    {
+        return $this->idUsr . " | " . $this->nick . " | " . $this->pass . " | " . $this->mail;
+    }
+
+    public function jsonSerialize()
+    {
+        return array($this->idUsr, $this->nick, $this->pass, $this->mail, $this->token, $this->verificado, $this->rol);
     }
     /**
      * Get the value of email
      */
-    public function getEmail()
+    public function getMail()
     {
-        return $this->email;
+        return $this->mail;
     }
 
     /**
@@ -28,9 +40,9 @@ class Usuario
      *
      * @return  self
      */
-    public function setEmail($email)
+    public function setMail($email)
     {
-        $this->email = $email;
+        $this->mail = $email;
 
         return $this;
     }
@@ -98,7 +110,7 @@ class Usuario
     /**
      * Get the value of nick
      */
-    public function getNick()
+    public function getNick():string
     {
         return $this->nick;
     }
@@ -118,7 +130,7 @@ class Usuario
     /**
      * Get the value of pass
      */
-    public function getPass()
+    public function getPass():string
     {
         return $this->pass;
     }

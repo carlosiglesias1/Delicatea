@@ -1,7 +1,7 @@
 <?php
 require_once "DAO.php";
-require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
-require_once($_SESSION['WORKING_PATH'] . "Back/Modelos/Classes/Usuario.php");
+require_once($_SESSION['WORKING_PATH'] . 'model/Mestandar.php');
+require_once($_SESSION['WORKING_PATH'] . "model/Classes/Usuario.php");
 class UsuarioDAO extends Estandar implements DAO
 {
     public function __construct(PDO $connection)
@@ -17,12 +17,9 @@ class UsuarioDAO extends Estandar implements DAO
         if ($valor == 0) {
             try {
                 parent::insert($campos, $valores, $tipos);
-                header("Location: BCcontrol.php?menu=1&lang=es");
             } catch (PDOException $exception) {
-                echo $exception->getTrace();
+                print_r($exception->getTrace());
             }
-        } else {
-            header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Vistas/Usuario/BVUsuariofail.php");
         }
     }
     public function update(int $id, array $valores): void
@@ -56,9 +53,22 @@ class UsuarioDAO extends Estandar implements DAO
     {
         return new Usuario(parent::getBy("idUsr", $id, PDO::PARAM_INT));
     }
-    public function searchByName(string $value)
+    public function searchByName(string $value): Usuario
     {
-        return new Usuario(parent::getBy("nick", $value, PDO::PARAM_STR));
+        try {
+            return new Usuario(parent::getBy("nick", $value, PDO::PARAM_STR));
+        } catch (PDOException $exception) {
+            return null;
+        }
+    }
+
+    public function logIn(Usuario $user): bool
+    {
+        $exists = $this->searchByName($user->getNick());
+        if ($exists != null && $exists->getPass() == $user->getPass()) {
+            return true;
+        }
+        return false;
     }
     private function exists($nickname)
     {
