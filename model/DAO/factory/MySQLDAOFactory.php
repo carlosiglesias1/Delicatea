@@ -7,7 +7,7 @@ class MySQLDAOFactory
 
     public function __construct()
     {
-        $this->bcp = ConnectionPool::create();
+        $this->bcp = ConnectionPool::getInstance();
     }
 
     public function getUsuarioDAO(): UsuarioDAO
@@ -15,9 +15,14 @@ class MySQLDAOFactory
         return new UsuarioDAO($this->bcp->getConnection());
     }
 
+    public function getMarcaDAO(): MarcaDAO
+    {
+        return new MarcaDAO($this->bcp->getConnection());
+    }
+
     /**
      * Get the value of bcp
-     */ 
+     */
     public function getBcp()
     {
         return $this->bcp;

@@ -6,6 +6,7 @@ class ConnectionPool
     private $options;
     private $connections;
     private $usedConnections;
+    private static $instance;
     private function __construct(array $connections, array $config)
     {
         $this->url = 'mysql:dbname=' . $config['db_name'] . ";host=" . $config['host'];
@@ -16,7 +17,7 @@ class ConnectionPool
         $this->usedConnections = array();
     }
 
-    public static function create(): ConnectionPool
+    public static function create()
     {
         $configuration = require_once 'bdconfig.php';
         $url = 'mysql:dbname=' . $configuration['db_name'] . ";host=" . $configuration['host'];
@@ -24,7 +25,7 @@ class ConnectionPool
         for ($i = 0; $i < $configuration['max_pool_size']; $i++) {
             array_push($connectionList, new PDO($url, $configuration['user'], $configuration['pass'], $configuration['options']));
         }
-        return new ConnectionPool($connectionList, $configuration);
+        self::$instance =  new ConnectionPool($connectionList, $configuration);
     }
 
     public function getConnection(): PDO
@@ -68,5 +69,13 @@ class ConnectionPool
         foreach ($this->connections as $value) {
             $value->close();
         }
+    }
+
+    public static function getInstance(): ConnectionPool
+    {
+        if (self::$instance == null) {
+            self::create();
+        }
+        return self::$instance;
     }
 }

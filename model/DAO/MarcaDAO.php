@@ -4,9 +4,9 @@ require_once $_SESSION['WORKING_PATH'] ."Back/Modelos/DAO/DAO.php";
 require_once($_SESSION['WORKING_PATH'] . "Back/Modelos/Classes/Marca.php");
 class MarcaDAO extends Estandar implements DAO
 {
-    public function __construct()
+    public function __construct(PDO $connection)
     {
-        parent::__construct('marca');
+        parent::__construct($connection, 'marcas');
     }
 
     public function addElement(array $valores):void
