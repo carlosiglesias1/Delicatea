@@ -1,6 +1,8 @@
 <?php
 require_once $_SESSION['WORKING_PATH'] . "conection/ConnectionPool.php";
 require_once $_SESSION['WORKING_PATH'] . "model/DAO/UsuarioDAO.php";
+require_once $_SESSION['WORKING_PATH'] . "model/DAO/MarcaDAO.php";
+
 class MySQLDAOFactory
 {
     private $bcp;

@@ -1,15 +1,15 @@
 <?php
-require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
-require_once $_SESSION['WORKING_PATH'] ."Back/Modelos/DAO/DAO.php";
-require_once($_SESSION['WORKING_PATH'] . "Back/Modelos/Classes/Marca.php");
+require_once($_SESSION['WORKING_PATH'] . 'model/Mestandar.php');
+require_once $_SESSION['WORKING_PATH'] . "model/DAO/DAO.php";
+require_once($_SESSION['WORKING_PATH'] . "model/Classes/Marca.php");
 class MarcaDAO extends Estandar implements DAO
 {
     public function __construct(PDO $connection)
     {
-        parent::__construct($connection, 'marcas');
+        parent::__construct($connection, 'marca');
     }
 
-    public function addElement(array $valores):void
+    public function addElement(array $valores): void
     {
         $campos = ['nombre'];
         $tipos = [PDO::PARAM_STR];
@@ -32,7 +32,7 @@ class MarcaDAO extends Estandar implements DAO
         return parent::getBy('nombre', $name, PDO::PARAM_STR);
     }
 
-    public function getList():array
+    public function getList(): array
     {
         $array = parent::getAll();
         $list = array_fill(0, sizeof($array), NULL);
@@ -42,7 +42,7 @@ class MarcaDAO extends Estandar implements DAO
         return $list;
     }
 
-    public function update(int $id, array $valores):void
+    public function update(int $id, array $valores): void
     {
         $camposYTipos = [
             "nombre" => PDO::PARAM_STR

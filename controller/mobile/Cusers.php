@@ -20,10 +20,6 @@ switch ($menu) {
         break;
     case GETALL:
         $lista = $factory->getUsuarioDAO()->getList();
-        $stringList = array();
-        foreach ($lista as $usuario) {
-            array_push($stringList, $usuario->toString());
-        }
         $json = json_encode($lista);
         echo $json;
         break;

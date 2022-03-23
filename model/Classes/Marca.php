@@ -1,5 +1,5 @@
 <?php
-class Marca
+class Marca implements JsonSerializable
 {
     private int $idMarca;
     private string $nombre;
@@ -9,6 +9,11 @@ class Marca
         foreach ($parametros as $key => $value) {
             $this->{$key} = $value;
         }
+    }
+
+    public function jsonSerialize():array
+    {
+        return [$this->idMarca, $this->nombre];
     }
 
     /**
