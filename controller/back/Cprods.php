@@ -2,7 +2,6 @@
 ob_start();
 $menu = $_GET['menu'];
 switch ($menu) {
-
   case 1:
     require_once("../cabecera.php");
     areUAllowed([3]);
@@ -13,16 +12,17 @@ switch ($menu) {
     //Llamar a la clase subcategorias
     $articulo = new Articulo();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
-    if (isset($_POST['submit']))
+    if (isset($_POST['submit'])) {
       try {
         $idArticulo = $articulo->newArticle() - 1;
-        $directorio = $_SESSION['WORKING_PATH'] . "Back/Imagenes/Articulos/$idArticulo";
-        $src = $_SESSION['INDEX_PATH'] . "Back/Imagenes/Articulos/$idArticulo";
+        $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
+        $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
         require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
         if ($handler = opendir($directorio)) {
           while (false !== ($file = readdir($handler))) {
-            if ($file != "." && $file != "..")
+            if ($file != "." && $file != "..") {
               $articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$file", $idArticulo]);
+            }
           }
         }
         closedir($handler);
@@ -32,7 +32,7 @@ switch ($menu) {
         echo $location;
         header('Location: ' . $location);
       }
-
+    }
     require_once("../Vistas/Productos/VCrearProd.php");
     break;
 
@@ -63,9 +63,9 @@ switch ($menu) {
     $articulo = new Articulo();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     $id = $_GET['id'];
-    $campos = $articulo->getByID($id)->fetch(PDO::FETCH_ASSOC);
-    $imagenes = $articulo->getForeignValue('path', 'imagenesArticulos', $id, 'articulo')->fetchAll(PDO::FETCH_ASSOC);
-    if (isset($_POST['submit']))
+    $campos = $articulo->getByID($id);
+    $imagenes = $articulo->getForeignValue('path', 'imagenesArticulos', $id, 'articulo');
+    if (isset($_POST['submit'])) {
       try {
         $directorio = $directorio = $_SESSION['WORKING_PATH'] . "Back/Imagenes/Articulos/$id";
         require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
@@ -87,6 +87,7 @@ switch ($menu) {
       } catch (PDOException $ex) {
         echo $ex->getMessage();
       }
+    }
     require_once("../Vistas/Productos/VCrearProd.php");
     break;
   default:
