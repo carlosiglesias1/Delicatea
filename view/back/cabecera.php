@@ -1,20 +1,10 @@
-<?php
-//Base Modelos
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
-/**DEFINICIONES */
-require_once $_SESSION['WORKING_PATH'] . 'Funciones/funciones.php';
-require_once $_SESSION['WORKING_PATH'] . 'Lenguajes/config.php';
-?>
 <!DOCTYPE html>
 <html lang="<?= $_GET['lang'] ?>">
 
 <head>
     <title>Delicatea</title>
     <link rel="stylesheet" href="<?php echo  $_SESSION['INDEX_PATH'] . "icofont/icofont.min.css"; ?>">
-    <link rel="stylesheet" href="<?php echo  $_SESSION['INDEX_PATH'] . 'Back/Estilos/Estilos.css'; ?>">
+    <link rel="stylesheet" href="<?php echo  $_SESSION['INDEX_PATH'] . 'view/back/styles/Estilos.css'; ?>">
     <script src="<?= $_SESSION['INDEX_PATH'] . 'Includes/jquery-3.5.1.js' ?>"></script>
     <script src="<?= $_SESSION['INDEX_PATH'] . 'Includes/DataTables/dataTables.min.js' ?>"></script>
 </head>

@@ -1,10 +1,24 @@
 <?php
 ob_start();
+require_once("../../paths/AbsolutePaths.php");
+require_once("../../model/DAO/factory/MySQLDAOFactory.php");
 $menu = $_GET['menu'];
+$factory = new MySQLDAOFactory();
 switch ($menu) {
   case 0:
-    require_once("../cabecera.php");
-    require_once("../Vistas/Login/login.php");
+    require_once("../../view/back/cabecera.php");
+    require_once("../../view/back/Login/login.php");
+    if (isset($_POST['submit'])) {
+      if (session_status() == PHP_SESSION_ACTIVE) {
+        session_destroy();
+      }
+      if (isset($_POST["password"])) {
+        $password = substr(hash("sha512", $_POST['password']), 0, 50);
+      }
+      if ($factory->getUsuarioDAO()->logIn(new Usuario(['nick' => $_POST['username'], 'pass' => $password]))) {
+        header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
+      }
+    }
     break;
   case 1:
     require_once("../cabecera.php");

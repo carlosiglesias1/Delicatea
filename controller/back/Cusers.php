@@ -1,5 +1,6 @@
 <?php
 ob_start();
+require_once("../../paths/AbsolutePaths.php");
 $menu = $_GET['menu'];
 switch ($menu) {
 

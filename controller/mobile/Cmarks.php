@@ -13,8 +13,10 @@ switch ($_GET['option']) {
         echo $json;
         break;
     case PERSIST:
+        $factory->getMarcaDAO()->addElement(['name' => $_POST['name']]);
         break;
     case UPDATE:
+        $factory->getMarcaDAO()->update(intval($_POST['id']), ["nombre" => $_POST['nombre']]);
         break;
     case DELETE:
         break;

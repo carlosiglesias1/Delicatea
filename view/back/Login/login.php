@@ -1,5 +1,5 @@
 <?php
-if (isset($_POST['submit'])) {
+/*if (isset($_POST['submit'])) {
     if (session_status() == PHP_SESSION_ACTIVE) {
         session_destroy();
     }
@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
-}
+}*/
 ?>
 
 <body>
