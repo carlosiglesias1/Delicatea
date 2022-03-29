@@ -64,8 +64,14 @@ class UsuarioDAO extends Estandar implements DAO
 
     public function logIn(Usuario $user): bool
     {
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
         $exists = $this->searchByName($user->getNick());
         if ($exists != null && $exists->getPass() == $user->getPass()) {
+            session_start();
+            $_SESSION['id'] = $exists->getIdUsr();
+            $_SESSION['lang'] = $_GET['lang'];
             return true;
         }
         return false;

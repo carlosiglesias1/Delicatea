@@ -2,16 +2,14 @@
 ob_start();
 require_once("../../paths/AbsolutePaths.php");
 require_once("../../model/DAO/factory/MySQLDAOFactory.php");
+require_once("../../view/back/cabecera.php");
+require_once("../Crud.php");
 $menu = $_GET['menu'];
 $factory = new MySQLDAOFactory();
 switch ($menu) {
-  case 0:
-    require_once("../../view/back/cabecera.php");
+  case Crud::LOGIN:
     require_once("../../view/back/Login/login.php");
     if (isset($_POST['submit'])) {
-      if (session_status() == PHP_SESSION_ACTIVE) {
-        session_destroy();
-      }
       if (isset($_POST["password"])) {
         $password = substr(hash("sha512", $_POST['password']), 0, 50);
       }
@@ -21,10 +19,8 @@ switch ($menu) {
     }
     break;
   case 1:
-    require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/DAO/UsuarioDAO.php");
-    $usuario = new UsuarioDAO();
+    $usuario = $factory->getUsuarioDAO();
     $users = $usuario->getList();
     $selected = [];
     $j = 0;
@@ -55,10 +51,8 @@ switch ($menu) {
     require_once("../Vistas/Usuario/Vusers.php");
     break;
   case 2:
-    require_once("../cabecera.php");
     areUAllowed([2]);
-    require_once("../Modelos/DAO/MarcaDAO.php");
-    $marca = new MarcaDAO();
+    $marca = $factory->getMarcaDAO();
     $marcas = $marca->getList();
     $selected = [];
     $j = 0;
@@ -92,12 +86,11 @@ switch ($menu) {
     break;
 
   case 3:
-    require_once("../cabecera.php");
-    require_once("../Modelos/DAO/UsuarioDAO.php");
-    $usuario = new UsuarioDAO();
+    $usuario = $factory->getUsuarioDAO();
     $users = $usuario->searchRow($_SESSION['id']);
     $_SESSION['ventanasMenu'] = $usuario->getForeignValue('permisosmenu', 'permiso', $_SESSION['id'], 'usuario', 'permiso');
-    require_once("../Vistas/Login/success.php");
+    require_once("../../Funciones/funciones.php");
+    require_once("../../view/back/Login/success.php");
     break;
 
   case 4:

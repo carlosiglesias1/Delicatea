@@ -1,15 +1,11 @@
 <?php
 include "../../paths/AbsolutePaths.php";
 require_once "../../model/DAO/factory/MySQLDAOFactory.php";
-define("LOGIN", 0);
-define("GETALL", 1);
-define('PERSIST', 2);
-define('UPDATE', 3);
-define('DELETE', 4);
+require_once "../Crud.php";
 $factory = new MySQLDAOFactory();
 $menu = $_GET['option'];
 switch ($menu) {
-    case LOGIN:
+    case Crud::LOGIN:
         $user = new Usuario();
         $user->setNick($_GET['name']);
         if ($factory->getUsuarioDAO()->logIn($user)) {
@@ -18,22 +14,22 @@ switch ($menu) {
             echo json_encode(0);
         }
         break;
-    case GETALL:
+    case Crud::GETALL:
         $lista = $factory->getUsuarioDAO()->getList();
         $json = json_encode($lista);
         echo $json;
         break;
-    case PERSIST:
+    case Crud::PERSIST:
         $usuario = new Usuario(["nick" => $_POST['name'], "pass" => $_POST['pass']]);
         if ($factory->getUsuarioDAO()->addElement(["nickname" => $_POST['name'], "pass" => $_POST['pass']])) {
             echo "success";
         }
         break;
-    case UPDATE:
+    case Crud::UPDATE:
         $factory->getUsuarioDAO()->update(intval($_POST['id']), ["nick"=>$_POST['name'], "rol"=>$_POST['rol']]);
         echo "siiuuu";
         break;
-    case DELETE:
+    case Crud::DELETE:
         if ($factory->getUsuarioDAO()->delete($_GET['id']) == 1) {
             echo "deleted";
         }
