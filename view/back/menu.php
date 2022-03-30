@@ -1,6 +1,6 @@
 <?php
 require_once 'cabecera.php';
-$RUTA = 'Back/Controladores/BCcontrol.php?';
+$RUTA = 'controller/back/BCcontrol.php?';
 ?>
 <nav class="menusidebar">
     <ul>
