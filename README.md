@@ -11,4 +11,4 @@ Logo gardaremos o proxecto na carpeta que use o servidor para procesar os arquiv
 
 ### Base de datos
 
-Para crear a base de datos deste proxecto teremos que acceder ao arquivo [tablasDelicatea0.sql](../Delicatea/#ignorant/CreacionBD/tablasDelicatea0.sql) e executalo no noso servidor de base de datos.  
+Para crear a base de datos deste proxecto teremos que acceder ao arquivo [tablasDelicatea0.sql](./#ignorant/CreacionBD/tablasDelicatea0.sql) e executalo no noso servidor de base de datos.  
