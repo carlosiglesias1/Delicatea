@@ -1,3 +1,6 @@
+<?php
+    require_once $_SESSION['WORKING_PATH'] . "lang/config.php";
+?>
 <!DOCTYPE html>
 <html lang="<?= $_GET['lang'] ?>">
 
