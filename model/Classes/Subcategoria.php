@@ -1,5 +1,5 @@
 <?php
-require_once $_SESSION['WORKING_PATH']."Back/Modelos/Classes/Objects.php";
+require_once $_SESSION['WORKING_PATH']."model/Classes/Objects.php";
 class Subcategoria implements Objects
 {
     private $idSubCategoria;

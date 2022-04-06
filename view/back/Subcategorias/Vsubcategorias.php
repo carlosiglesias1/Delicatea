@@ -4,21 +4,13 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     die();
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 
 <body>
     <div class="cabecera">
-        <?php require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; ?>
+        <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
     </div>
     <div class="sidebar">
-        <?php include $_SESSION['WORKING_PATH'] . "Back/menu.php"; ?>
+        <?php include $_SESSION['WORKING_PATH'] . "view/back/menu.php"; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
@@ -34,9 +26,9 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             </ul>
         </div>
         <div class="contenido">
-            <h4><?php if ($_GET['idCat'] == 0)
+            <h4><?php if ($_GET['idCat'] == 0) {
                     echo $lang['Tabla Subcategorias']['Titulo'];
-                else {
+                } else {
                     echo $lang['Tabla Subcategorias']['Titulo'] . " :  " . $nombreCat;
                 } ?></h4>
             <a href="<?= "Csubcats.php?menu=1&lang=" . $_GET['lang'] . '&idCat=' . $_GET['idCat'] ?>" class="New_Button"><?php echo $lang['Nueva Subcategoria']['Boton'] ?></a>
@@ -61,15 +53,9 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         foreach ($subcats as $fila) {
                     ?>
                             <tr>
-<<<<<<< HEAD
-                                <td><input type="checkbox" name="<?= $fila['idSubCategoria'] ?>" id="<?= $fila['idSubCategoria'] ?>" class="option"></td>
-                                <td><label for="<?= escapar($fila->getIdSubCategoria()) ?>"><?= escapar($fila->getNombre()); ?></label></td>
-                                <td><label for="<?= escapar($fila['idSubCategoria']) ?>"><?= escapar($fila["descripcion"]) ?></label></td>
-=======
                                 <td><input type="checkbox" name="<?= $fila->getIdSubCategoria() ?>" id="<?= $fila->getIdSubCategoria() ?>" class="option"></td>
                                 <td><label for="<?= escapar($fila->getIdSubCategoria()) ?>"><?= escapar($fila->getNombre()); ?></label></td>
                                 <td><label for="<?= escapar($fila->getIdSubCategoria()) ?>"><?= escapar($fila->getDescripcion()) ?></label></td>
->>>>>>> 96085a3b29d3f29d3941299df19084de1ef44b8a
                             </tr>
                     <?php
                         }

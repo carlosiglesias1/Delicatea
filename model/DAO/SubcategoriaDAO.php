@@ -1,7 +1,7 @@
 <?php
-require_once $_SESSION['WORKING_PATH']."Back/Modelos/Mestandar.php";
-require_once $_SESSION['WORKING_PATH']."Back/Modelos/DAO/DAO.php";
-require_once $_SESSION['WORKING_PATH']."Back/Modelos/Classes/Subcategoria.php";
+require_once $_SESSION['WORKING_PATH']."model/Mestandar.php";
+require_once $_SESSION['WORKING_PATH']."model/DAO/DAO.php";
+require_once $_SESSION['WORKING_PATH']."model/Classes/Subcategoria.php";
 class SubcategoriaDAO extends Estandar implements DAO
 {
     public function __construct(PDO $connection)

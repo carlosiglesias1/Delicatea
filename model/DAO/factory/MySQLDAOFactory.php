@@ -28,6 +28,12 @@ class MySQLDAOFactory
         return new SubcategoriaDAO($this->bcp->getConnection());
     }
 
+    public function getCategoriaDAO(): CategoriaDAO
+    {   
+        require_once $_SESSION['WORKING_PATH'] . "model/DAO/CategoriaDAO.php";
+        return new CategoriaDAO($this->bcp->getConnection());
+    }
+
     /**
      * Get the value of bcp
      */

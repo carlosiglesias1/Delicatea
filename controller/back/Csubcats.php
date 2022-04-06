@@ -1,5 +1,7 @@
 <?php
 ob_start();
+
+require_once("../../paths/AbsolutePaths.php");
 require_once("../../view/back/cabecera.php");
 require_once("../../Funciones/funciones.php");
 require_once("../../model/DAO/factory/MySQLDAOFactory.php");
@@ -36,7 +38,7 @@ switch ($menu) {
         echo $error->getMessage();
       }
     }
-    require_once("../Vistas/Subcategorias/VCrearSubCat.php");
+    require_once("../../view/back/Subcategorias/VCrearSubCat.php");
     break;
 
   case 2:
@@ -84,7 +86,7 @@ switch ($menu) {
         error_log($ex->getMessage());
       }
     }
-    require_once("../Vistas/Subcategorias/VCrearSubCat.php");
+    require_once("../../view/back/Subcategorias/VCrearSubCat.php");
     break;
 
   default:

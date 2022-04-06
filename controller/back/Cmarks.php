@@ -8,7 +8,6 @@ require_once("../../model/DAO/factory/MySQLDAOFactory.php");
 $menu = $_GET['menu'];
 $factory = new MySQLDAOFactory();
 switch ($menu) {
-
     case 1:
         areUAllowed([1, 2]);
         if (isset($_POST['cancelar'])) {
