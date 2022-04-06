@@ -93,19 +93,16 @@ switch ($menu) {
     $usuario = $factory->getUsuarioDAO();
     $users = $usuario->searchRow($_SESSION['id']);
     $_SESSION['ventanasMenu'] = $usuario->getForeignValue('permisosmenu', 'permiso', $_SESSION['id'], 'usuario', 'permiso');
-    require_once("../../Funciones/funciones.php");
     require_once("../../view/back/Login/success.php");
     break;
 
   case 4:
-    require_once("../cabecera.php");
-    //Permisos requeridos para acceder al menú
     areUAllowed([4, 5]);
     if ($_GET['idCat'] == 0) {
       $subcategoria = $factory->getSubcategoriaDAO();
       $subcats = $subcategoria->getList();
     } else {
-      $categoriaDAO = new CategoriaDAO();
+      $categoriaDAO = $factory->getCategoriaDAO();
       $id = $_GET['idCat'];
       $nombreCat = $categoriaDAO->searchRow($id)['nombre'];
       $subcats = $categoriaDAO->getSubcategorias($id);
@@ -136,13 +133,11 @@ switch ($menu) {
         $_SESSION['error'] = 3;
       }
     }
-    require_once("../Vistas/Subcategorias/Vsubcategorias.php");
+    require_once("../../view/back/Subcategorias/Vsubcategorias.php");
     break;
   case 5:
-    require_once("../cabecera.php");
     areUAllowed([4]);
-    require_once("../Modelos/DAO/CategoriaDAO.php");
-    $categoria = new CategoriaDAO();
+    $categoria = $factory->getCategoriaDAO();
     $cats = $categoria->getList();
     $selected = [];
     $j = 0;
