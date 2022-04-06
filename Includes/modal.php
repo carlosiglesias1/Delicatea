@@ -1,5 +1,5 @@
 <?php
-require_once "../Lenguajes/config.php";
+require_once "../lang/config.php";
 $modo = $_GET['modo'];
 //Modo 1 representa el formulario de login
 switch ($modo) {

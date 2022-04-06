@@ -1,18 +1,19 @@
 <?php
 ob_start();
 require_once("../../paths/AbsolutePaths.php");
+require_once("../../model/DAO/factory/MySQLDAOFactory.php");
+require_once("../../Funciones/funciones.php");
+require_once("../../view/back/cabecera.php");
 $menu = $_GET['menu'];
+$factory = new MySQLDAOFactory();
 switch ($menu) {
-
   case 1:
-    require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/DAO/UsuarioDAO.php");
     if (isset($_POST['cancelar'])) {
       header('Location: BCcontrol.php?menu=1&lang=' . $_GET['lang']);
     }
     //Llamar a la clase Usuarios
-    $usuario = new UsuarioDAO();
+    $usuario = $factory->getUsuarioDAO();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     if (isset($_POST['submit'])) {
       $valores = [
@@ -21,14 +22,12 @@ switch ($menu) {
       ];
       $usuario->addElement($valores);
     }
-    require_once("../Vistas/Usuario/VCreateUser.php");
+    require_once("../../view/back/Usuario/VCreateUser.php");
     break;
 
   case 2:
-    require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/DAO/UsuarioDAO.php");
-    $usuario = new UsuarioDAO('usuarios');
+    $usuario = $factory->getUsuarioDAO();
     $selected = unserialize($_GET['selected']);
     try {
       foreach ($selected as $fila) {
@@ -41,10 +40,8 @@ switch ($menu) {
     break;
 
   case 3:
-    require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/DAO/UsuarioDAO.php");
-    $usuario = new UsuarioDAO();
+    $usuario = $factory->getUsuarioDAO();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     $id = intval($_GET['id']);
     $campos = $usuario->searchRow($id);
@@ -60,17 +57,15 @@ switch ($menu) {
         echo $ex->getMessage();
       }
     }
-    require_once("../Vistas/Usuario/VEditUser.php");
+    require_once("../../view/back/Usuario/VEditUser.php");
     break;
   case 4:
-    require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/DAO/UsuarioDAO.php");
-    require_once "../Modelos/Classes/Permiso.php";
+    require_once "../../model/Classes/Permiso.php";
     if (isset($_POST['cancelar'])) {
       header('Location: BCcontrol.php?menu=1&lang=' . $_GET['lang']);
     }
-    $usuario = new UsuarioDAO();
+    $usuario = $factory->getUsuarioDAO();
     $id = $_GET['id'];
     $permisos = $usuario->getPermissions($id);
     $nombrePermiso = $usuario->getForeignValue('columnasmenu');
@@ -94,7 +89,7 @@ switch ($menu) {
         echo $ex->getMessage();
       }
     }
-    require_once("../Vistas/Permisos/VPermisos.php");
+    require_once("../../view/back/Permisos/VPermisos.php");
     break;
   default:
     require_once("./BCcontrol.php");

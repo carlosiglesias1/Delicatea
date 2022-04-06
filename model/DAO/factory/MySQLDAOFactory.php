@@ -1,7 +1,5 @@
 <?php
 require_once $_SESSION['WORKING_PATH'] . "conection/ConnectionPool.php";
-require_once $_SESSION['WORKING_PATH'] . "model/DAO/UsuarioDAO.php";
-require_once $_SESSION['WORKING_PATH'] . "model/DAO/MarcaDAO.php";
 
 class MySQLDAOFactory
 {
@@ -14,12 +12,20 @@ class MySQLDAOFactory
 
     public function getUsuarioDAO(): UsuarioDAO
     {
+        require_once $_SESSION['WORKING_PATH'] . "model/DAO/UsuarioDAO.php";
         return new UsuarioDAO($this->bcp->getConnection());
     }
 
     public function getMarcaDAO(): MarcaDAO
     {
+        require_once $_SESSION['WORKING_PATH'] . "model/DAO/MarcaDAO.php";
         return new MarcaDAO($this->bcp->getConnection());
+    }
+
+    public function getSubcategoriaDAO():SubcategoriaDAO
+    {
+        require_once $_SESSION['WORKING_PATH'] . "model/DAO/SubcategoriaDAO.php";
+        return new SubcategoriaDAO($this->bcp->getConnection());
     }
 
     /**

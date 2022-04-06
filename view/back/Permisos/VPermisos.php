@@ -16,16 +16,16 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 
 <body>
     <div class="cabecera">
-        <?php require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; ?>
+        <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
     </div>
     <div class="sidebar">
-        <?php include $_SESSION['WORKING_PATH'] . "Back/menu.php"; ?>
+        <?php include $_SESSION['WORKING_PATH'] . "view/back/menu.php"; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=1&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Usuarios']['Titulo'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=1&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Usuarios']['Titulo'] ?></a></li>
                 <li><?= $lang['Tabla Usuarios']['Permisos'] ?></li>
             </ul>
         </div>
@@ -41,18 +41,18 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                             <li>
                                 <label for="<?= $clave['nombre'] ?>"><?= $clave['nombre'] ?></label>
                                 <?php if (array_search($clave['idCol'], array_column($permisos, 'permiso')) !== false) { ?>
-                                    <input checked type="checkbox" name="<?= $clave['nombre'] ?>" id="option">
+                                    <input checked type="checkbox" name="<?= $clave['nombre'] ?>" id="<?= $clave['nombre'] ?>">
                                 <?php } else { ?>
-                                    <input type="checkbox" name="<?= $clave['nombre'] ?>" id="option">
+                                    <input type="checkbox" name="<?= $clave['nombre'] ?>" id="<?= $clave['nombre'] ?>">
                                 <?php } ?>
                                 <ul>
                                     <?php foreach ($hijos as $row) { ?>
                                         <li>
                                             <label for="<?= $row['nombre'] ?>"><?= $row['nombre'] ?></label>
                                             <?php if (array_search($row['idCol'], array_column($permisos, 'permiso')) !== false) { ?>
-                                                <input checked type="checkbox" name="<?= $row['nombre'] ?>" class="subOption">
+                                                <input checked type="checkbox" name="<?= $row['nombre'] ?>" class="subOption" id="<?= $row['nombre'] ?>">
                                             <?php } else { ?>
-                                                <input type="checkbox" name="<?= $row['nombre'] ?>" class="subOption">
+                                                <input type="checkbox" name="<?= $row['nombre'] ?>" class="subOption" id="<?= $row['nombre'] ?>">
                                             <?php } ?>
                                         </li>
                                     <?php } ?>
@@ -63,10 +63,10 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                             <li>
                                 <label for="<?= $clave['nombre'] ?>"><?= $clave['nombre'] ?></label>
                                 <?php if (array_search($clave['idCol'], array_column($permisos, 'permiso')) !== false) { ?>
-                                    <input checked type="checkbox" name="<?= $clave['nombre'] ?>">
+                                    <input checked type="checkbox" name="<?= $clave['nombre'] ?>" id="<?= $clave['nombre'] ?>">
                             </li>
                         <?php } else { ?>
-                            <input type="checkbox" name="<?= $clave['nombre'] ?>"></li>
+                            <input type="checkbox" name="<?= $clave['nombre'] ?>" id="<?= $clave['nombre'] ?>"></li>
                             <?php } ?><?php
                                     }
                                 }

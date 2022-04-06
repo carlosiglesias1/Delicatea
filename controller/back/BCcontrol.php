@@ -1,14 +1,17 @@
 <?php
 ob_start();
+
 require_once("../../paths/AbsolutePaths.php");
 require_once("../../model/DAO/factory/MySQLDAOFactory.php");
 require_once("../../view/back/cabecera.php");
+require_once "../../Funciones/funciones.php";
 require_once("../Crud.php");
+
+
 $menu = $_GET['menu'];
 $factory = new MySQLDAOFactory();
 switch ($menu) {
   case Crud::LOGIN:
-    require_once("../../view/back/Login/login.php");
     if (isset($_POST['submit'])) {
       if (isset($_POST["password"])) {
         $password = substr(hash("sha512", $_POST['password']), 0, 50);
@@ -17,6 +20,7 @@ switch ($menu) {
         header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
       }
     }
+    require_once("../../view/back/Login/login.php");
     break;
   case 1:
     areUAllowed([1]);
@@ -48,7 +52,7 @@ switch ($menu) {
         header("Location: Cusers.php?menu=3&lang=" . $_GET['lang'] . "&id=" . $selected[0]);
       }
     }
-    require_once("../Vistas/Usuario/Vusers.php");
+    require_once("../../view/back/Usuario/Vusers.php");
     break;
   case 2:
     areUAllowed([2]);
@@ -82,7 +86,7 @@ switch ($menu) {
         }
       }
     }
-    require_once("../Vistas/Marcas/VMarcas.php");
+    require_once("../../view/back/Marcas/VMarcas.php");
     break;
 
   case 3:
@@ -97,10 +101,8 @@ switch ($menu) {
     require_once("../cabecera.php");
     //Permisos requeridos para acceder al menú
     areUAllowed([4, 5]);
-    require_once("../Modelos/DAO/SubcategoriaDAO.php");
-    require_once("../Modelos/DAO/CategoriaDAO.php");
     if ($_GET['idCat'] == 0) {
-      $subcategoria = new SubCategoriaDAO();
+      $subcategoria = $factory->getSubcategoriaDAO();
       $subcats = $subcategoria->getList();
     } else {
       $categoriaDAO = new CategoriaDAO();

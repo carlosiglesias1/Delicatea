@@ -7,15 +7,15 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 
 <body>
     <div class="cabecera">
-        <?php require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; ?>
+        <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
     </div>
     <div class="sidebar">
-        <?php include $_SESSION['WORKING_PATH'] . "Back/menu.php"; ?>
+        <?php include $_SESSION['WORKING_PATH'] . "view/back/menu.php"; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
                 <li><?= $lang['Tabla Marcas']['Titulo'] ?></li>
             </ul>
         </div>

@@ -58,9 +58,9 @@ function logIn(string $name, string $password)
  */
 function areUAllowed(array $PermisosRequeridos)
 {
-  if (isset($_SESSION['ventanasMenu']))
+  if (isset($_SESSION['ventanasMenu'])) {
     $usrRol = array_column($_SESSION['ventanasMenu'], 'permiso');
-  else {
+  } else {
     echo '<p>No tienes permiso para acceder a este sitio</p> <br> <a href="' . $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=0&lang=es' . '">Volver al Login</a>';
     exit;
   }

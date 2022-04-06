@@ -4,9 +4,9 @@ require_once $_SESSION['WORKING_PATH']."Back/Modelos/DAO/DAO.php";
 require_once $_SESSION['WORKING_PATH']."Back/Modelos/Classes/Subcategoria.php";
 class SubcategoriaDAO extends Estandar implements DAO
 {
-    public function __construct()
+    public function __construct(PDO $connection)
     {
-        parent::__construct('subcategoria');
+        parent::__construct($connection,'subcategoria');
     }
     public function addElement(array $valores): void
     {

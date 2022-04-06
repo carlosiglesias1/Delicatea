@@ -3,7 +3,6 @@
 ?>
 <!DOCTYPE html>
 <html lang="<?= $_GET['lang'] ?>">
-
 <head>
     <title>Delicatea</title>
     <link rel="stylesheet" href="<?php echo  $_SESSION['INDEX_PATH'] . "icofont/icofont.min.css"; ?>">

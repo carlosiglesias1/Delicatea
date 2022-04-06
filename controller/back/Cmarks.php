@@ -1,53 +1,48 @@
 <?php
 ob_start();
+
+require_once("../../paths/AbsolutePaths.php");
+require_once("../../view/back/cabecera.php");
+require_once "../../Funciones/funciones.php";
+require_once("../../model/DAO/factory/MySQLDAOFactory.php");
 $menu = $_GET['menu'];
+$factory = new MySQLDAOFactory();
 switch ($menu) {
 
     case 1:
-        require_once("../cabecera.php");
         areUAllowed([1, 2]);
-        require_once("../Modelos/DAO/MarcaDAO.php");
         if (isset($_POST['cancelar'])) {
             header('Location: BCcontrol.php?menu=2&lang=' . $_GET['lang']);
         }
-        //Llamar a la clase Marcas
-        $marca = new MarcaDAO('marca');
-
-        //Llamamos a la funcion de la clase y almacenamos el return en una variable
+        $marca = $factory->getMarcaDAO();
         if (isset($_POST['submit'])) {
             $valores = array(
                 "name" => $_POST['name']
             );
             $marca->addElement($valores);
         }
-        require_once("../Vistas/Marcas/VCrearMarca.php");
+        require_once("../../view/back/Marcas/VCrearMarca.php");
         break;
 
     case 2:
-        require_once("../cabecera.php");
         areUAllowed([1, 2]);
-        require_once("../Modelos/DAO/MarcaDAO.php");
-        $marca = new MarcaDAO();
+        $marca = $factory->getMarcaDAO();
         $selected = unserialize($_GET['selected']);
         try {
             foreach ($selected as $fila) {
                 $marca->delete($fila);
             }
-            header("Location:" . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=2&lang=" . $_GET['lang']);
+            header("Location:" . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=2&lang=" . $_GET['lang']);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
         break;
-
     case 3:
-        require_once("../cabecera.php");
         areUAllowed([1]);
-        require_once("../Modelos/DAO/MarcaDAO.php");
         if (isset($_POST['cancelar'])) {
-            header("Location:" . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=2&lang=" . $_GET['lang']);
+            header("Location:" . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=2&lang=" . $_GET['lang']);
         }
-        $marca = new MarcaDAO('marca');
-        //Llamamos a la funcion de la clase y almacenamos el return en una variable
+        $marca = $factory->getMarcaDAO();
         $id = intval($_GET['id']);
         $campos = $marca->searchRow($id);
         if (isset($_POST['submit'])) {
@@ -61,7 +56,7 @@ switch ($menu) {
                 echo $ex->getMessage();
             }
         }
-        require_once("../Vistas/Marcas/VCrearMarca.php");
+        require_once("../../view/back/Marcas/VCrearMarca.php");
         break;
 
     default:

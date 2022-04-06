@@ -1,28 +1,30 @@
 <?php
 ob_start();
+require_once("../../view/back/cabecera.php");
+require_once("../../Funciones/funciones.php");
+require_once("../../model/DAO/factory/MySQLDAOFactory.php");
 $menu = $_GET['menu'];
+$factory = new MySQLDAOFactory();
 switch ($menu) {
   case 1:
-    require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/DAO/SubcategoriaDAO.php");
     if (isset($_POST['cancelar'])) {
-      if ($_GET['idCat'] != 0)
+      if ($_GET['idCat'] != 0) {
         header('Location: Ccats.php?menu=4&lang=' . $_GET['lang'] . '&idCat=' . $_GET['idCat']);
-      else
+      } else {
         header('Location: BCcontrol.php?menu=4&lang=' . $_GET['lang'] . '&idCat=0');
+      }
     }
-    //Llamar a la clase subcategorias
-    $subcategoria = new SubCategoriaDAO('subcategoria');
+    $subcategoria = $factory->getSubcategoriaDAO();
     //Invocamos los datos de la tabla de categorias
     //Si ya pasamos un id de Categoria simplemente buscamos el nombre de ese id
-    if ($_GET['idCat'] == 0)
+    if ($_GET['idCat'] == 0) {
       $categorias = $subcategoria->getForeignValue('categoria', null, null);
-    else {
+    } else {
       $categorias = $subcategoria->getForeignValue('categoria', 'nombre', $_GET['idCat'], 'idCategoria');
     }
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
-    if (isset($_POST['submit']))
+    if (isset($_POST['submit'])) {
       try {
         $valores = [
           $_POST['name'],
@@ -33,18 +35,18 @@ switch ($menu) {
       } catch (PDOException $error) {
         echo $error->getMessage();
       }
+    }
     require_once("../Vistas/Subcategorias/VCrearSubCat.php");
     break;
 
   case 2:
-    require_once("../cabecera.php");
     areUAllowed([1]);
-    require_once("../Modelos/DAO/SubcategoriaDAO.php");
-    $subcategoria = new SubCategoriaDAO('subcategoria');
+    $subcategoria = $factory->getSubcategoriaDAO();
     $selected = unserialize($_GET['selected']);
     try {
-      foreach ($selected as $fila)
+      foreach ($selected as $fila) {
         $subcategoria->delete($fila);
+      }
       header("Location: BCcontrol.php?menu=4&lang=" . $_GET['lang'] . "&idCat=" . $_GET['idCat']);
     } catch (PDOException $ex) {
       echo $ex->getMessage();
@@ -52,10 +54,7 @@ switch ($menu) {
     break;
 
   case 3:
-    require_once("../cabecera.php");
     areUAllowed([5]);
-    require_once("../../Funciones/funciones.php");
-    require_once("../Modelos/DAO/SubcategoriaDAO.php");
     if (isset($_POST['cancelar'])) {
       if ($_GET['idCat'] != 0) {
         header('Location: Ccats.php?menu=4&lang=' . $_GET['lang'] . '&idCat=' . $_GET['idCat']);
@@ -63,7 +62,7 @@ switch ($menu) {
         header('Location: BCcontrol.php?menu=4&lang=' . $_GET['lang'] . '&idCat=0');
       }
     }
-    $subcategoria = new SubCategoriaDAO();
+    $subcategoria = $factory->getSubcategoriaDAO();
     $id = $_GET['id'];
     $campos = $subcategoria->searchRow($id);
     $catSubCat = $subcategoria->getForeignValue('categoria', 'nombre', $campos->getCategoria(), 'idCategoria');
