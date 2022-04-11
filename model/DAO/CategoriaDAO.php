@@ -1,13 +1,14 @@
 <?php
-require_once $_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php';
+require_once $_SESSION['WORKING_PATH'] . 'model/Mestandar.php';
 require_once 'DAO.php';
-require_once $_SESSION['WORKING_PATH'] . 'Back/Modelos/Classes/Categoria.php';
+require_once $_SESSION['WORKING_PATH'] . 'model/DAO/SubcategoriaDAO.php';
+require_once $_SESSION['WORKING_PATH'] . 'model/Classes/Categoria.php';
 class CategoriaDAO extends Estandar implements DAO
 {
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        parent::__construct('categoria');
+        parent::__construct($pdo, 'categoria');
     }
     public function addElement(array $valores): void
     {
@@ -47,10 +48,10 @@ class CategoriaDAO extends Estandar implements DAO
     {
         parent::deleteBy('idCategoria', $id, PDO::PARAM_INT);
     }
-    public function getSubcategorias($idCategoria)
+    public function getSubcategorias($idCategoria) : array
     {
-        require_once $_SESSION['WORKING_PATH'] . 'Back/Modelos/Classes/Subcategoria.php';
-        $array = parent::getForeignValue("subcategoria", null, $idCategoria, "categoria");
+        require_once $_SESSION['WORKING_PATH'] . 'model/Classes/Subcategoria.php';
+        $array = parent::getForeignValue("subcategoria", null, "categoria", $idCategoria);
         $list = array_fill(0, sizeof($array), NULL);
         for ($i = 0; $i < sizeof($array); $i++) {
             $list[$i] = new Subcategoria($array[$i]);

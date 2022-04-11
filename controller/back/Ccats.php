@@ -1,16 +1,16 @@
 <?php
 ob_start();
 
+require("../../paths/AbsolutePaths.php");
 require_once("../../view/back/cabecera.php");
 require_once("../../Funciones/funciones.php");
+require_once("../../model/DAO//factory/MySQLDAOFactory.php");
 $menu = $_GET['menu'];
+$factory = new MySQLDAOFactory();
 switch ($menu) {
-
     case 1:
         areUAllowed([4]);
-        //Llamar a la clase Categorias
-        $marca = new CategoriaDAO();
-        //Llamamos a la funcion de la clase y almacenamos el return en una variable
+        $marca = $factory->getCategoriaDAO();
         if (isset($_POST['submit'])) {
             $valores = [
                 "nombre" => $_POST["name"],
@@ -26,7 +26,7 @@ switch ($menu) {
 
     case 2:
         areUAllowed([4]);
-        $marca = new CategoriaDAO();
+        $marca = $factory->getCategoriaDAO();
         $selected = unserialize($_GET['selected']);
         try {
             foreach ($selected as $fila) {
@@ -43,8 +43,7 @@ switch ($menu) {
         if (isset($_POST['cancelar'])) {
             header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=5&lang=" . $_GET['lang']);
         }
-        $categoria = new CategoriaDAO();
-        //Llamamos a la funcion de la clase y almacenamos el return en una variable
+        $categoria = $factory->getCategoriaDAO();
         $id = $_GET['id'];
         $campos = $categoria->searchRow($id);
         if (isset($_POST['submit'])) {
@@ -63,7 +62,7 @@ switch ($menu) {
         break;
     case 4:
         areUAllowed([4]);
-        header("Location: BCcontrol.php?menu=4&lang=es&idCat=" . $_GET['idCat']);
+        header("Location: BCcontrol.php?menu=4&idCat=" . $_GET['idCat']."&lang=".$_GET['lang']);
         break;
     default:
         require_once("./BCcontrol.php");

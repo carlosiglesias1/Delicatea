@@ -34,6 +34,11 @@ class MySQLDAOFactory
         return new CategoriaDAO($this->bcp->getConnection());
     }
 
+    public function getIvaDAO(): IvaDAO{
+        require_once $_SESSION['WORKING_PATH']. "model/DAO/IvaDAO.php";
+        return new IvaDAO($this->bcp->getConnection());
+    }
+
     /**
      * Get the value of bcp
      */

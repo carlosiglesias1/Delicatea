@@ -15,11 +15,11 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
                 <?php
                 if ($_GET['idCat'] != 0) {
                 ?>
-                    <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=5&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Categorias']['Titulo'] ?></a></li>
+                    <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=5&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Categorias']['Titulo'] ?></a></li>
                 <?php
                 } ?>
                 <li><?= $lang['Tabla Subcategorias']['Titulo'] ?></li>
@@ -32,10 +32,10 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                     echo $lang['Tabla Subcategorias']['Titulo'] . " :  " . $nombreCat;
                 } ?></h4>
             <a href="<?= "Csubcats.php?menu=1&lang=" . $_GET['lang'] . '&idCat=' . $_GET['idCat'] ?>" class="New_Button"><?php echo $lang['Nueva Subcategoria']['Boton'] ?></a>
-            <button onclick="cargarModal(2);changeModal()" class="Borrar"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Subcategorias']['Borrar']; ?></button>
-            <button type="submit" class="Editar" name="Editar" form="SubCats"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Subcategorias']['Editar']; ?></button>
+            <button onclick="cargarModal(2);changeModal()" class="Borrar"></em class="icofont-delete-alt"><?= $lang['Tabla Subcategorias']['Borrar']; ?></button>
+            <button type="submit" class="Editar" name="Editar" form="SubCats"></em class="icofont-edit-alt"> <?= $lang['Tabla Subcategorias']['Editar']; ?></button>
             <?php if ($_GET['idCat'] != 0) { ?>
-                <a href="<?= $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=5&lang=' . $_GET['lang'] ?>" class="return"><?= $lang['Tabla Subcategorias']['Volver'] ?></a>
+                <a href="<?= $_SESSION['INDEX_PATH'] . 'controller/back/BCcontrol.php?menu=5&lang=' . $_GET['lang'] ?>" class="return"><?= $lang['Tabla Subcategorias']['Volver'] ?></a>
             <?php } ?>
         </div>
         <form method="POST" id="SubCats">

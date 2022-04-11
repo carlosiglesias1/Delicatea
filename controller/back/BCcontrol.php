@@ -165,7 +165,7 @@ switch ($menu) {
         $_SESSION['error'] = 3;
       }
     }
-    require_once("../Vistas/Categorias/Vcategorias.php");
+    require_once("../../view/back/Categorias/Vcategorias.php");
     break;
   case 6:
     require_once("../cabecera.php");
@@ -202,10 +202,8 @@ switch ($menu) {
     require_once("../Vistas/Productos/VProductos.php");
     break;
   case 7:
-    require_once("../cabecera.php");
     areUAllowed([10]);
-    require_once("../Modelos/MIva.php");
-    $tipoIVA = new IVA();
+    $tipoIVA = $factory->getIvaDAO();
     $tiposIVA = $tipoIVA->getAll();
     $selected = [];
     $j = 0;
