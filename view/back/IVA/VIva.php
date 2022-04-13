@@ -4,26 +4,17 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     die();
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
 <body>
     <div class="cabecera">
-        <?php require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; ?>
+        <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
     </div>
     <div class="sidebar">
-        <?php include $_SESSION['WORKING_PATH'] . "Back/menu.php"; ?>
+        <?php include $_SESSION['WORKING_PATH'] . "view/back/menu.php"; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
                 <li><?= $lang['Tabla IVA']['Titulo'] ?></li>
             </ul>
         </div>
@@ -45,13 +36,13 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 </thead>
                 <tbody>
                     <?php
-                    if ($tiposIVA && sizeof($tipoIVA->getAll()) > 0) {
+                    if ($tiposIVA && sizeof($tiposIVA) > 0) {
                         foreach ($tiposIVA as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= escapar($fila["idIva"]); ?>" id="<?= escapar($fila["idIva"]); ?>"></td>
-                                <td><label for="<?= escapar($fila["idIva"]); ?>"><?php echo escapar($fila["tipo"]); ?></label></td>
-                                <td><label for="<?= escapar($fila["idIva"]); ?>"><?php echo escapar($fila["porcentage"]) ?></label></td>
+                                <td><input type="checkbox" name="<?= escapar($fila->getIdIva()); ?>" id="<?= escapar($fila->getIdIva()); ?>" class="option"></td>
+                                <td><label for="<?= escapar($fila->getIdIva()); ?>"><?= escapar($fila->getTipo()); ?></label></td>
+                                <td><label for="<?= escapar($fila->getIdIva()); ?>"><?= escapar($fila->getPorcentage()) ?></label></td>
                             </tr>
                     <?php
                         }
@@ -78,5 +69,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 </html>
 <!--Scripts-->
 <script>
+    selectInit();
     dataTableInit();
 </script>

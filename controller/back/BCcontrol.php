@@ -143,8 +143,8 @@ switch ($menu) {
     $j = 0;
     if (isset($_POST['confirmar'])) {
       for ($i = 0; $i < sizeof($cats); $i++) {
-        if (isset($_POST[$cats[$i]->getIdCategoria])) {
-          $selected[$j] = $cats[$i]['idCategoria'];
+        if (isset($_POST[$cats[$i]->getIdCategoria()])) {
+          $selected[$j] = $cats[$i]->getIdCategoria();
           $j++;
         }
       }
@@ -199,18 +199,18 @@ switch ($menu) {
         $_SESSION['error'] = 3;
       }
     }
-    require_once("../Vistas/Productos/VProductos.php");
+    require_once("../../view/back/Productos/VProductos.php");
     break;
   case 7:
     areUAllowed([10]);
     $tipoIVA = $factory->getIvaDAO();
-    $tiposIVA = $tipoIVA->getAll();
+    $tiposIVA = $tipoIVA->getList();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
       for ($i = 0; $i < sizeof($tiposIVA); $i++) {
-        if (isset($_POST[$tiposIVA[$i]['idIva']])) {
-          $selected[$j] = $tiposIVA[$i]['idIva'];
+        if (isset($_POST[$tiposIVA[$i]->getIdIva()])) {
+          $selected[$j] = $tiposIVA[$i]->getIdIva();
           $j++;
         }
       }
@@ -220,8 +220,8 @@ switch ($menu) {
     }
     if (isset($_POST['Editar'])) {
       for ($i = 0; $i < sizeof($tiposIVA); $i++) {
-        if (isset($_POST[$tiposIVA[$i]['idIva']])) {
-          $selected[$j] = $tiposIVA[$i]['idIva'];
+        if (isset($_POST[$tiposIVA[$i]->getIdIva()])) {
+          $selected[$j] = $tiposIVA[$i]->getIdIva();
           $j++;
         }
       }
@@ -231,7 +231,7 @@ switch ($menu) {
         $_SESSION['error'] = 3;
       }
     }
-    require_once("../Vistas/IVA/VIva.php");
+    require_once("../../view/back/IVA/VIva.php");
     break;
   case 8:
     require_once("../cabecera.php");

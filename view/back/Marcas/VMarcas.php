@@ -36,7 +36,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                     </tr>
                 </thead>
                 <tbody>
-                    <!--Genero las filas de la tabla dinámicamente, según las filas que encuentre en la base de datos-->
                     <?php
                     if ($marcas && sizeof($marcas) > 0) {
                         foreach ($marcas as $fila) {

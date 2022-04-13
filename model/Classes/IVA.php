@@ -1,46 +1,75 @@
 <?php
-require_once($_SESSION['WORKING_PATH'] . 'Back/Modelos/Mestandar.php');
-class IVA extends Estandar
+require_once($_SESSION['WORKING_PATH'] . 'model/Mestandar.php');
+require_once($_SESSION['WORKING_PATH'] . 'model/Classes/Objects.php');
+class IVA extends Estandar implements Objects
 {
+    private int $idIva;
+    private string $tipo;
+    private string $porcentage;
 
-    public function __construct(PDO $conn)
+    public function __construct(array $parametros)
     {
-        parent::__construct($conn, 'tiposiva');
+        foreach ($parametros as $key => $value) {
+            $this->{$key} = $value;
+        }
     }
 
-    public function newIVA()
+    /**
+     * Get the value of tipo
+     */
+    public function getTipo()
     {
-        
+        return $this->tipo;
     }
 
-    public function updateIVa(string $id)
+    /**
+     * Set the value of tipo
+     *
+     * @return  self
+     */
+    public function setTipo($tipo)
     {
-        $campos = array(
-            "tipo" => $_POST['tipo'],
-            "porcentage" => $_POST['porcentage'],
-            "recargoEquivalencia"=> $_POST['recargo']
-        );
-        $string = concatenar($campos);
-        return parent::updateItem($string, 'idIva', $id);
+        $this->tipo = $tipo;
+
+        return $this;
     }
 
-    public function getByID($id)
+    /**
+     * Get the value of idIva
+     */
+    public function getIdIva()
     {
-        return parent::getBy('idIva', $id);
+        return $this->idIva;
     }
 
-    public function getByName(string $name)
+    /**
+     * Set the value of idIva
+     *
+     * @return  self
+     */
+    public function setIdIva($idIva)
     {
-        return parent::getBy('tipo', "'" . $name . "'");
+        $this->idIva = $idIva;
+
+        return $this;
+    }
+    /**
+     * Get the value of porcentage
+     */
+    public function getPorcentage()
+    {
+        return $this->porcentage;
     }
 
-    public function deleteByID($id)
+    /**
+     * Set the value of porcentage
+     *
+     * @return  self
+     */
+    public function setPorcentage($porcentage)
     {
-        return parent::deleteBy('idIva', $id);
-    }
+        $this->porcentage = $porcentage;
 
-    private function exists($tipo)
-    {
-        return parent::existsBy('tipo', "'" . $tipo . "'");
+        return $this;
     }
 }

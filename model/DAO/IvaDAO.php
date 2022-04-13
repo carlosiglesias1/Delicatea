@@ -1,29 +1,29 @@
 <?php
-require_once ($_SESSION['WORKING_PATH'] . 'model/Mestandar.php');
-class IvaDAO extends Estandar implements DAO{
+require_once($_SESSION['WORKING_PATH'] . 'model/Mestandar.php');
+require_once($_SESSION['WORKING_PATH'] . 'model/DAO/DAO.php');
+require_once($_SESSION['WORKING_PATH'] . 'model/Classes/IVA.php');
+
+class IvaDAO extends Estandar implements DAO
+{
     public function __construct(PDO $conn)
     {
         parent::__construct($conn, 'tiposiva');
     }
 
-    public function addElement()
+    public function addElement(array $valores): void
     {
-        $campos = ['tipo', 'porcentage', 'recargoEquivalencia'];
-        $valores = array(
-            "tipo" => $_POST['tipo'],
-            "porcentage" => $_POST['porcentage'],
-            "recargo"=> $_POST['recargo']
-        );
+        $tipos = [
+            PDO::PARAM_STR,
+            PDO::PARAM_INT
+        ];
+        $campos = ['tipo', 'porcentage'];
         $valor = $this->exists($valores['tipo']);
         if ($valor == 0) {
-            parent::insert($campos, $valores);
-            header("Location: BCcontrol.php?menu=7&lang=es");
-        } else {
-            header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Vistas/Usuario/BVUsuariofail.php");
+            parent::insert($campos, $valores, $tipos);
         }
     }
 
-    public function getList():array
+    public function getList(): array
     {
         $array = parent::getAll();
         $list = array_fill(0, sizeof($array), NULL);
@@ -33,13 +33,29 @@ class IvaDAO extends Estandar implements DAO{
         return $list;
     }
 
-    public function update()
+    public function update(int $id, array $valores): void
     {
-        # code...
+
+        $camposYTipos = [
+            "tipo" => PDO::PARAM_STR,
+            "porcentage" => PDO::PARAM_STR
+        ];
+        foreach ($camposYTipos as $campo => $tipo) {
+            parent::updateValue($campo, $valores[$campo], $tipo, "idIva", $id);
+        }
     }
 
-    public function searchRow()
+    public function delete(int $id)
     {
-        # code...
+        parent::deleteBy('idIva', $id, PDO::PARAM_INT);
+    }
+
+    public function searchRow(int $id): IVA
+    {
+        return new IVA(parent::getBy('idIva', $id, PDO::PARAM_STR));
+    }
+    private function exists(string $valor): bool
+    {
+        return parent::existsBy('tipo', $valor, PDO::PARAM_STR);
     }
 }
