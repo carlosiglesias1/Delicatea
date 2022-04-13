@@ -168,7 +168,6 @@ switch ($menu) {
     require_once("../../view/back/Categorias/Vcategorias.php");
     break;
   case 6:
-    require_once("../cabecera.php");
     areUAllowed([3]);
     require_once("../Modelos/Mproductos.php");
     $articulo = new Articulo();

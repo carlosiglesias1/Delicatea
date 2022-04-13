@@ -266,3 +266,4 @@ CREATE Table imagenesArticulos(
     path VARCHAR(255) PRIMARY KEY,
     articulo INT REFERENCES articulo(idArtiuclo)
   );
+ALTER TABLE articulo ADD COLUMN stock int;
