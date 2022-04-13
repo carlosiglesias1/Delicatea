@@ -25,16 +25,12 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <input type="text" name="tipo">
                 <label for="porcentage">Porcentage</label>
                 <input type="text" name="porcentage">
-                <!--<label for="recargo">Recargo De EQuivalencia</label>-->
-                <input type="text" name="recargo">
             <?php } else {
             ?>
                 <input type="text" name="tipo" value="<?= escapar($campos->getTipo()) ?>">
                 <label for="porcentage">Porcentage</label>
                 <input type="text" name="porcentage" value="<?= escapar($campos->getPorcentage()) ?>">
-                <label for="recargo">Recargo De EQuivalencia</label>
-                <input type="text" name="recargo" value="<?= /*escapar($campos['recargoEquivalencia'])*/null ?>">
-                
+
             <?php } ?>
             <button name="submit" type="submit"><?php if ($_GET['menu'] == 1) {
                                                     echo $lang["Nuevo IVA"]["Registrarse"];
