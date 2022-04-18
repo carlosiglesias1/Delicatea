@@ -39,6 +39,12 @@ class MySQLDAOFactory
         return new IvaDAO($this->bcp->getConnection());
     }
 
+    public function getArticuloDAO(): ArticuloDAO{
+        $paths = require_once($_SESSION['WORKING_PATH']. "paths/NewPaths.php");
+        require_once $paths['ArticuloDAO'];
+        return new ArticuloDAO($this->bcp->getConnection());
+    }
+
     /**
      * Get the value of bcp
      */

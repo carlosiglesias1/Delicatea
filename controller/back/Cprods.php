@@ -1,27 +1,33 @@
 <?php
 ob_start();
+
+require_once("../../paths/AbsolutePaths.php");
+require_once($_SESSION['WORKING_PATH'] . "view/back/cabecera.php");
+require_once($_SESSION['WORKING_PATH'] . "Funciones/funciones.php");
+require_once($_SESSION['WORKING_PATH'] . "model/DAO/factory/MySQLDAOFactory.php");
+
+$articuloDAO = new MySQLDAOFactory();
+$articuloDAO = $articuloDAO->getArticuloDAO();
+
 $menu = $_GET['menu'];
 switch ($menu) {
   case 1:
-    require_once("../cabecera.php");
     areUAllowed([3]);
-    require_once("../Modelos/Mproductos.php");
     if (isset($_POST['cancelar'])) {
       header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     }
-    //Llamar a la clase subcategorias
-    $articulo = new Articulo();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     if (isset($_POST['submit'])) {
       try {
-        $idArticulo = $articulo->newArticle() - 1;
+        $values = [];
+        $idArticulo = $articuloDAO->addElement($values);
         $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
         $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
         require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
         if ($handler = opendir($directorio)) {
           while (false !== ($file = readdir($handler))) {
             if ($file != "." && $file != "..") {
-              $articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$file", $idArticulo]);
+              //$articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$file", $idArticulo]);
             }
           }
         }
@@ -33,7 +39,7 @@ switch ($menu) {
         header('Location: ' . $location);
       }
     }
-    require_once("../Vistas/Productos/VCrearProd.php");
+    require_once("../../view/back/Productos/VCrearProd.php");
     break;
 
   case 2:

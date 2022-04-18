@@ -22,7 +22,7 @@ class MarcaDAO extends Estandar implements DAO
         }
     }
 
-    public function searchRow(int $id)
+    public function searchRow(int $id = -1)
     {
         return new Marca(parent::getBy('idMarca', $id, PDO::PARAM_INT));
     }

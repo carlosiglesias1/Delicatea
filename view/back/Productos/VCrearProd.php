@@ -1,32 +1,25 @@
 <?php
-/*csrf();
+csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
-}*/
+}
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="<?= $_SESSION['INDEX_PATH'] . 'Funciones/image-uploader.js' ?>"></script>
-    <title>Document</title>
 </head>
 
 <body>
     <div class="cabecera">
-        <?php require_once "../cabecera.php"; ?>
+        <?php require_once $_SESSION['WORKING_PATH'] . 'view/back/cabecera.php'; ?>
     </div>
     <div class="sidebar">
-        <?php include "../menu.php"; ?>
+        <?php include $_SESSION['WORKING_PATH'] . 'view/back/menu.php'; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=5&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Articulos']['Titulo'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=6&lang=" . $_GET['lang'] ."&idTarifa=".$_GET['idTarifa']?>"><?= $lang['Tabla Articulos']['Titulo'] ?></a></li>
                 <li><?= $lang['Nuevo Articulo']['Boton'] ?></li>
             </ul>
         </div>

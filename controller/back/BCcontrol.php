@@ -169,15 +169,14 @@ switch ($menu) {
     break;
   case 6:
     areUAllowed([3]);
-    require_once("../Modelos/Mproductos.php");
-    $articulo = new Articulo();
-    $prods = $articulo->getAll();
+    $articulo = $factory->getArticuloDAO();
+    $prods = $articulo->getList();
     $selected = [];
     $j = 0;
     if (isset($_POST['confirmar'])) {
       for ($i = 0; $i < sizeof($prods); $i++) {
-        if (isset($_POST[$prods[$i]['idArticulo']])) {
-          $selected[$j] = $prods[$i]['idArticulo'];
+        if (isset($_POST[$prods[$i]->getIdArticulo()])) {
+          $selected[$j] = $prods[$i]->getIdArticulo();
           $j++;
         }
       }
@@ -187,8 +186,8 @@ switch ($menu) {
     }
     if (isset($_POST['Editar'])) {
       for ($i = 0; $i < sizeof($prods); $i++) {
-        if (isset($_POST[$prods[$i]['idArticulo']])) {
-          $selected[$j] = $prods[$i]['idArticulo'];
+        if (isset($_POST[$prods[$i]->getIdArticulo()])) {
+          $selected[$j] = $prods[$i]->getIdArticulo();
           $j++;
         }
       }

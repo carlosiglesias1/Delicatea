@@ -3,22 +3,14 @@ csrf();
 if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
 }
+$paths = require($_SESSION['WORKING_PATH'].'paths/NewPaths.php');
 ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
 <body>
     <div class="cabecera">
-        <?php require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; ?>
+        <?php require_once $paths['Cabecera.php']; ?>
     </div>
     <div class="sidebar">
-        <?php include $_SESSION['WORKING_PATH'] . "Back/menu.php"; ?>
+        <?php include $paths['menu.php']; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
@@ -36,7 +28,7 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
         </div>
         <div class="contenido">
             <h4><?php if ($_GET['idTarifa'] != 0) {
-                    echo $lang['Tabla Articulos']['Titulo'] . ": " . $articulo->getById($_GET['idTarifa'])->fetchAll(PDO::FETCH_ASSOC)[0]['nombre'];
+                    echo $lang['Tabla Articulos']['Titulo'] . ": " . $articulo->searchRow($_GET['idTarifa']);
                 } else {
                     echo $lang['Tabla Articulos']['Titulo'];
                 } ?></h4>
@@ -68,17 +60,17 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
                         foreach ($prods as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= escapar($fila['idArticulo']) ?>" id="<?= escapar($fila['idArticulo']) ?>" class="option"></td>
-                                <td><label for="<?= escapar($fila['idArticulo']) ?>"><?php echo escapar($fila["nombre"]); ?></label></td>
-                                <td><label for="<?= escapar($fila['idArticulo']) ?>"><?php echo escapar($fila["descripcionCorta"]) ?></label></td>
-                                <td><label for="<?= escapar($fila['idArticulo']) ?>"><?= escapar($fila['coste']) ?></label></td>
+                                <td><input type="checkbox" name="<?= escapar($fila->getIdArticulo()) ?>" id="<?= escapar($fila->getIdArticulo()) ?>" class="option"></td>
+                                <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><?php echo escapar($fila->getNombre()); ?></label></td>
+                                <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><?php echo escapar($fila->getDescripcionCorta()) ?></label></td>
+                                <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><?= escapar($fila->getCoste()) ?></label></td>
                                 <?php
                                 if ($_GET['idTarifa'] != 0) {
                                 ?>
-                                    <td><label for="<?= escapar($fila['idArticulo']) ?>"><?= escapar($fila['costeFinal']) ?></label></td>
+                                    <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><?= "wait" ?></label></td>
                                 <?php } ?>
                                 <td class="options">
-                                    <a href="<?= 'Cprods.php?menu=3&id=' . escapar($fila["idArticulo"]) . "&lang=" . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa'] ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Articulos']['Editar']; ?></a>
+                                    <a href="<?= 'Cprods.php?menu=3&id=' . escapar($fila->getIdArticulo()) . "&lang=" . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa'] ?>" class="Editar"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Articulos']['Editar']; ?></a>
                                 </td>
                             </tr>
                     <?php

@@ -1,5 +1,5 @@
 <?php
-    class Articulo implements Objects{
+    class Articulo {
         private int $idArticulo;
         private string $nombre;
         private string $descripcionCorta;
@@ -13,7 +13,9 @@
 
         public function __construct(array $parametros)
         {
-            # code...
+            foreach($parametros as $key=>$value){
+                    $this->{$key} = $value;
+            }
         }
 
         /**
