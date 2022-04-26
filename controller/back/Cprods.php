@@ -19,20 +19,28 @@ switch ($menu) {
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     if (isset($_POST['submit'])) {
       try {
-        $values = [];
-        $idArticulo = $articuloDAO->addElement($values);
+        $values = [
+          "nombre" => $_POST['name'],
+          "descripcionCorta" => $_POST['descripcion'],
+          "descripcionLarga" => $_POST['descripcion2'],
+          "marca" => $_POST['marca'],
+          "categoria" => $_POST['categoria'],
+          "subcategoria" => $_POST['subcategoria'],
+          "coste" => $_POST['coste']
+        ];
+        $articuloDAO->addElement($values);
         $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
         $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
-        require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
+        require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php?menu=" . $_GET['menu']);
         if ($handler = opendir($directorio)) {
           while (false !== ($file = readdir($handler))) {
             if ($file != "." && $file != "..") {
-              //$articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$file", $idArticulo]);
+              $articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$file", $idArticulo]);
             }
           }
         }
         closedir($handler);
-        header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=6&lang=" . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
+        header("Location: " . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=6&lang=" . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
       } catch (PDOException $ex) {
         $location = $_SESSION['INDEX_PATH'] . 'Back/Vistas/Usuario/BVUsuariofail.php?lang=' . $_GET['lang'] . "&ex=" . $ex . "&idTarifa=" . $_GET['idTarifa'];
         echo $location;

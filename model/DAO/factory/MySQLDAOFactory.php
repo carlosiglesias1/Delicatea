@@ -1,5 +1,5 @@
 <?php
-require_once $_SESSION['WORKING_PATH'] . "conection/ConnectionPool.php";
+require_once $_SESSION['WORKING_PATH'] . 'conection/ConnectionPool.php';
 
 class MySQLDAOFactory
 {
@@ -12,36 +12,38 @@ class MySQLDAOFactory
 
     public function getUsuarioDAO(): UsuarioDAO
     {
-        require_once $_SESSION['WORKING_PATH'] . "model/DAO/UsuarioDAO.php";
+        require_once $_SESSION['WORKING_PATH'] . 'model/DAO/UsuarioDAO.php';
         return new UsuarioDAO($this->bcp->getConnection());
     }
 
     public function getMarcaDAO(): MarcaDAO
     {
-        require_once $_SESSION['WORKING_PATH'] . "model/DAO/MarcaDAO.php";
+        require_once $_SESSION['WORKING_PATH'] . 'model/DAO/MarcaDAO.php';
         return new MarcaDAO($this->bcp->getConnection());
     }
 
-    public function getSubcategoriaDAO():SubcategoriaDAO
+    public function getSubcategoriaDAO(): SubcategoriaDAO
     {
-        require_once $_SESSION['WORKING_PATH'] . "model/DAO/SubcategoriaDAO.php";
+        require_once $_SESSION['WORKING_PATH'] .
+            'model/DAO/SubcategoriaDAO.php';
         return new SubcategoriaDAO($this->bcp->getConnection());
     }
 
     public function getCategoriaDAO(): CategoriaDAO
-    {   
-        require_once $_SESSION['WORKING_PATH'] . "model/DAO/CategoriaDAO.php";
+    {
+        require_once $_SESSION['WORKING_PATH'] . 'model/DAO/CategoriaDAO.php';
         return new CategoriaDAO($this->bcp->getConnection());
     }
 
-    public function getIvaDAO(): IvaDAO{
-        require_once $_SESSION['WORKING_PATH']. "model/DAO/IvaDAO.php";
+    public function getIvaDAO(): IvaDAO
+    {
+        require_once $_SESSION['WORKING_PATH'] . 'model/DAO/IvaDAO.php';
         return new IvaDAO($this->bcp->getConnection());
     }
 
-    public function getArticuloDAO(): ArticuloDAO{
-        $paths = require_once($_SESSION['WORKING_PATH']. "paths/NewPaths.php");
-        require_once $paths['ArticuloDAO'];
+    public function getArticuloDAO(): ArticuloDAO
+    {
+        require_once $_SESSION['WORKING_PATH'] . 'model/DAO/ArticuloDAO.php';
         return new ArticuloDAO($this->bcp->getConnection());
     }
 

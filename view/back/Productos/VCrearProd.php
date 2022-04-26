@@ -1,16 +1,22 @@
 <?php
 csrf();
-if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
+if (
+    isset($_POST['submit']) &&
+    !hash_equals($_SESSION['csrf'], $_POST['csrf'])
+) {
     die();
 }
 ?>
+
 <head>
-    <script src="<?= $_SESSION['INDEX_PATH'] . 'Funciones/image-uploader.js' ?>"></script>
+    <script src="<?= $_SESSION['INDEX_PATH'] .
+                        'Funciones/image-uploader.js' ?>"></script>
 </head>
 
 <body>
     <div class="cabecera">
-        <?php require_once $_SESSION['WORKING_PATH'] . 'view/back/cabecera.php'; ?>
+        <?php require_once $_SESSION['WORKING_PATH'] .
+            'view/back/cabecera.php'; ?>
     </div>
     <div class="sidebar">
         <?php include $_SESSION['WORKING_PATH'] . 'view/back/menu.php'; ?>
@@ -18,8 +24,14 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=6&lang=" . $_GET['lang'] ."&idTarifa=".$_GET['idTarifa']?>"><?= $lang['Tabla Articulos']['Titulo'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] .
+                                    'controller/back/BCcontrol.php?menu=3&lang=' .
+                                    $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] .
+                                    'controller/back/BCcontrol.php?menu=6&lang=' .
+                                    $_GET['lang'] .
+                                    '&idTarifa=' .
+                                    $_GET['idTarifa'] ?>"><?= $lang['Tabla Articulos']['Titulo'] ?></a></li>
                 <li><?= $lang['Nuevo Articulo']['Boton'] ?></li>
             </ul>
         </div>
@@ -27,27 +39,26 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             <?php if ($_GET['menu'] == 1) { ?>
                 <ul>
                     <li>
-                        <label for="name"><?php echo $lang['Nuevo Articulo']['Nombre'] ?></label>
+                        <label for="name"><?php echo $lang['Nuevo Articulo']['Nombre']; ?></label>
                         <input type="text" name="name" id="name">
                     </li>
                     <li>
-                        <label for="descripcion"><?php echo $lang['Nuevo Articulo']['Descripcion'] ?></label>
+                        <label for="descripcion"><?php echo $lang['Nuevo Articulo']['Descripcion']; ?></label>
                         <input type="text" name="descripcion" id="descripcion">
                     </li>
                     <li>
-                        <label for="descripcion2"><?php echo $lang['Nuevo Articulo']['DescripcionL'] ?></label>
+                        <label for="descripcion2"><?php echo $lang['Nuevo Articulo']['DescripcionL']; ?></label>
                         <input type="text" name="descripcion2" id="descripcion2">
                     </li>
                     <li>
                         <label for="marca">Marca</label>
                         <select name="marca" id="marca">
                             <?php
-                            $marca = $articulo->getForeignValue(null, 'marca')->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($marca as $fila) {
-                            ?>
+                            $marca = $articuloDAO
+                                ->getForeignValue('marca');
+                            foreach ($marca as $fila) { ?>
                                 <option value="<?= $fila['idMarca'] ?>"><?= $fila['nombre'] ?></option>
-                            <?php
-                            }
+                            <?php }
                             ?>
                         </select>
                     </li>
@@ -55,24 +66,22 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         <label for="categoria">Categoria</label>
                         <select name="categoria" id="categoria">
                             <?php
-                            $categoria = $articulo->getForeignValue(null, 'categoria')->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($categoria as $fila) {
-                            ?>
+                            $categoria = $articuloDAO
+                                ->getForeignValue('categoria');
+                            foreach ($categoria as $fila) { ?>
                                 <option value="<?= $fila['idCategoria'] ?>"><?= $fila['nombre'] ?></option>
-                            <?php
-                            }
+                            <?php }
                             ?>
                         </select>
                     </li>
                     <li><label for="subcategoria">Subcategoria</label>
                         <select name="subcategoria" id="subcategoria">
                             <?php
-                            $subcategoria = $articulo->getForeignValue(null, 'subcategoria')->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($subcategoria as $fila) {
-                            ?>
+                            $subcategoria = $articuloDAO
+                                ->getForeignValue('subcategoria');
+                            foreach ($subcategoria as $fila) { ?>
                                 <option value="<?= $fila['idSubCategoria'] ?>"><?= $fila['nombre'] ?></option>
-                            <?php
-                            }
+                            <?php }
                             ?>
                         </select>
                     </li>
@@ -91,30 +100,35 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         </div>
                     </li>
                 </ul>
-            <?php } else {
-            ?>
+            <?php } else { ?>
                 <ul>
                     <li>
-                        <input type="text" name="name" value="<?= escapar($campos['nombre']) ?>">
+                        <input type="text" name="name" value="<?= escapar(
+                                                                    $campos['nombre']
+                                                                ) ?>">
                     </li>
                     <li>
-                        <label for="name"><?php echo $lang['Nuevo Articulo']['Descripcion'] ?></label>
-                        <input type="text" name="descripcion" value="<?= escapar($campos['descripcionCorta']) ?>">
+                        <label for="name"><?php echo $lang['Nuevo Articulo']['Descripcion']; ?></label>
+                        <input type="text" name="descripcion" value="<?= escapar(
+                                                                            $campos['descripcionCorta']
+                                                                        ) ?>">
                     </li>
                     <li>
-                        <label for="name"><?php echo $lang['Nuevo Articulo']['DescripcionL'] ?></label>
-                        <input type="text" name="descripcion2" value="<?= escapar($campos['descripcionLarga']) ?>">
+                        <label for="name"><?php echo $lang['Nuevo Articulo']['DescripcionL']; ?></label>
+                        <input type="text" name="descripcion2" value="<?= escapar(
+                                                                            $campos['descripcionLarga']
+                                                                        ) ?>">
                     </li>
                     <li>
                         <label for="marca">Marca</label>
                         <select name="marca" id="marca">
                             <?php
-                            $marca = $articulo->getForeignValue(null, 'marca')->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($marca as $fila) {
-                            ?>
+                            $marca = $articulo
+                                ->getForeignValue(null, 'marca')
+                                ->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($marca as $fila) { ?>
                                 <option value="<?= $fila['idMarca'] ?>"><?= $fila['nombre'] ?></option>
-                            <?php
-                            }
+                            <?php }
                             ?>
                         </select>
                     </li>
@@ -122,12 +136,12 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         <label for="categoria">Categoria</label>
                         <select name="categoria" id="categoria">
                             <?php
-                            $categoria = $articulo->getForeignValue(null, 'categoria')->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($categoria as $fila) {
-                            ?>
+                            $categoria = $articulo
+                                ->getForeignValue(null, 'categoria')
+                                ->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($categoria as $fila) { ?>
                                 <option value="<?= $fila['idCategoria'] ?>"><?= $fila['nombre'] ?></option>
-                            <?php
-                            }
+                            <?php }
                             ?>
                         </select>
                     </li>
@@ -135,12 +149,12 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         <label for="subcategoria">Subcategoria</label>
                         <select name="subcategoria" id="subcategoria">
                             <?php
-                            $subcategoria = $articulo->getForeignValue(null, 'subcategoria')->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($subcategoria as $fila) {
-                            ?>
+                            $subcategoria = $articulo
+                                ->getForeignValue(null, 'subcategoria')
+                                ->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($subcategoria as $fila) { ?>
                                 <option value="<?= $fila['idSubCategoria'] ?>"><?= $fila['nombre'] ?></option>
-                            <?php
-                            }
+                            <?php }
                             ?>
                         </select>
                     </li>
@@ -153,17 +167,19 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         <div class="input-images">
                             <script type="text/javascript">
                                 let preloaded = [
-                                    <?php
-                                    for ($i = 0; $i < sizeof($imagenes); $i++) {
+                                    <?php for (
+                                        $i = 0;
+                                        $i < sizeof($imagenes);
+                                        $i++
+                                    ) {
                                         if ($i + 1 != sizeof($imagenes)) {
                                             $path = $imagenes[$i]['path'];
-                                            echo ("{id: $i, src: '$path'},");
+                                            echo "{id: $i, src: '$path'},";
                                         } else {
                                             $path = $imagenes[$i]['path'];
-                                            echo ("{id: $i, src: '$path'}");
+                                            echo "{id: $i, src: '$path'}";
                                         }
-                                    }
-                                    ?>
+                                    } ?>
                                 ];
                                 $(".input-images").imageUploader({
                                     preloaded: preloaded,
@@ -175,11 +191,11 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 </ul>
             <?php } ?>
             <button name=" submit" type="submit"><?php if ($_GET['menu'] == 1) {
-                                                        echo $lang["Nuevo Articulo"]["Registrarse"];
+                                                        echo $lang['Nuevo Articulo']['Registrarse'];
                                                     } else {
-                                                        echo "Actualizar";
+                                                        echo 'Actualizar';
                                                     } ?></button>
-            <button name="cancelar"><?php echo $lang['Nuevo Usuario']['Cancelar'] ?></button>
+            <button name="cancelar"><?php echo $lang['Nuevo Usuario']['Cancelar']; ?></button>
         </form>
     </div>
 </body>

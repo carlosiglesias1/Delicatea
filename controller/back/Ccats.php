@@ -17,11 +17,12 @@ switch ($menu) {
                 "descripcion" => $_POST["descripcion"]
             ];
             $marca->addElement($valores);
+            header('Location: BCcontrol.php?menu=5&lang=es');
         }
         if (isset($_POST['cancelar'])) {
             header('Location: BCcontrol.php?menu=5&lang=' . $_GET['lang']);
         }
-        require_once("../Vistas/Categorias/VCrearCategoria.php");
+        require_once("../../view/back/Categorias/VCrearCategoria.php");
         break;
 
     case 2:
@@ -62,7 +63,7 @@ switch ($menu) {
         break;
     case 4:
         areUAllowed([4]);
-        header("Location: BCcontrol.php?menu=4&idCat=" . $_GET['idCat']."&lang=".$_GET['lang']);
+        header("Location: BCcontrol.php?menu=4&idCat=" . $_GET['idCat'] . "&lang=" . $_GET['lang']);
         break;
     default:
         require_once("./BCcontrol.php");

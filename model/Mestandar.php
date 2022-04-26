@@ -282,7 +282,7 @@ abstract class Estandar
         }
     }
 
-    public function existsBy($campo, $valor, $tipo)
+    public function existsBy(string $campo, $valor, $tipo): int
     {
         try {
             $sentencia = $this->bd->prepare("SELECT * FROM " . $this->getTable() . " WHERE $campo = :valor");
@@ -292,6 +292,17 @@ abstract class Estandar
         } catch (PDOException $ex) {
             error_log($ex->getMessage());
             throw $ex;
+        }
+    }
+
+    public function getLastId(string $idName): int
+    {
+        try {
+            $sentencia = $this->bd->prepare("SELECT MAX(".$idName.") FROM " . $this->getTable());
+            $result = $sentencia->execute();
+            return $sentencia->fetch(PDO::FETCH_NUM)[0];
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
         }
     }
 }

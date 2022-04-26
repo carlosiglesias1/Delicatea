@@ -16,7 +16,6 @@ class CategoriaDAO extends Estandar implements DAO
         $valor = $this->exists($valores["nombre"]);
         if ($valor == 0) {
             parent::insert($campos, $valores, [PDO::PARAM_STR, PDO::PARAM_STR]);
-            header('Location: BCcontrol.php?menu=4&lang=es');
         }
     }
 

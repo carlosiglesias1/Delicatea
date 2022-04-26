@@ -1,14 +1,14 @@
 <?php
-return array(
+return [
     'pool_size' => 3,
     'max_pool_size' => 5,
-    'host' => 'localhost',
+    'host' => 'localhost:3320',
     'user' => 'root',
     'pass' => '',
     'db_name' => 'delicatea',
     'options' => [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_EMULATE_PREPARES => FALSE,
-        PDO::ATTR_TIMEOUT => 1000
-    ]
-);
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_TIMEOUT => 1000,
+    ],
+];

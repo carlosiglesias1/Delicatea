@@ -54,7 +54,7 @@ switch ($menu) {
         $tarifa = new Tarifa();
         //Llamamos a la funcion de la clase y almacenamos el return en una variable
         $id = $_GET['id'];
-        $campos = $tarifa->getById($id)->fetch(PDO::FETCH_ASSOC);
+        $campos = $tarifa->getById($id);
         $RA = $campos['redondeo'] + $campos['ajuste'];
         $campos['opera'] = substr($campos['formula'], 0, 1);
         $campos['opc'] = substr($campos['formula'], strlen($campos['formula']) - 1);
@@ -78,8 +78,8 @@ switch ($menu) {
         require_once("../Modelos/Mtarifas.php");
         $articulo = new Tarifa();
         $conditional = "idArticulo IN (SELECT idPrd FROM tarifasproductos WHERE idTarifa = " . $_GET['idTarifa'] . ")";
-        $prods = $articulo->getForeignValueString(null, 'articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
-        $costeFinal = $articulo->getForeignValue('costeFinal', 'tarifasproductos', $_GET['idTarifa'], 'idTarifa', 'idPrd')->fetchAll(PDO::FETCH_ASSOC);
+        $prods = $articulo->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
+        $costeFinal = $articulo->getForeignValue('costeFinal', 'tarifasproductos', $_GET['idTarifa'], 'idTarifa', 'idPrd');
         for ($i = 0; $i < sizeof($prods); $i++) {
             $prods[$i]['costeFinal'] =  $costeFinal[$i]['costeFinal'];
         }
