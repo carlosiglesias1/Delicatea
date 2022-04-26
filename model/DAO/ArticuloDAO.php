@@ -72,9 +72,8 @@ class ArticuloDAO extends Estandar implements DAO
         # code...
     }
 
-    public function addProductImgs()
+    public function getLastArticulo(): int
     {
-        $idArticulo = parent::getLastId('idArticulo');
-        
+        return parent::getLastId('idArticulo');
     }
 }

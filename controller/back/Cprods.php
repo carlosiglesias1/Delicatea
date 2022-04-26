@@ -29,9 +29,10 @@ switch ($menu) {
           "coste" => $_POST['coste']
         ];
         $articuloDAO->addElement($values);
+        $idArticulo = $articuloDAO->getLastArticulo();
         $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
         $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
-        require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php?menu=" . $_GET['menu']);
+        require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
         if ($handler = opendir($directorio)) {
           while (false !== ($file = readdir($handler))) {
             if ($file != "." && $file != "..") {
