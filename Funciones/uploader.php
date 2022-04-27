@@ -10,7 +10,7 @@ switch ($menu) {
             }
 
             if (!file_exists($directorio)) {
-                mkdir($directorio, 0777);
+                mkdir($directorio, 0777, true);
             }
 
             if (file_exists($directorio . "/" . $filename)) {

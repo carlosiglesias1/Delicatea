@@ -13,6 +13,8 @@ class ArticuloDAO extends Estandar implements DAO
   }
   public function addElement(array $values): void
   {
+    $files = $values['files'];
+    unset($values['files']);
     $tipos = [
       "nombre" => PDO::PARAM_STR,
       "descripcionCorta" => PDO::PARAM_STR,
@@ -23,6 +25,7 @@ class ArticuloDAO extends Estandar implements DAO
       "coste" => PDO::PARAM_INT
     ];
     parent::insert(array_keys($tipos), $values, array_values($tipos));
+    $this->insertImages($files);
   }
 
   public function getList(): array
@@ -68,8 +71,19 @@ class ArticuloDAO extends Estandar implements DAO
     # code...
   }
 
-  public function getLastArticulo(): int
+  public function insertImages(array $files)
   {
-    return parent::getLastId('idArticulo');
+    $_FILES = $files;
+    $idArticulo = parent::getLastId('idArticulo');
+    $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
+    $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
+    require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php?menu=1");
+    if ($handler = opendir($directorio)) {
+      while (false !== ($file = readdir($handler))) {
+        if ($file != "." && $file != "..") {
+          $articuloDAO->foreignInsert('imagenesArticulos', ["path", "articulo"], ["path" => "$src/$file", "articulo" => $idArticulo]);
+        }
+      }
+    }
   }
 }

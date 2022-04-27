@@ -26,20 +26,11 @@ switch ($menu) {
           "marca" => $_POST['marca'],
           "categoria" => $_POST['categoria'],
           "subcategoria" => $_POST['subcategoria'],
-          "coste" => $_POST['coste']
+          "coste" => $_POST['coste'],
+          "files" => $_FILES
         ];
+        print_r($values['files']);
         $articuloDAO->addElement($values);
-        $idArticulo = $articuloDAO->getLastArticulo();
-        $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
-        $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
-        require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
-        if ($handler = opendir($directorio)) {
-          while (false !== ($file = readdir($handler))) {
-            if ($file != "." && $file != "..") {
-              $articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$file", $idArticulo]);
-            }
-          }
-        }
         closedir($handler);
         header("Location: " . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=6&lang=" . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
       } catch (PDOException $ex) {
