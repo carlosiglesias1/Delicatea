@@ -39,9 +39,9 @@ class CategoriaDAO extends Estandar implements DAO
             parent::updateValue($campo, $valores[$campo], $tipo, "idUsr", $id);
         }
     }
-    public function searchRow(int $id)
+    public function searchRow(int $id): Categoria
     {
-        return parent::getBy('idCategoria', $id, PDO::PARAM_INT);
+        return new Categoria(parent::getBy('idCategoria', $id, PDO::PARAM_INT));
     }
     public function delete(int $id)
     {

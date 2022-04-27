@@ -52,9 +52,7 @@ switch ($menu) {
     break;
 
   case 2:
-    require_once("../cabecera.php");
     areUAllowed([3]);
-    require_once("../Modelos/Mproductos.php");
     $articulo = new Articulo('articulo');
     $selected = unserialize($_GET['selected']);
     try {

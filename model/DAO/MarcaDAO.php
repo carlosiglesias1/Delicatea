@@ -61,4 +61,9 @@ class MarcaDAO extends Estandar implements DAO
     {
         return parent::existsBy('nombre', $name, PDO::PARAM_STR);
     }
+
+    public function __toString()
+    {
+        return parent::getDB()->getAttribute(PDO::ATTR_SERVER_INFO) . " " . parent::getTable();
+    }
 }

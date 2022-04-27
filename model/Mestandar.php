@@ -34,7 +34,7 @@ abstract class Estandar
         }
     }
 
-    public function getBy(string $campo, $valor, int $tipo): array
+    public function getBy(string $campo, $valor, int $tipo): array | bool
     {
         $query = "SELECT * FROM $this->table WHERE $campo = :valor";
         try {
