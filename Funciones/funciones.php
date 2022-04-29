@@ -26,35 +26,12 @@ function concatenar(array $array)
   return substr($cadena, 0, strlen($cadena) - 1);
 }
 
-function logIn(string $name, string $password)
-{
-  require_once $_SESSION['WORKING_PATH'] . "Back/Modelos/DAO/UsuarioDAO.php";
-  $usuario = new UsuarioDAO('usuarios');
-  try {
-    $query = $usuario->searchByName($name);
-    $array = $usuario->getList();
-    echo "</br>";
-    if (in_array($query, $array)) {
-      if ($query->getPass() == $password) {
-        session_start();
-        $_SESSION['id'] = $query->getIdUsr();
-        $_SESSION['lang'] = $_GET['lang'];
-        header('Location: BCcontrol.php?menu=3&lang=' . $_GET['lang']);
-        $_SESSION['modal'] = 2;
-      }
-    } else {
-      header('Location: BCcontrol.php?menu=0&lang=es');
-    }
-  } catch (PDOException $e) {
-    error_log($e->getMessage());
-    throw $e;
-  }
-}
-
-/** AreUAllowed: Comprueba si el usuario está autorizado a entrar en el sitio web, 
- * Nota: protegerá de posibles intentos de "saltarse" los protocolos de inicio de 
+/**
+ * Comprueba si el usuario está autorizado a entrar en el sitio web, 
+ * @ignore Protegerá de posibles intentos de "saltarse" los protocolos de inicio de 
  * sesión e intentar acceder desde la url a las opciones de gestión que estén restringidas
  * para ese usuario.
+ * @param array<Integer>
  */
 function areUAllowed(array $PermisosRequeridos)
 {
@@ -79,7 +56,7 @@ function getArticulos(Tarifa $tarifa, array $campos)
     *Las condiciones deben variar segun los filtros
     */
     if ($campos["marca"] == 0 && $campos['categoria'] == 0 && $campos['subcategoria'] == 0) {
-      $articulos = $tarifa->getForeignValue('articulo')->fetchAll(PDO::FETCH_ASSOC);
+      $articulos = $tarifa->getForeignValue('articulo');
     } else if ($campos["marca"] != 0 && $campos['categoria'] == 0 && $campos['subcategoria'] == 0) {
       $conditional = 'marca = ' . $campos["marca"];
       $articulos = $tarifa->getForeignValueString('articulo', $conditional)->fetchAll(PDO::FETCH_ASSOC);
@@ -105,13 +82,13 @@ function getArticulos(Tarifa $tarifa, array $campos)
   } //Si actualizo una tarifa sobre otra
   else {
     if ($campos['coste'] == -1 || $campos['origen'] == -1) {
-      $productos = $tarifa->getForeignValue('tarifasproductos')->fetchAll(PDO::FETCH_ASSOC);
+      $productos = $tarifa->getForeignValue('tarifasproductos');
       foreach ($productos as $fila => $campo) {
         $articulos[$fila]['coste'] = $campo['costeFinal'];
         $articulos[$fila]['idArticulo'] = $campo['idPrd'];
       }
     } else {
-      $productos = $tarifa->getForeignValue('tarifasproductos', $campos['coste'], 'idTarifa')->fetchAll(PDO::FETCH_ASSOC);
+      $productos = $tarifa->getForeignValue('tarifasproductos', $campos['coste'], 'idTarifa');
       foreach ($productos as $fila => $campo) {
         $articulos[$fila]['coste'] = $campo['costeFinal'];
         $articulos[$fila]['idArticulo'] = $campo['idPrd'];

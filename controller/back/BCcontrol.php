@@ -232,9 +232,7 @@ switch ($menu) {
     require_once("../../view/back/IVA/VIva.php");
     break;
   case 8:
-    require_once("../cabecera.php");
     areUAllowed([11]);
-    require_once("../Modelos/MTarifas.php");
     $tarifa = new Tarifa();
     $tarifas = $tarifa->getAll();
     $selected = [];

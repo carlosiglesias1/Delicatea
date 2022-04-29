@@ -145,7 +145,7 @@ abstract class Estandar
                 throw $error;
             }
         } catch (PDOException $excpt) {
-            throw new PDOException("No he podido insertar nada", 0, $excpt);
+            throw new PDOException("No he podido insertar nada: " . $excpt->getMessage() . " / " . $excpt->getTrace(), 0, $excpt);
         }
         return $return;
     }
@@ -282,10 +282,23 @@ abstract class Estandar
         }
     }
 
-    public function existsBy(string $campo, $valor, $tipo): int
+    public function existsBy(string $campo, $valor, int $tipo): int
     {
         try {
             $sentencia = $this->bd->prepare("SELECT * FROM " . $this->getTable() . " WHERE $campo = :valor");
+            $sentencia->bindParam(":valor", $valor, $tipo);
+            $sentencia->execute();
+            return $sentencia->rowCount();
+        } catch (PDOException $ex) {
+            error_log($ex->getMessage());
+            throw $ex;
+        }
+    }
+
+    public function foreignExistsBy(string $table, string $campo, $valor, int $tipo): int
+    {
+        try {
+            $sentencia = $this->bd->prepare("SELECT * FROM " . $table . " WHERE $campo = :valor");
             $sentencia->bindParam(":valor", $valor, $tipo);
             $sentencia->execute();
             return $sentencia->rowCount();

@@ -17,8 +17,6 @@ class ArticuloDAO extends Estandar implements DAO
     'marca' => PDO::PARAM_INT,
     'categoria' => PDO::PARAM_INT,
     'subcategoria' => PDO::PARAM_INT,
-    //'iva' => PDO::PARAM_INT,
-    'stock' => PDO::PARAM_INT,
     'coste' => PDO::PARAM_INT
   ];
   public function __construct(PDO $connection)
@@ -34,8 +32,9 @@ class ArticuloDAO extends Estandar implements DAO
   {
     $files = $values['files'];
     unset($values['files']);
+    print_r($values);
     parent::insert(array_keys($this->tipos), $values, array_values($this->tipos));
-    $this->insertImages($files);
+    $this->insertImages($files, parent::getLastId('idArticulo'));
   }
 
   public function getList(): array
@@ -53,9 +52,16 @@ class ArticuloDAO extends Estandar implements DAO
 
   public function update(int $id, array $valores): void
   {
+    $files = $valores['files'];
+    unset($valores['files']);
+    $checkImages = $valores['f_preloaded'];
+    unset($valores['f_preloaded']);
     foreach ($valores as $key => $value) {
-      parent::updateValue($key, $value, $this->tipos[$key], 'idArticulo', $id);
+      if ($key != 'files')
+        parent::updateValue($key, $value, $this->tipos[$key], 'idArticulo', $id);
     }
+    $this->deleteImages($id, $checkImages);
+    $this->insertImages($files, $id);
   }
 
   public function searchRow(int $id): Articulo
@@ -66,7 +72,15 @@ class ArticuloDAO extends Estandar implements DAO
   public function delete(int $id)
   {
     parent::deleteBy('idArticulo', $id, PDO::PARAM_INT);
+    $this->deleteImages($id);
     parent::foreignDelete('imagenesArticulos', 'articulo', $id);
+    rmdir($_SESSION['WORKING_PATH'] . $id);
+  }
+
+
+  public function getImages(int $id): array
+  {
+    return parent::getForeignValue('imagenesArticulos', 'path', 'articulo', $id);
   }
 
   public function instanciarArticulo(array $values): Articulo
@@ -87,19 +101,83 @@ class ArticuloDAO extends Estandar implements DAO
     );
   }
 
-  public function insertImages(array $files)
+  public function deleteImages(int $id, array | bool $checkImages = false)
   {
-    $_FILES = $files;
-    $idArticulo = parent::getLastId('idArticulo');
-    $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
-    $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
-    require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
-    if ($handler = opendir($directorio)) {
-      while (false !== ($file = readdir($handler))) {
-        if ($file != "." && $file != "..") {
-          $this->foreignInsert('imagenesArticulos', ["path", "articulo"], ["path" => "$src/$file", "articulo" => $idArticulo]);
+    $imagenes = $this->getImages($id);
+    if (!$checkImages) {
+      if (sizeof($imagenes) > 0) {
+        for ($i = 0; $i < sizeof($imagenes); $i++) {
+          $deleteLink = $imagenes[$i]['path'];
+          $deletePath = substr($deleteLink, strlen($_SESSION['INDEX_PATH']));
+          $deletePath = $_SESSION['WORKING_PATH'] . $deletePath;
+          if (unlink($deletePath)) {
+            parent::foreignDelete('imagenesarticulos', 'path', "'" . $deleteLink . "'");
+            echo "exito<br>";
+          }
+          echo $deletePath . "<br>";
+        }
+      }
+    } else {
+      foreach ($imagenes as $key => $value) {
+        if (!in_array($key, $checkImages)) {
+          $deleteLink = $value['path'];
+          $deletePath = substr($deleteLink, strlen($_SESSION['INDEX_PATH']));
+          $deletePath = $_SESSION['WORKING_PATH'] . $deletePath;
+          if (unlink($deletePath)) {
+            parent::foreignDelete('imagenesarticulos', 'path', "'" . $deleteLink . "'");
+            echo "exito<br>";
+          }
+          echo $deletePath . "<br>";
         }
       }
     }
+  }
+
+  public function insertImages(array $files, int $idArticulo, bool $override = false)
+  {
+    $_FILES = $files;
+    $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
+    $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
+    foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+      if (isset($_FILES['images']['name'][$key])) {
+        $filename = $_FILES['images']['name'][$key];
+        $temporal = $tmp_name;
+      }
+
+      if (!file_exists($directorio)) {
+        mkdir($directorio, 0777, true);
+      }
+
+      if (file_exists($directorio . "/" . $filename)) {
+        $contador = 1;
+        if ($handler = opendir($directorio)) {
+          while (false !== ($file = readdir($handler))) {
+            if (substr($file, 0, 1) == "(") {
+              if (substr($file, strpos($file, ")") + 1) == $filename) {
+                $contador++;
+              }
+            }
+          }
+          closedir($handler);
+        }
+        $target = "$directorio/(" . ($contador) . ")$filename";
+      } else {
+        $target = "$directorio/$filename";
+      }
+
+      if (move_uploaded_file($temporal, $target)) {
+        echo "El archivo $filename ha sido subido <br>";
+      } else {
+        echo "Ha ocurrido un error";
+      }
+    }
+    if ($handler = opendir($directorio)) {
+      while (false !== ($file = readdir($handler))) {
+        if ($file != "." && $file != ".." && parent::foreignExistsBy('imagenesarticulos','path', "$src/$file", PDO::PARAM_STR) == 0) {
+          parent::foreignInsert('imagenesArticulos', ["path", "articulo"], ["path" => "$src/$file", "articulo" => $idArticulo]);
+        }
+      }
+    }
+    closedir($handler);
   }
 }

@@ -14,9 +14,8 @@ switch ($menu) {
   case 1:
     areUAllowed([3]);
     if (isset($_POST['cancelar'])) {
-      header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
+      header('Location: ' . $_SESSION['INDEX_PATH'] . 'controller/back/BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     }
-    //Llamamos a la funcion de la clase y almacenamos el return en una variable
     if (isset($_POST['submit'])) {
       try {
         $values = [
@@ -29,13 +28,12 @@ switch ($menu) {
           "coste" => $_POST['coste'],
           "files" => $_FILES
         ];
-        //print_r($values['files']);
         $articuloDAO->addElement($values);
-        closedir($handler);
         header("Location: " . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=6&lang=" . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
       } catch (PDOException $ex) {
-        $location = $_SESSION['INDEX_PATH'] . 'Back/Vistas/Usuario/BVUsuariofail.php?lang=' . $_GET['lang'] . "&ex=" . $ex . "&idTarifa=" . $_GET['idTarifa'];
-        echo $location;
+        echo $ex->getMessage();
+        echo $ex->getTrace();
+        $location = $_SESSION['INDEX_PATH'] . 'view/back/Usuario/BVUsuariofail.php?lang=' . $_GET['lang'] . '&ex=' . $ex->getMessage() . '&idTarifa=' . $_GET['idTarifa'];
         header('Location: ' . $location);
       }
     }
@@ -49,7 +47,7 @@ switch ($menu) {
       foreach ($selected as $fila) {
         $articuloDAO->delete($fila);
       }
-      header('Location: BCcontrol.php?menu=6&lang=' . $_SESSION['lang'] . "&idTarifa=" . $_GET['idTarifa']);
+      header('Location: ' . $_SESSION['INDEX_PATH'] . 'BCcontrol.php?menu=6&lang=' . $_SESSION['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     } catch (PDOException $ex) {
       echo $ex->getMessage();
     }
@@ -60,28 +58,38 @@ switch ($menu) {
     if (isset($_POST['cancelar'])) {
       header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     }
-    //Llamamos a la funcion de la clase y almacenamos el return en una variable
     $id = $_GET['id'];
     $campos = $articuloDAO->searchRow($id);
-    $imagenes = $articuloDAO->getForeignValue ('imagenesArticulos', 'path', 'articulo', $id);
+    $imagenes = $articuloDAO->getImages($id);
     if (isset($_POST['submit'])) {
       try {
-        $directorio = $directorio = $_SESSION['WORKING_PATH'] . "Back/Imagenes/Articulos/$id";
-        require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
-        if (!empty($deleteDB)) {
-          foreach ($deleteDB as $fila) {
-            echo $fila;
-            $articuloDAO->foreignDelete('imagenesarticulos', 'path', "'" . $fila . "'");
-          }
-        }
-        $src = $_SESSION['INDEX_PATH'] . "Back/Imagenes/Articulos/$id";
-        if (!empty($insertDb)) {
-          print_r($insertDb);
-          foreach ($insertDb as $fila) {
-            $articuloDAO->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$fila", $id]);
-          }
-        }
-        $articuloDAO->update($id, array());
+        if(isset($_POST['preloaded']))
+        $values = [
+          "nombre" => $_POST['name'],
+          "descripcionCorta" => $_POST['descripcion'],
+          "descripcionLarga" => $_POST['descripcion2'],
+          "marca" => $_POST['marca'],
+          "categoria" => $_POST['categoria'],
+          "subcategoria" => $_POST['subcategoria'],
+          "coste" => $_POST['coste'],
+          "files" => $_FILES,
+          "f_preloaded" => $_POST['preloaded']
+        ];
+        else
+        $values = [
+          "nombre" => $_POST['name'],
+          "descripcionCorta" => $_POST['descripcion'],
+          "descripcionLarga" => $_POST['descripcion2'],
+          "marca" => $_POST['marca'],
+          "categoria" => $_POST['categoria'],
+          "subcategoria" => $_POST['subcategoria'],
+          "coste" => $_POST['coste'],
+          "files" => $_FILES,
+          "f_preloaded" => false
+        ];
+        print_r($values['files']);
+        print_r($values['f_preloaded']);
+        $articuloDAO->update($id, $values);
         header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
       } catch (PDOException $ex) {
         echo $ex->getMessage();
