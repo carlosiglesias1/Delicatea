@@ -36,7 +36,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
         </div>
         <form method="POST" id="Usuarios">
             <table id="myTable" class="display">
-                <caption>PRODUCTOS</caption>
+                <caption>USUARIOS</caption>
                 <thead>
                     <tr>
                         <th class="selectAll" scope="selectAll"><label for="selectAll">Seleccionar todos</label><input type="checkbox" id="selectAll"></th>

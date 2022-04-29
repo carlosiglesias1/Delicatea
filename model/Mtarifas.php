@@ -25,7 +25,7 @@ class Tarifa extends Estandar
         $valor = $this->exists($valores['nombre']);
         if ($valor == 0) {
             try {
-                return parent::insert($campos, $valores)-1;
+                //return parent::insert($campos, $valores)-1;
             } catch (PDOException $ex) {
                 throw $ex;
             }
@@ -50,21 +50,21 @@ class Tarifa extends Estandar
 
     public function getByID($id)
     {
-        return parent::getBy('idTarifa', $id);
+        //return parent::getBy('idTarifa', $id);
     }
 
     public function getByName(string $name)
     {
-        return parent::getBy('nombre', "'" . $name . "'");
+        //return parent::getBy('nombre', "'" . $name . "'");
     }
 
     public function deleteByID($id)
     {
-        return parent::deleteBy('idTarifa', $id);
+        //return parent::deleteBy('idTarifa', $id);
     }
 
     private function exists($tipo)
     {
-        return parent::existsBy('nombre', "'" . $tipo . "'");
+        //return parent::existsBy('nombre', "'" . $tipo . "'");
     }
 }

@@ -47,6 +47,12 @@ class MySQLDAOFactory
         return new ArticuloDAO($this->bcp->getConnection());
     }
 
+    public function getTarifaDAO(): TarifaDAO
+    {
+        require_once $_SESSION['WORKING_PATH'] . 'model/DAO/TarifaDAO.php';
+        return new TarifaDAO($this->bcp->getConnection());
+    }
+
     /**
      * Get the value of bcp
      */

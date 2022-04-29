@@ -14,11 +14,9 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 </head>
 
 <body>
-    <div class="cabecera">
-        <?php require_once $_SESSION['WORKING_PATH'] . "Back/cabecera.php"; ?>
-    </div>
+    <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
     <div class="sidebar">
-        <?php include $_SESSION['WORKING_PATH'] . "Back/menu.php"; ?>
+        <?php include $_SESSION['WORKING_PATH'] . "view/back/menu.php"; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
@@ -34,7 +32,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             <button type="submit" class="Editar" name="Editar" form="Tarifas"><i class="icofont-edit-alt"></i> <?= $lang['Tabla Tarifas']['Editar']; ?></button>
         </div>
         <form method="post" id="Tarifas">
-            <!--Para que dataTables funcione, debemos tener las mismas columnas en el thead que en tbody-->
             <table id="myTable" class="display">
                 <thead>
                     <tr>
@@ -48,7 +45,6 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                     </tr>
                 </thead>
                 <tbody>
-                    <!--Genero las filas de la tabla dinámicamente, según las filas que encuentre en la base de datos-->
                     <?php
                     if ($tarifas && sizeof($tarifas) > 0) {
                         foreach ($tarifas as $fila) {
@@ -60,7 +56,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                                         if (escapar($fila['origen']) == -1) {
                                             echo "Todas Las Tarifas";
                                         } else {
-                                            $nombre = $tarifa->getByID(escapar($fila['origen']))->fetchAll(PDO::FETCH_ASSOC);
+                                            $nombre = $tarifa->getByID(escapar($fila['origen']));
                                             echo $nombre[0]['nombre'];
                                         }
                                     } else echo "Coste Producto"; ?></td>

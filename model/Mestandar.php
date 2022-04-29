@@ -88,7 +88,7 @@ abstract class Estandar
         }
     }
 
-    public function getForeignValueString(string $foreignTable, string $conditional, string $foreignValue = null, string $orderBy = null)
+    public function getForeignValueString(string $foreignTable, string $conditional, string $foreignValue = null, string $orderBy = null): array | bool
     {
         if ($orderBy == null) {
             if ($foreignValue == null && $conditional == null) {
@@ -113,7 +113,7 @@ abstract class Estandar
             $sentencia->execute();
             try {
                 $this->bd->commit();
-                return $sentencia;
+                return $sentencia->fetch(PDO::FETCH_ASSOC);
             } catch (PDOException $error) {
                 $this->bd->rollBack();
                 throw $error;
@@ -311,7 +311,7 @@ abstract class Estandar
     public function getLastId(string $idName): int
     {
         try {
-            $sentencia = $this->bd->prepare("SELECT MAX(".$idName.") FROM " . $this->getTable());
+            $sentencia = $this->bd->prepare("SELECT MAX(" . $idName . ") FROM " . $this->getTable());
             $result = $sentencia->execute();
             return $sentencia->fetch(PDO::FETCH_NUM)[0];
         } catch (\Throwable $th) {

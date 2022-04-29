@@ -233,7 +233,7 @@ switch ($menu) {
     break;
   case 8:
     areUAllowed([11]);
-    $tarifa = new Tarifa();
+    $tarifa = $factory->getTarifaDAO();
     $tarifas = $tarifa->getAll();
     $selected = [];
     $j = 0;
@@ -261,7 +261,7 @@ switch ($menu) {
         $_SESSION['error'] = 3;
       }
     }
-    require_once("../Vistas/Tarifas/VTarifas.php");
+    require_once("../../view/back/Tarifas/VTarifas.php");
     break;
   default:
     header("./BCcontrol.php?menu=0&lang=es");

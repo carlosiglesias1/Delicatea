@@ -3,6 +3,7 @@ require_once $_SESSION['WORKING_PATH'] . 'model/Mestandar.php';
 require_once $_SESSION['WORKING_PATH'] . 'model/Classes/Articulo.php';
 require_once $_SESSION['WORKING_PATH'] . 'model/DAO/DAO.php';
 require_once $_SESSION['WORKING_PATH'] . 'model/DAO/factory/MySQLDAOFactory.php';
+
 class ArticuloDAO extends Estandar implements DAO
 {
   private $factory;
@@ -133,7 +134,7 @@ class ArticuloDAO extends Estandar implements DAO
     }
   }
 
-  public function insertImages(array $files, int $idArticulo, bool $override = false)
+  public function insertImages(array $files, int $idArticulo)
   {
     $_FILES = $files;
     $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";

@@ -4,18 +4,17 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     die();
 }
 ?>
+
 <body>
-    <div class="cabecera">
-        <?php require_once "../cabecera.php"; ?>
-    </div>
+    <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
     <div class="sidebar">
-        <?php include "../menu.php"; ?>
+        <?php include $_SESSION['WORKING_PATH'] . "view/back/menu.php"; ?>
     </div>
     <div class="contenedor">
         <div class="breadcrumb">
             <ul>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
-                <li><a href="<?= $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=8&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Tarifas']['Titulo'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=3&lang=" . $_GET['lang'] ?>"><?= $lang['Inicio'] ?></a></li>
+                <li><a href="<?= $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=8&lang=" . $_GET['lang'] ?>"><?= $lang['Tabla Tarifas']['Titulo'] ?></a></li>
                 <li><?= $lang['Nueva Tarifa']['Boton'] ?></li>
             </ul>
         </div>
@@ -24,17 +23,18 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <label for="nombre"><?php echo $lang['Nueva Tarifa']['Nombre'] ?></label>
                 <input type="text" name="nombre" required>
                 <div class="formula">
-                    <p>¿Sobre qué coste quieres aplicar la tarifa?</p>
+                    <p>Coste de la tarifa</p>
                     <ul class="tarifaList">
                         <li><label for="costeFinal">Coste Final</label>
                             <input type="radio" name="coste" id="costeFinal" value="0" onclick="changeclass('tarifas', 'otraTarifa', this); changeclass('destino', 'costeFinal', this)" required>
                             <ul class="nested" id='destino'>
+                                <span style="text-decoration: underline; cursor: default;">Filtros</span>
                                 <li>
                                     <label for="marca">Marcas</label>
                                     <select name="marca" id="marca">
                                         <option selected value="0">Todas</option>
                                         <?php
-                                        $marca = $tarifa->getForeignValue(null, 'marca');
+                                        $marca = $tarifa->getForeignValue('marca');
                                         foreach ($marca as $fila) {
                                         ?>
                                             <option value="<?= $fila['idMarca'] ?>"><?= $fila['nombre'] ?></option>
@@ -47,7 +47,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                                     <select name="categoria" id="cat">
                                         <option selected value="0">Todas</option>
                                         <?php
-                                        $categorias = $tarifa->getForeignValue(null, 'categoria')->fetchAll(PDO::FETCH_ASSOC);
+                                        $categorias = $tarifa->getForeignValue('categoria');
                                         foreach ($categorias as $fila) {
                                         ?>
                                             <option value="<?= $fila['idCategoria'] ?>"><?= $fila['nombre'] ?></option>
@@ -60,7 +60,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                                     <select name="subcategoria" id="subcategoria">
                                         <option selected value="0">Todas</option>
                                         <?php
-                                        $subcategorias = $tarifa->getForeignValue(null, 'subcategoria');
+                                        $subcategorias = $tarifa->getForeignValue('subcategoria');
                                         foreach ($subcategorias as $fila) {
                                         ?>
                                             <option value="<?= $fila['idSubCategoria'] ?>"><?= $fila['nombre'] ?></option>
@@ -79,7 +79,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                                     <select name="tarifa" id="tarifa" onchange="changeValue('otraTarifa', 'tarifa')">
                                         <option value="-1" selected>Todas</option>
                                         <?php
-                                        $tarifas = $tarifa->getAll()->fetchAll(PDO::FETCH_ASSOC);
+                                        $tarifas = $tarifa->getAll();
                                         foreach ($tarifas as $fila) {
                                         ?>
                                             <option value="<?= $fila['idTarifa'] ?>"><?= $fila['nombre'] ?></option>
@@ -138,7 +138,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                     <ul>
                         <li>Aplicada sobre : <?php if ($campos['origen'] != 0) {
                                                     if ($campos['origen'] != -1) {
-                                                        $nombre = $tarifa->getById($campos['origen'])->fetchAll(PDO::FETCH_ASSOC)[0]['nombre'];
+                                                        $nombre = $tarifa->getById($campos['origen'])[0]['nombre'];
                                                         echo $nombre;
                                                     } else {
                                                         echo "Todas las tarifas";

@@ -7,10 +7,7 @@ $_SESSION['WORKING_PATH'] . 'paths/NewPaths.php';
 ?>
 
 <body>
-  <div class="cabecera">
-    <?php require_once $_SESSION['WORKING_PATH'] .
-      'view/back/cabecera.php'; ?>
-  </div>
+  <?php require_once $_SESSION['WORKING_PATH'] . 'view/back/cabecera.php'; ?>
   <div class="sidebar">
     <?php include $_SESSION['WORKING_PATH'] . 'view/back/menu.php'; ?>
   </div>
@@ -30,9 +27,7 @@ $_SESSION['WORKING_PATH'] . 'paths/NewPaths.php';
     </div>
     <div class="contenido">
       <h4><?php if ($_GET['idTarifa'] != 0) {
-            echo $lang['Tabla Articulos']['Titulo'] .
-              ': ' .
-              $articulo->searchRow($_GET['idTarifa']);
+            //echo $lang['Tabla Articulos']['Titulo'] . ': ' . $tarifaName->getNombre();
           } else {
             echo $lang['Tabla Articulos']['Titulo'];
           } ?></h4>
