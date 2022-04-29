@@ -1,7 +1,7 @@
 <?php
 return [
     'pool_size' => 3,
-    'max_pool_size' => 5,
+    'max_pool_size' => 10,
     'host' => 'localhost:3320',
     'user' => 'root',
     'pass' => '',

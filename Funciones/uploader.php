@@ -2,7 +2,7 @@
 $menu  = $_GET['menu'];
 switch ($menu) {
     case 1:
-        print_r($_FILES);
+        print_r($files);
         foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
             if ($_FILES['images']['name'][$key]) {
                 $filename = $_FILES['images']['name'][$key];

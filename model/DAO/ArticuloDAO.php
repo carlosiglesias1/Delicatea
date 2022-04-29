@@ -6,25 +6,35 @@ require_once $_SESSION['WORKING_PATH'] . 'model/DAO/factory/MySQLDAOFactory.php'
 class ArticuloDAO extends Estandar implements DAO
 {
   private $factory;
+  private $marcaDAO;
+  private $categoriaDAO;
+  private $subcategoriaDAO;
+  private $ivaDAO;
+  private $tipos = [
+    'nombre' => PDO::PARAM_STR,
+    'descripcionCorta' => PDO::PARAM_STR,
+    'descripcionLarga' => PDO::PARAM_STR,
+    'marca' => PDO::PARAM_INT,
+    'categoria' => PDO::PARAM_INT,
+    'subcategoria' => PDO::PARAM_INT,
+    //'iva' => PDO::PARAM_INT,
+    'stock' => PDO::PARAM_INT,
+    'coste' => PDO::PARAM_INT
+  ];
   public function __construct(PDO $connection)
   {
     parent::__construct($connection, 'articulo');
     $this->factory = new MySQLDAOFactory();
+    $this->marcaDAO = $this->factory->getMarcaDAO();
+    $this->categoriaDAO = $this->factory->getCategoriaDAO();
+    $this->subcategoriaDAO = $this->factory->getSubcategoriaDAO();
+    $this->ivaDAO = $this->factory->getIvaDAO();
   }
   public function addElement(array $values): void
   {
     $files = $values['files'];
     unset($values['files']);
-    $tipos = [
-      "nombre" => PDO::PARAM_STR,
-      "descripcionCorta" => PDO::PARAM_STR,
-      "descripcionLarga" => PDO::PARAM_STR,
-      "marca" => PDO::PARAM_INT,
-      "categoria" => PDO::PARAM_INT,
-      "subcategoria" => PDO::PARAM_INT,
-      "coste" => PDO::PARAM_INT
-    ];
-    parent::insert(array_keys($tipos), $values, array_values($tipos));
+    parent::insert(array_keys($this->tipos), $values, array_values($this->tipos));
     $this->insertImages($files);
   }
 
@@ -32,25 +42,10 @@ class ArticuloDAO extends Estandar implements DAO
   {
     $articuloArray = parent::getAll();
     $articuloList = array();
-    $marcaDAO = $this->factory->getMarcaDAO();
-    $categoriaDAO = $this->factory->getCategoriaDAO();
-    $subcategoriaDAO = $this->factory->getSubcategoriaDAO();
-    $ivaDAO = $this->factory->getIvaDAO();
     for ($i = 0; $i < sizeof($articuloArray); $i++) {
       array_push(
         $articuloList,
-        new Articulo([
-          'idArticulo' => $articuloArray[$i]['idArticulo'],
-          'nombre' => $articuloArray[$i]['nombre'],
-          'descripcionCorta' => $articuloArray[$i]['descripcionCorta'],
-          'descripcionLarga' => $articuloArray[$i]['descripcionLarga'],
-          'marca' => $marcaDAO->searchRow($articuloArray[$i]['marca']),
-          'categoria' => $categoriaDAO->searchRow($articuloArray[$i]['categoria']),
-          'subcategoria' => $subcategoriaDAO->searchRow($articuloArray[$i]['subcategoria']),
-          'iva' => $ivaDAO->searchRow($articuloArray[$i]['iva']),
-          'stock' => 1,
-          'coste' => $articuloArray[$i]['coste']
-        ])
+        $this->instanciarArticulo($articuloArray[$i])
       );
     }
     return $articuloList;
@@ -58,17 +53,38 @@ class ArticuloDAO extends Estandar implements DAO
 
   public function update(int $id, array $valores): void
   {
-    # code...
+    foreach ($valores as $key => $value) {
+      parent::updateValue($key, $value, $this->tipos[$key], 'idArticulo', $id);
+    }
   }
 
-  public function searchRow(int $id)
+  public function searchRow(int $id): Articulo
   {
-    # code...
+    return $this->instanciarArticulo(parent::getBy('idArticulo', $id, PDO::PARAM_INT));
   }
 
   public function delete(int $id)
   {
-    # code...
+    parent::deleteBy('idArticulo', $id, PDO::PARAM_INT);
+    parent::foreignDelete('imagenesArticulos', 'articulo', $id);
+  }
+
+  public function instanciarArticulo(array $values): Articulo
+  {
+    return new Articulo(
+      [
+        'idArticulo' => $values['idArticulo'],
+        'nombre' => $values['nombre'],
+        'descripcionCorta' => $values['descripcionCorta'],
+        'descripcionLarga' => $values['descripcionLarga'],
+        'marca' => $this->marcaDAO->searchRow($values['marca']),
+        'categoria' => $this->categoriaDAO->searchRow($values['categoria']),
+        'subcategoria' => $this->subcategoriaDAO->searchRow($values['subcategoria']),
+        'iva' => $this->ivaDAO->searchRow($values['iva']),
+        'stock' => 1,
+        'coste' => $values['coste']
+      ]
+    );
   }
 
   public function insertImages(array $files)
@@ -77,11 +93,11 @@ class ArticuloDAO extends Estandar implements DAO
     $idArticulo = parent::getLastId('idArticulo');
     $directorio = $_SESSION['WORKING_PATH'] . "imgs/articulos/$idArticulo";
     $src = $_SESSION['INDEX_PATH'] . "imgs/articulos/$idArticulo";
-    require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php?menu=1");
+    require_once($_SESSION['WORKING_PATH'] . "Funciones/uploader.php");
     if ($handler = opendir($directorio)) {
       while (false !== ($file = readdir($handler))) {
         if ($file != "." && $file != "..") {
-          $articuloDAO->foreignInsert('imagenesArticulos', ["path", "articulo"], ["path" => "$src/$file", "articulo" => $idArticulo]);
+          $this->foreignInsert('imagenesArticulos', ["path", "articulo"], ["path" => "$src/$file", "articulo" => $idArticulo]);
         }
       }
     }

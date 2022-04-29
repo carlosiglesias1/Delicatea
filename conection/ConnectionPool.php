@@ -31,7 +31,7 @@ class ConnectionPool
     public function getConnection(): PDO
     {
         if (sizeof($this->connections) < 1) {
-            if (sizeof($this->usedConnections) < $this->config['max_pool_size']) {
+            if (sizeof($this->usedConnections) < sizeof($this->connections)) {
                 array_push($this->connections, new PDO('mysql:dbname=' . $this->database . ";host=" . $this->host, $this->user, $this->pass, $this->options));
             } else {
                 throw new RuntimeException("Max pool size reached!!");

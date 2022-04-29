@@ -29,7 +29,7 @@ switch ($menu) {
           "coste" => $_POST['coste'],
           "files" => $_FILES
         ];
-        print_r($values['files']);
+        //print_r($values['files']);
         $articuloDAO->addElement($values);
         closedir($handler);
         header("Location: " . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=6&lang=" . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
@@ -44,12 +44,10 @@ switch ($menu) {
 
   case 2:
     areUAllowed([3]);
-    $articulo = new Articulo('articulo');
     $selected = unserialize($_GET['selected']);
     try {
       foreach ($selected as $fila) {
-        $articulo->deleteByID($fila);
-        $articulo->foreignDelete('imagenesArticulos', 'articulo', $fila);
+        $articuloDAO->delete($fila);
       }
       header('Location: BCcontrol.php?menu=6&lang=' . $_SESSION['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     } catch (PDOException $ex) {
@@ -58,17 +56,14 @@ switch ($menu) {
     break;
 
   case 3:
-    require_once("../cabecera.php");
     areUAllowed([3]);
-    require_once("../Modelos/Mproductos.php");
     if (isset($_POST['cancelar'])) {
       header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
     }
-    $articulo = new Articulo();
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     $id = $_GET['id'];
-    $campos = $articulo->getByID($id);
-    $imagenes = $articulo->getForeignValue('path', 'imagenesArticulos', $id, 'articulo');
+    $campos = $articuloDAO->searchRow($id);
+    $imagenes = $articuloDAO->getForeignValue ('imagenesArticulos', 'path', 'articulo', $id);
     if (isset($_POST['submit'])) {
       try {
         $directorio = $directorio = $_SESSION['WORKING_PATH'] . "Back/Imagenes/Articulos/$id";
@@ -76,23 +71,23 @@ switch ($menu) {
         if (!empty($deleteDB)) {
           foreach ($deleteDB as $fila) {
             echo $fila;
-            $articulo->foreignDelete('imagenesarticulos', 'path', "'" . $fila . "'");
+            $articuloDAO->foreignDelete('imagenesarticulos', 'path', "'" . $fila . "'");
           }
         }
         $src = $_SESSION['INDEX_PATH'] . "Back/Imagenes/Articulos/$id";
         if (!empty($insertDb)) {
           print_r($insertDb);
           foreach ($insertDb as $fila) {
-            $articulo->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$fila", $id]);
+            $articuloDAO->foreignInsert('imagenesArticulos', ["path" => "path", "idArticulo" => "articulo"], ["$src/$fila", $id]);
           }
         }
-        $articulo->updateArticle($id);
+        $articuloDAO->update($id, array());
         header('Location: BCcontrol.php?menu=6&lang=' . $_GET['lang'] . "&idTarifa=" . $_GET['idTarifa']);
       } catch (PDOException $ex) {
         echo $ex->getMessage();
       }
     }
-    require_once("../Vistas/Productos/VCrearProd.php");
+    require_once("../../view/back/Productos/VCrearProd.php");
     break;
   default:
     require_once("./BCcontrol.php");
