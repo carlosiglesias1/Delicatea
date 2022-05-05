@@ -40,31 +40,30 @@ switch ($menu) {
         break;
 
     case 3:
-        require_once("../cabecera.php");
         areUAllowed([11]);
-        require_once("../Modelos/Mtarifas.php");
         if (isset($_POST['cancelar'])) {
-            header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=8&lang=" . $_GET['lang']);
+            header("Location: " . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=8&lang=" . $_GET['lang']);
         }
         //Llamamos a la funcion de la clase y almacenamos el return en una variable
         $id = $_GET['id'];
-        $campos = $tarifa->searchRow($id);
-        $RA = $campos['redondeo'] + $campos['ajuste'];
-        $campos['opera'] = substr($campos['formula'], 0, 1);
-        $campos['opc'] = substr($campos['formula'], strlen($campos['formula']) - 1);
-        $campos['coste'] = $campos['origen'];
+        $values = $tarifa->searchRow($id);
+        $campos = array();
+        $RA = $values->getRedondeo() + $values->getAjuste();
+        $campos['opera'] = substr($values->getFormula(), 0, 1);
+        $campos['opc'] = substr($values->getFormula(), strlen($values->getFormula()) - 1);
+        $campos['coste'] = $values->getOrigen();
         if (isset($_POST['submit'])) {
             $formula = substr($campos['formula'], 0, 1) . $_POST['importe'] . substr($campos['formula'], strlen($campos['formula']) - 1);
             try {
-                $tarifa->update($id, $formula);
+                $tarifa->update($id, $_POST);
                 $tarifa->foreignDelete('tarifasproductos', 'idTarifa', $campos['idTarifa']);
-                calculoCostes($campos, $_POST['importe'], $RA, $tarifa, $id);
+                //$tarifa->calculoCostes($campos, $_POST['importe'], $RA, $tarifa, $id);
                 header('Location: BCcontrol.php?menu=8&lang=' . $_GET['lang']);
             } catch (PDOException $ex) {
                 echo $ex->getMessage();
             }
         }
-        require_once("../Vistas/Tarifas/VCrearTarifa.php");
+        require_once("../../view/back/Tarifas/VCrearTarifa.php");
         break;
     case 4:
         areUAllowed([11]);

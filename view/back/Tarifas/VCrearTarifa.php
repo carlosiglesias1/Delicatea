@@ -133,31 +133,31 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             <?php } else {
             ?>
                 <label for="nombre"><?php echo $lang['Nueva Tarifa']['Nombre'] ?></label>
-                <input type="text" name="nombre" value="<?= $campos['nombre'] ?>" required>
+                <input type="text" name="nombre" value="<?= $values->getNombre() ?>" required>
                 <div class="formula">
                     <ul>
-                        <li>Aplicada sobre : <?php if ($campos['origen'] != 0) {
-                                                    if ($campos['origen'] != -1) {
-                                                        $nombre = $tarifa->getById($campos['origen'])[0]['nombre'];
+                        <li>Aplicada sobre : <?php if ($values->getOrigen() != 0) {
+                                                    if ($values->getOrigen() != -1) {
+                                                        $nombre = $tarifa->searchRow($values->getOrigen())->getNombre();
                                                         echo $nombre;
                                                     } else {
                                                         echo "Todas las tarifas";
                                                     }
                                                 } else {
                                                     echo "Coste final <br>";
-                                                    echo "Filtros: <ul><li>Marca: " . $campos['marca'] . " </li><li>Categoría:" . $campos['categoria'] . " </li> <li>Subcategoría: " . $campos['subcategoria'] . " </li> </ul>";
+                                                    echo "Filtros: <ul><li>Marca: " . $values->getMarca()->getNombre() . " </li><li>Categoría:" . $values->getCategoria()->getNombre() . " </li> <li>Subcategoría: " . $values->getSubcategoria()->getNombre() . " </li> </ul>";
                                                 } ?></li>
-                        <li><?php if (substr($campos['formula'], 0, 1) != '0') {
-                                if (substr($campos['formula'], strlen($campos['formula']) - 1) != '0') {
-                                    echo "Incrementar: <input type='number' step='0.001' name='importe' value='" . substr($campos['formula'], 1, strlen($campos['formula']) - 2) . "%";
+                        <li><?php if (substr($values->getFormula(), 0, 1) != '0') {
+                                if (substr($values->getFormula(), strlen($values->getFormula()) - 1) != '0') {
+                                    echo "Incrementar: <input type='number' step='0.001' name='importe' value='" . substr($values->getFormula(), 1, strlen($values->getFormula()) - 2) . "%";
                                 } else {
-                                    echo "Incrementar: <input type='number' step='0.001' name='importe' value='" . substr($campos['formula'], 1, strlen($campos['formula']) - 2) . "'>€";
+                                    echo "Incrementar: <input type='number' step='0.001' name='importe' value='" . substr($values->getFormula(), 1, strlen($values->getFormula()) - 2) . "'>€";
                                 }
                             } else {
-                                if (substr($campos['formula'], strlen($campos['formula']) - 1) != '0') {
-                                    echo "Rebajar: <input type='number' step='0.001' name='importe' value='" . substr($campos['formula'], 1, strlen($campos['formula']) - 2) . "%";
+                                if (substr($values->getFormula(), strlen($values->getFormula()) - 1) != '0') {
+                                    echo "Rebajar: <input type='number' step='0.001' name='importe' value='" . substr($values->getFormula(), 1, strlen($campos['formula']) - 2) . "%";
                                 } else {
-                                    echo "Rebajar: <input type='number' step='0.001' name='importe' value='" . substr($campos['formula'], 1, strlen($campos['formula']) - 2) . "'>€";
+                                    echo "Rebajar: <input type='number' step='0.001' name='importe' value='" . substr($values->getFormula(), 1, strlen($values->getFormula()) - 2) . "'>€";
                                 }
                             } ?></li>
                     </ul>
