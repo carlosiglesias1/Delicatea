@@ -260,7 +260,6 @@ CREATE TABLE tarifasProductos(
     id int NOT NULL primary key AUTO_INCREMENT,
     idPrd int REFERENCES articulo(idArticulo),
     idTarifa int REFERENCES tarifas(idTarifa),
-    costeFinal FLOAT
   );
 CREATE Table imagenesArticulos(
     path VARCHAR(255) PRIMARY KEY,
