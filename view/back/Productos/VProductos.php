@@ -34,7 +34,7 @@ $_SESSION['WORKING_PATH'] . 'paths/NewPaths.php';
       <a href="<?= 'Cprods.php?menu=1&lang=' . $_GET['lang'] . '&idTarifa=' . $_GET['idTarifa'] ?>" class="New_Button"><?php echo $lang['Nuevo Articulo']['Boton']; ?></a>
       <button class="Borrar" name="Borrar" onclick="cargarModal(2); changeModal()"><i class="icofont-delete-alt"></i> <?= $lang['Tabla Articulos']['Borrar'] ?></button>
       <?php if ($_GET['idTarifa'] != 0) { ?>
-        <a href="<?= $_SESSION['INDEX_PATH'] . 'Back/Controladores/BCcontrol.php?menu=8&lang=' . $_GET['lang'] ?>" class="return"><?= $lang['Tabla Tarifas']['Volver'] ?></a>
+        <a href="<?= $_SESSION['INDEX_PATH'] . 'controller/back/BCcontrol.php?menu=8&lang=' . $_GET['lang'] ?>" class="return"><?= $lang['Tabla Tarifas']['Volver'] ?></a>
       <?php } ?>
     </div>
     <form method="post">

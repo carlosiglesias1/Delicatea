@@ -17,10 +17,11 @@ switch ($menu) {
     //Llamamos a la funcion de la clase y almacenamos el return en una variable
     if (isset($_POST['submit'])) {
       $valores = [
-        "nick" => $_POST['nickname'],
-        "pass" => $_POST['password']
+        "nick" => $_POST['nick'],
+        "pass" => substr(hash("sha512", $_POST['password']), 0, 50)
       ];
       $usuario->addElement($valores);
+      header('Location: ' . $_SESSION['INDEX_PATH'] . 'controller/back/BCcontrol.php?menu=1&lang=' . $_GET['lang']);
     }
     require_once("../../view/back/Usuario/VCreateUser.php");
     break;

@@ -12,7 +12,7 @@ class UsuarioDAO extends Estandar implements DAO
     public function addElement(array $valores): void
     {
         $campos = ["nick", "pass"];
-        $valor = $this->exists($valores['nickname']);
+        $valor = $this->exists($valores['nick']);
         $tipos = [PDO::PARAM_STR, PDO::PARAM_STR];
         if ($valor == 0) {
             try {

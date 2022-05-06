@@ -31,7 +31,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
         </div>
         <form method="POST" class="FormNewObject">
             <label for="nickname"><?php echo $lang['Nuevo Usuario']['Nombre'] ?></label>
-            <input type="text" name="nickname">
+            <input type="text" name="nick">
             <label for="password"><?php echo $lang['Nuevo Usuario']['Contraseña'] ?></label>
             <input type="text" name="password">
             <label for="RepPassword"><?php echo $lang['Nuevo Usuario']['Repetir Contraseña'] ?></label>

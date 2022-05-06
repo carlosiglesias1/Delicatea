@@ -68,10 +68,10 @@ switch ($menu) {
     case 4:
         areUAllowed([11]);
         $articulo = $tarifa;
-        //$tarifaName = $tarifa->searchRow($_GET['idTarifa']);
+        $tarifaName = $tarifa->searchRow($_GET['idTarifa']);
         $conditional = "idArticulo IN (SELECT idPrd FROM tarifasproductos WHERE idTarifa = " . $_GET['idTarifa'] . ")";
         $prods = $tarifa->getForeignValueString('articulo', $conditional);
-        $costeFinal = $tarifa->getForeignValue('tarifasproductos', 'costeFinal', $_GET['idTarifa'], 'idTarifa', 'idPrd');
+        //$costeFinal = $tarifa->getForeignValue('tarifasproductos', 'costeFinal', $_GET['idTarifa'], 'idTarifa', 'idPrd');
         if ($prods != null) {
             for ($i = 0; $i < sizeof($prods); $i++) {
                 $prods[$i]['costeFinal'] =  $costeFinal[$i]['costeFinal'];

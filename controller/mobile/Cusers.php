@@ -20,8 +20,8 @@ switch ($menu) {
         echo $json;
         break;
     case Crud::PERSIST:
-        $usuario = new Usuario(["nick" => $_POST['name'], "pass" => $_POST['pass']]);
-        if ($factory->getUsuarioDAO()->addElement(["nickname" => $_POST['name'], "pass" => $_POST['pass']])) {
+        //$usuario = new Usuario(["nick" => $_POST['name'], "pass" => $_POST['pass']]);
+        if ($factory->getUsuarioDAO()->addElement(["nick" => $_POST['name'], "pass" => substr(hash("sha512", $_POST['pass']), 0, 50)])) {
             echo "success";
         }
         break;
