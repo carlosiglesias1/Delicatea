@@ -6,8 +6,9 @@ $factory = new MySQLDAOFactory();
 $menu = $_GET['option'];
 switch ($menu) {
     case Crud::LOGIN:
-        $user = new Usuario();
-        $user->setNick($_GET['name']);
+        $user = $factory->getUsuarioDAO()->get();
+        $user->setNick($_POST['name']);
+        $user->setPass($_POST['pass']);
         if ($factory->getUsuarioDAO()->logIn($user)) {
             echo json_encode(1);
         } else {
@@ -26,7 +27,7 @@ switch ($menu) {
         }
         break;
     case Crud::UPDATE:
-        $factory->getUsuarioDAO()->update(intval($_POST['id']), ["nick"=>$_POST['name'], "rol"=>$_POST['rol']]);
+        $factory->getUsuarioDAO()->update(intval($_POST['id']), ["nick" => $_POST['name'], "rol" => $_POST['rol']]);
         echo "siiuuu";
         break;
     case Crud::DELETE:
