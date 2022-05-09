@@ -13,6 +13,7 @@ switch ($_GET['option']) {
         $factory->getMarcaDAO()->addElement(['name' => $_POST['name']]);
         break;
     case Crud::UPDATE:
+        echo $_POST['nombre'] ." " . $_POST['id'] ;
         $factory->getMarcaDAO()->update(intval($_POST['id']), ["nombre" => $_POST['nombre']]);
         break;
     case Crud::DELETE:
