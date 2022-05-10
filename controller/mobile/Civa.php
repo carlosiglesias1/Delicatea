@@ -11,18 +11,18 @@ $factory = new MySQLDAOFactory();
 
 switch ($menu) {
   case Crud::GETALL:
-    $lista = $factory->getArticuloDAO()->getAll();
+    $lista = $factory->getIvaDAO()->getAll();
     $lista = json_encode($lista);
     echo $lista;
     break;
   case Crud::PERSIST:
-    $factory->getArticuloDAO()->addElement(["tipo" => $_POST['tipo'], "porcentaje" => floatval($_POST['porcentaje'])]);
+    $factory->getIvaDAO()->addElement(["tipo" => $_POST['tipo'], "porcentaje" => floatval($_POST['porcentaje'])]);
     break;
   case Crud::UPDATE:
-    $factory->getArticuloDAO()->update(intval($_POST['id']), ["tipo" => $_POST['tipo'], "porcentaje" => floatval($_POST['porcentaje'])]);
+    $factory->getIvaDAO()->update(intval($_POST['id']), ["tipo" => $_POST['tipo'], "porcentaje" => floatval($_POST['porcentaje'])]);
     break;
   case Crud::DELETE:
-    $factory->getArticuloDAO()->delete($_POST['id']);
+    $factory->getIvaDAO()->delete($_POST['id']);
     break;
   default:
     break;
