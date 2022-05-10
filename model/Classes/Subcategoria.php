@@ -1,6 +1,6 @@
 <?php
 require_once $_SESSION['WORKING_PATH']."model/Classes/Objects.php";
-class Subcategoria implements Objects
+class Subcategoria implements JsonSerializable
 {
     private $idSubCategoria;
     private $nombre;
@@ -12,6 +12,11 @@ class Subcategoria implements Objects
         foreach($parametros as $key=>$value){
             $this->{$key} = $value;
         }
+    }
+
+    public function jsonSerialize()
+    {
+        return [$this->idSubCategoria, $this->nombre, $this->descripcion, $this->categoria];
     }
 
     /**

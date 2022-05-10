@@ -1,5 +1,5 @@
 <?php
-class Categoria
+class Categoria implements JsonSerializable
 {
     private int $idCategoria;
     private string $nombre;
@@ -12,6 +12,12 @@ class Categoria
             $this->{$key} = $value;
         }
     }
+
+    public function jsonSerialize()
+    {
+        return [$this->idCategoria ,$this->nombre, $this->descripcion];
+    }
+
     /**
      * Get the value of idCategoria
      */
