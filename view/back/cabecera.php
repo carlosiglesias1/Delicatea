@@ -27,7 +27,7 @@
                 </ul>
             </li>
             <li>
-                <a href="<?=$_SESSION['INDEX_PATH']?>BCcontrol.php?menu=0&lang=<?= $_GET['lang'] ?>" class="logOutIcon"><i class="icofont-logout"></i></a>
+                <a href="<?=$_SESSION['INDEX_PATH']?>/controller/back/BCcontrol.php?menu=0&lang=<?= $_GET['lang'] ?>" class="logOutIcon"><i class="icofont-logout"></i></a>
             </li>
             </li>
         </ul>
