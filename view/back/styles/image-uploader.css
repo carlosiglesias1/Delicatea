@@ -8,13 +8,15 @@
 }
 
 .image-uploader {
+    margin-right: 5%;
     min-height: 10rem;
     border: 1px solid #d9d9d9;
+    border-radius: 3em;
     position: relative
 }
 
 .image-uploader.drag-over {
-    background-color: #f3f3f3
+    background-color: #2A2A2C
 }
 
 .image-uploader input[type=file] {

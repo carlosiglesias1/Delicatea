@@ -32,7 +32,7 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
                         <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll"></th>
                         <th><?= $lang['Tabla Categorias']['Nombre']; ?></th>
                         <th><?= $lang['Tabla Categorias']['Descripcion']; ?></th>
-                        <th>Ver Subcategorias</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
                                 </td>
                                 <td><label for="<?= escapar($fila->getIdCategoria()); ?>"><?= escapar($fila->getDescripcion()) ?></label>
                                 </td>
-                                <td><a href="<?= 'Ccats.php?menu=4&idCat=' . escapar($fila->getIdCategoria()) . "&lang=" . $_GET['lang']  ?>" class="Special"><i class="icofont-list"></i> Ver</a></td>
+                                <td><a href="<?= 'Ccats.php?menu=4&idCat=' . escapar($fila->getIdCategoria()) . "&lang=" . $_GET['lang']  ?>" class="Special"><i class="icofont-list"></i>Ver Subcategorias</a></td>
                             </tr>
                     <?php
                         }
