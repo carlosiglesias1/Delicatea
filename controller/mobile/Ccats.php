@@ -16,10 +16,10 @@ switch ($menu) {
     echo $lista;
     break;
   case Crud::PERSIST:
-    $factory->getCategoriaDAO()->addElement(["nombre" => $_POST['nombre'], "descripcion" => $_POST['descripcion'], "categoria" => $_POST['categoria']]);
+    $factory->getCategoriaDAO()->addElement(["nombre" => $_POST['nombre'], "descripcion" => $_POST['descripcion']]);
     break;
   case Crud::UPDATE:
-    $factory->getCategoriaDAO()->update(intval($_POST['id']), ["nombre" => $_POST['nombre'], "descripcion" => $_POST['descripcion'], "categoria" => $_POST['categoria']]);
+    $factory->getCategoriaDAO()->update(intval($_POST['id']), ["nombre" => $_POST['nombre'], "descripcion" => $_POST['descripcion']]);
     break;
   case Crud::DELETE:
     $factory->getCategoriaDAO()->delete($_POST['id']);
