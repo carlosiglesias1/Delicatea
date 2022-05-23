@@ -50,7 +50,7 @@ class UsuarioDAO extends Estandar implements DAO
         }
         return $list;
     }
-    public function getPermissions($id)
+    public function getPermissions(int $id)
     {
         return parent::getForeignValue('permisosmenu', null, $id, 'usuario');
     }

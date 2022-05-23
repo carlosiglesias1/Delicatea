@@ -1,5 +1,5 @@
 <?php
-class Permiso{
+class Permiso implements JsonSerializable{
     private int $idPermiso;
     private int $usuario;
     private int $permiso;
@@ -9,6 +9,11 @@ class Permiso{
         foreach ($parametros as $key => $value) {
             $this->{$key} = $value;
         }
+    }
+
+    public function jsonSerialize()
+    {
+        return array($this->idPermiso, $this->usuario, $this->permiso);
     }
 
     /**
