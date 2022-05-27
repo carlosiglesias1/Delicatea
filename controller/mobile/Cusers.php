@@ -7,14 +7,14 @@ $menu = $_GET['option'];
 switch ($menu) {
     case Crud::LOGIN:
         $user = $factory->getUsuarioDAO()->get();
-        //$user->setNick($_POST['name']);
-        //$user->setPass($_POST['pass']);
-        //if ($factory->getUsuarioDAO()->logIn($user)) {
-        //    $user = $factory->getUsuarioDAO()->searchByName($user->getNick());
-            echo json_encode($factory->getUsuarioDAO()->getPermissions(2));
-        //} else {
-            echo json_encode(0);
-        //}
+        $user->setNick('admin');
+        $user->setPass('c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3');
+        if ($factory->getUsuarioDAO()->mobileLogIn($user)) {
+            $user = $factory->getUsuarioDAO()->searchByName($user->getNick());
+            echo json_encode($factory->getUsuarioDAO()->getPermissions($_SESSION['id']));
+        } else {
+            echo json_encode([0]);
+        }
         break;
     case Crud::GETALL:
         $lista = $factory->getUsuarioDAO()->getList();

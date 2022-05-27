@@ -81,6 +81,18 @@ class UsuarioDAO extends Estandar implements DAO
         }
         return false;
     }
+
+    public function mobileLogIn(Usuario $user):bool
+    {
+        $exists = $this->searchByName($user->getNick());
+        if ($exists != null && $exists->getPass() == $user->getPass()) {
+            $_SESSION['id'] = $exists->getIdUsr();
+            $_SESSION['lang'] = $_GET['lang'];
+            return true;
+        }
+        return false;
+    }
+
     private function exists($nickname)
     {
         return parent::existsBy('nick', $nickname, PDO::PARAM_STR);

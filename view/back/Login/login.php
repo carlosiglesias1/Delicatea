@@ -1,22 +1,6 @@
 <?php
-/*if (isset($_POST['submit'])) {
-    if (session_status() == PHP_SESSION_ACTIVE) {
-        session_destroy();
-    }
-    $name = $_POST['username'];
-    $password = "";
-    if (isset($_POST["password"])) {
-        $password = substr(hash("sha512", $_POST['password']), 0, 50);
-    }
 
-    try {
-        logIn($name, $password);
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-}*/
 ?>
-
 <body>
     <div class="cabecera"></div>
     <div class="contenedor">

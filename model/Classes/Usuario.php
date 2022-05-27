@@ -25,7 +25,7 @@ class Usuario implements JsonSerializable
 
     public function jsonSerialize()
     {
-        return array($this->idUsr, $this->nick, $this->pass, $this->mail, $this->token, $this->verificado, $this->rol);
+        return [$this->idUsr, $this->nick, $this->pass, $this->mail, $this->token, $this->verificado, $this->rol];
     }
     /**
      * Get the value of email
@@ -120,11 +120,9 @@ class Usuario implements JsonSerializable
      *
      * @return  self
      */
-    public function setNick($nick)
+    public function setNick($nick):void
     {
         $this->nick = $nick;
-
-        return $this;
     }
 
     /**
@@ -140,11 +138,9 @@ class Usuario implements JsonSerializable
      *
      * @return  self
      */
-    public function setPass($pass)
+    public function setPass($pass):void
     {
         $this->pass = $pass;
-
-        return $this;
     }
 
     /**
@@ -160,10 +156,8 @@ class Usuario implements JsonSerializable
      *
      * @return  self
      */
-    public function setIdUsr($idUsr)
+    public function setIdUsr($idUsr):void
     {
         $this->idUsr = $idUsr;
-
-        return $this;
     }
 }
