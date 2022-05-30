@@ -19,4 +19,39 @@ Despois, para que o sistema poida acceder á base de datos, deberán configurars
 
 Para executar o proxecto deberemos arrancar o servidor local e dende o navegador poderemos acceder ao backoffice simplemente coa url *localhost/Delicatea/*.  
 De momento esa url esta programada para levarnos directamente ao BackOffice, algo que normalmente non debería estar permitido pero que de momento fai que o acceso ao proxecto sexa máis cómodo.
-Introduciondo as credenciais admin admin entraremos ao proxecto, dende onde poderemos xestionar a nosa tenda.  
+Introduciondo as credenciais admin admin entraremos ao proxecto, dende onde poderemos xestionar a nosa tenda.
+
+## Funcionamento Interno
+
+O back-end desta aplicación está desenvolvido totalmente en PHP e Javascript, utilizando o patrón de deseño MVC (Model-View-Controller) con controladores desenvolvidos para versión móbil e web, que é a tendencia que está levando o desenvolvemento de aplicacións.
+
+Nos modelos implementei unha estructura de DAO's para modular o acceso aos datos, un connectionPool en PDO e unha DAO factory para, en caso de facer migracións, que estas tivesen o mínimo custo de programación posible. Todo isto está na carpeta de [model](model/.).
+
+As vistas da parte web están implementadas xa nesta parte do sistema, no directorio [view/back](view/back) temos a disposición todas as vistas que hai funcionando no proxecto.
+
+## Modo de Uso
+
+Como de momento non temos *front Office*, o sistema levaranos directamente ao backOffice, en concreto á ventana de login, dende aquí poderemos acceder ao sistema por primeira vez introducindo o usuario admin admin.
+
+Unha vez dentro do sistema poderemos movernos polos distintos apartados do programa a través do menú lateral, cada opción representa unha área de xestión na que poderemos facer operacións CRUD.  
+Todas as seccións comezan cunha primeira vista de visualización en modo táboa dos datos que hai subidos en base de datos.
+
+### Usuarios
+
+Dentro do sistema cada usuario que se dea de alta por primeira vez terá uns permisos específicos de acceso ás distintas áreas da base de datos, estes permisos deberán asignarse unha vez teñamos o novo usuario creado e poderán modificarse en calquera momento.
+
+### Marcas
+
+Aquí xestionaranse as distintas marcas que leve a empresa, de momento só está dispoñible como característica dos articulos para filtrara as tarifas, funcionalidades como filtro por proveedor de cada marca ou estadísticas de vendas e informes estarían dispoñíbles en seguintes versións
+
+### Categorías
+
+Nesta sección controlanse as distintas categorías polas que filtrar os nosos productos.
+
+### Subcategorías
+
+Nesta sección controlanse as distintas subcategorías polas que filtrar os nosos productos.
+
+### Artículos
+
+Nesta área é onde se xuntan as 3 seccións anteriores; para dar de alta un artigo necesitaremos ter creada polo menos unha marca, categoría, e subcategoría.
