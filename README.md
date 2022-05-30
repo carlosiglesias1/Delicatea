@@ -30,7 +30,7 @@ Por último o directorio [controller](controller) almacena os controladores, nes
 
 #### **Controis backoffice web**
 
-Temos un controlador mestre que é o que invoca as vistas de overview, e será o que nos derive ao resto de controladores. Nos controladores web fanse todas as operacións de verificación de parámetros para finalmente mandar a petición a SQL para que procese os campos e sobreescriba a base de datos.
+Temos un _controlador mestre_ que é o que invoca as vistas de overview, e será o que nos derive ao resto de controladores. Nos controladores web fanse todas as operacións de verificación de parámetros para finalmente mandar a petición a SQL para que procese os campos e sobreescriba a base de datos.
 Para operar sobre a base de datos defineuse un módulo estándar de consultas SQL que parametriza as operacións básicas de SQL (select, insert, delete e update), e sobre él construíronse os DAO's, que son chamados dende os controladores, igual que as vistas.
 
 #### **Controis backoffice móbiles**
