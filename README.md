@@ -34,7 +34,10 @@ A xestión de arquivos e documentos e arquivos (imaxes, pdf's, etc.) levarase a 
 
 Por outra banda, en [Funciones](Funciones) e [Includes](Includes) temos os arquivos nos que se gardan as funcións comúns a todos os módulos: [funciones.php](Funciones/funciones.php) é no que se fai referencia aos distintos scripts como a carga de [ventás modais](Includes/modal.php) ou a inicialización das táboas de datos, [dataTables.min.js](Includes/DataTables/dataTables.min.js) (un minificado dun table sorter que vin bastante rentable), librerías de [javascript](Includes/js/) e _jquery_([jquery3.5.1](Includes/jquery-3.5.1.js) e [jquery3.6](Includes/jquery3.6.js)) e módulos que non souben onde metelos (exemplo: os módulos de subida de arquivos [uploader.php](Funciones/uploader.php) e [image-uploader.js](Funciones/image-uploader.js).
 
-O directorio [icofont](icofont) contén as iconas que se utilizan na versión web. 
+O directorio [icofont](icofont) contén as iconas que se utilizan na versión web.
+
+#### Módulos de interés
+
 
 ## Execución  
 

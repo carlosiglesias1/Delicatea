@@ -32,7 +32,7 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
                         <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll"></th>
                         <th><?= $lang['Tabla Categorias']['Nombre']; ?></th>
                         <th><?= $lang['Tabla Categorias']['Descripcion']; ?></th>
-                        <th></th>
+                        <th> </th>
                     </tr>
                 </thead>
                 <tbody>
