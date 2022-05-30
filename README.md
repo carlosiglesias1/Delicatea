@@ -15,12 +15,6 @@ Para instalar y configurar el servidor será necesario tener instalado un sistem
 Logo gardaremos o proxecto na carpeta que use o servidor para procesar os arquivos web, deberemos acceder ao arquivo [AbsolutePaths.php](paths/AbsolutePaths.php) e dentro dese arquivo cambiaremos o valor de ``` $_SESSION['WORKING_PATH'] ``` pola ruta na que teñamos gardado o proxecto +/Delicatea/ (un exemplo sería o valor ```"C:/users/usuario/Documents/webpages```*```/Delicatea/"```*).  
 Despois, para que o sistema poida acceder á base de datos, deberán configurarse correctamente os parámetros do arquivo [bdconfig.php](conection/bdconfig.php); aqui cambiaremos os valores dos campos __*host*__ (equipo que posúe o servidor), __*user*__ (super usuario da base de datos),  __*pass*__ (contrasinal para ese usuario) e __*dbname*__ (nome da base de datos) polos correspondentes en cada caso.
 
-## Execución  
-
-Para executar o proxecto deberemos arrancar o servidor local e dende o navegador poderemos acceder ao backoffice simplemente coa url *localhost/Delicatea/*.  
-De momento esa url esta programada para levarnos directamente ao BackOffice, algo que normalmente non debería estar permitido pero que de momento fai que o acceso ao proxecto sexa máis cómodo.
-Introduciondo as credenciais admin admin entraremos ao proxecto, dende onde poderemos xestionar a nosa tenda.
-
 ## Funcionamento Interno
 
 O back-end desta aplicación está desenvolvido totalmente en PHP e Javascript, utilizando o patrón de deseño MVC (Model-View-Controller) con controladores desenvolvidos para versión móbil e web, que é a tendencia que está levando o desenvolvemento de aplicacións.
@@ -38,9 +32,15 @@ No directorio [lang](lang) están os ficheiros de idiomas (castelán, galego e i
 
 A xestión de arquivos e documentos e arquivos (imaxes, pdf's, etc.) levarase a cabo no propio servidor, debido a que usamos un motor de base de datos que pode estar sostido a cambios e manexar arquivos é unha sobrecarga de traballo, na base de datos gardaranse só as rutas para abrir cada ficheiro, os directorios de acceso a estes arquivos serán [files](files) e [imgs](imgs).
 
-Por outra banda, en [Funciones](Funciones), temos o arquivo no que se gardan as funcións comúns a todos os módulos [funciones.php](Funciones/funciones.php), e módulos que non souben onde metelos, exemplo destes últimos son os módulos de subida de arquivos [uploader.php](Funciones/uploader.php) e [image-uploader.js](Funciones/image-uploader.js).
+Por outra banda, en [Funciones](Funciones) e [Includes](Includes) temos os arquivos nos que se gardan as funcións comúns a todos os módulos: [funciones.php](Funciones/funciones.php) é no que se fai referencia aos distintos scripts como a carga de [ventás modais](Includes/modal.php) ou a inicialización das táboas de datos, [dataTables.min.js](Includes/DataTables/dataTables.min.js) (un minificado dun table sorter que vin bastante rentable), librerías de [javascript](Includes/js/) e _jquery_([jquery3.5.1](Includes/jquery-3.5.1.js) e [jquery3.6](Includes/jquery3.6.js)) e módulos que non souben onde metelos, exemplo destes últimos son os módulos de subida de arquivos [uploader.php](Funciones/uploader.php) e [image-uploader.js](Funciones/image-uploader.js).
 
 O directorio [icofont](icofont) contén as iconas que se utilizan na versión web. 
+
+## Execución  
+
+Para executar o proxecto deberemos arrancar o servidor local e dende o navegador poderemos acceder ao backoffice simplemente coa url *localhost/Delicatea/*.  
+De momento esa url esta programada para levarnos directamente ao BackOffice, algo que normalmente non debería estar permitido pero que de momento fai que o acceso ao proxecto sexa máis cómodo.
+Introduciondo as credenciais admin admin entraremos ao proxecto, dende onde poderemos xestionar a nosa tenda.
 
 ## Modo de Uso
 
