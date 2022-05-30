@@ -31,6 +31,7 @@ class UsuarioDAO extends Estandar implements DAO
     {
         $camposYTipos = [
             "nick" => PDO::PARAM_STR,
+            "pass" => PDO::PARAM_STR,
             "rol" => PDO::PARAM_INT
         ];
         foreach ($camposYTipos as $campo => $tipo) {

@@ -7,8 +7,8 @@ $menu = $_GET['option'];
 switch ($menu) {
     case Crud::LOGIN:
         $user = $factory->getUsuarioDAO()->get();
-        $user->setNick('admin');
-        $user->setPass('c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3');
+        $user->setNick($_GET['user']);
+        $user->setPass($_GET['pass']);
         if ($factory->getUsuarioDAO()->mobileLogIn($user)) {
             $user = $factory->getUsuarioDAO()->searchByName($user->getNick());
             echo json_encode($factory->getUsuarioDAO()->getPermissions($_SESSION['id']));
@@ -27,7 +27,7 @@ switch ($menu) {
         }
         break;
     case Crud::UPDATE:
-        $factory->getUsuarioDAO()->update(intval($_POST['id']), ["nick" => $_POST['name'], "rol" => $_POST['rol']]);
+        $factory->getUsuarioDAO()->update(intval($_POST['id']), ["nick" => $_POST['name'], "pass" => $_POST['pass'], "rol" => $_POST['rol']]);
         echo "siiuuu";
         break;
     case Crud::DELETE:

@@ -13,7 +13,7 @@ class Permiso implements JsonSerializable{
 
     public function jsonSerialize()
     {
-        return array($this->idPermiso, $this->usuario, $this->permiso);
+        return ["idPermiso" => $this->idPermiso, "usuario" => $this->usuario, "permiso" => $this->permiso];
     }
 
     /**
