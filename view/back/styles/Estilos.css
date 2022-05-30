@@ -41,7 +41,7 @@ body {
 
 .contenedor {
     order: 1;
-    flex: 0 1 88%;
+    flex: 0 1 84%;
     border-radius: 5%;
 }
 
@@ -54,10 +54,9 @@ body {
  *  MENU SIDEBAR
  */
 .sidebar {
-    order: 1;
     flex: 0 1 12%;
     flex-wrap: nowrap;
-    background-color: #4D4D4D;
+    background-color: black;
     height: 2000px;
 }
 
@@ -70,16 +69,20 @@ body {
 }
 
 .sidebar li a {
-    color: rgb(34, 192, 171);
-    background-color: #000;
+    color: white;
+    background-color: rgb(4, 167, 145);
     border-radius: 5px;
     padding: 0.15em;
     overflow: hidden;
 }
 
+.sidebar li i{
+    font-size: larger;
+}
+
 .sidebar a:hover{
-    color: rgb(10, 209, 183);
-    background-color: #3E3838 ;
+    color: white;
+    background-color: rgb(52, 155, 141);
     padding: 0.27em;
     border-radius: 5px;
 }

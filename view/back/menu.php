@@ -14,7 +14,7 @@ $RUTA = 'controller/back/BCcontrol.php?';
         ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=2&lang=' . $_GET['lang'] ?>"><i class="icofont-bar-code"></i> <?php echo $lang['Menu BackOffice']['Marcas'] ?></a></li>
         <?php break;
         case 3:
-        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=6&lang=' . $_GET['lang'] . "&idTarifa=0" ?>"><?php echo $lang['Menu BackOffice']['Articulos'] ?></li>
+        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=6&lang=' . $_GET['lang'] . "&idTarifa=0" ?>"><i class="icofont-cart-alt"></i><?php echo $lang['Menu BackOffice']['Articulos'] ?></a></li>
         <?php break;
         case 4:
         ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=5&lang=' . $_GET['lang'] ?>"><i class="icofont-ui-folder"></i> <?php echo $lang['Menu BackOffice']['Categorias'] ?></a>
@@ -26,22 +26,22 @@ $RUTA = 'controller/back/BCcontrol.php?';
           </li>
         <?php break;
         case 6:
-        ?><li><?php echo $lang['Menu BackOffice']['Clientes'] ?></li>
+        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=1&lang=' . $_GET['lang'] ?>"><?php echo $lang['Menu BackOffice']['Clientes'] ?></a></li>
         <?php break;
         case 7:
-        ?><li><?php echo $lang['Menu BackOffice']['Facturas'] ?></li>
+        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=8&lang=' . $_GET['lang'] ?>"><?php echo $lang['Menu BackOffice']['Facturas'] ?></a></li>
         <?php break;
         case 8:
-        ?><li><?php echo $lang['Menu BackOffice']['Ventas'] ?></li>
+        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=8&lang=' . $_GET['lang'] ?>"><?php echo $lang['Menu BackOffice']['Ventas'] ?></a></li>
         <?php break;
         case 9:
-        ?><li><?php echo $lang['Menu BackOffice']['Contabilidad'] ?></li>
+        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=8&lang=' . $_GET['lang'] ?>"><?php echo $lang['Menu BackOffice']['Contabilidad'] ?></a></li>
         <?php break;
         case 10:
         ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=7&lang=' . $_GET['lang'] ?>"><i class="icofont-sale-discount"></i> <?php echo $lang['Menu BackOffice']['IVA'] ?></a></li>
         <?php break;
         case 11:
-        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=8&lang=' . $_GET['lang'] ?>"><?= $lang['Menu BackOffice']['Tarifas'] ?></a></li>
+        ?><li><a href="<?= $_SESSION['INDEX_PATH'] . $RUTA . 'menu=8&lang=' . $_GET['lang'] ?>"><i class="icofont-price"></i> <?= $lang['Menu BackOffice']['Tarifas'] ?></a></li>
     <?php break;
         default:
           echo "No hay menús disponibles";
