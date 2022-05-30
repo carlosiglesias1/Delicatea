@@ -53,7 +53,11 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         foreach ($subcats as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= $fila->getIdSubCategoria() ?>" id="<?= $fila->getIdSubCategoria() ?>" class="option"></td>
+                                <td><label>
+                                        <input type="checkbox" name="<?= $fila->getIdSubCategoria() ?>" id="<?= escapar($fila->getIdSubCategoria()); ?>" class="option">
+                                        <span class="checkbox"></span>
+                                    </label>
+                                </td>
                                 <td><label for="<?= escapar($fila->getIdSubCategoria()) ?>"><?= escapar($fila->getNombre()); ?></label></td>
                                 <td><label for="<?= escapar($fila->getIdSubCategoria()) ?>"><?= escapar($fila->getDescripcion()) ?></label></td>
                             </tr>

@@ -50,19 +50,23 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         foreach ($tarifas as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= escapar($fila['idTarifa']) ?>" id="<?= escapar($fila['idTarifa']) ?>" class="option"></td>
-                                <td><?= escapar($fila["nombre"]); ?></td>
-                                <td><?php if (escapar($fila['origen']) != 0) {
+                                <td><label>
+                                        <input type="checkbox" name="<?= $fila['idTarifa'] ?>" id="<?= escapar($fila['idTarifa']); ?>" class="option">
+                                        <span class="checkbox"></span>
+                                    </label>
+                                </td>
+                                <td><label for="<?= $fila['idTarifa']?>"><?= escapar($fila["nombre"]); ?></label></td>
+                                <td><label for="<?= $fila['idTarifa']?>"><?php if (escapar($fila['origen']) != 0) {
                                         if (escapar($fila['origen']) == -1) {
                                             echo "Todas Las Tarifas";
                                         } else {
                                             $nombre = $tarifa->getByID(escapar($fila['origen']));
                                             echo $nombre[0]['nombre'];
                                         }
-                                    } else echo "Coste Producto"; ?></td>
-                                <td><?= escapar($fila['precioManual']) ?></td>
-                                <td><?= escapar($fila['redondeo']) ?></td>
-                                <td><?= escapar($fila['ajuste']) ?></td>
+                                    } else echo "Coste Producto"; ?></label></td>
+                                <td><label for="<?= $fila['idTarifa']?>"><?= escapar($fila['precioManual']) ?></label></td>
+                                <td><label for="<?= $fila['idTarifa']?>"><?= escapar($fila['redondeo']) ?></label></td>
+                                <td><label for="<?= $fila['idTarifa']?>"><?= escapar($fila['ajuste']) ?></label></td>
                                 <td><a href=<?= "Ctarifas.php?menu=4&idTarifa=" . escapar($fila["idTarifa"]) . "&lang=" . $_GET['lang'] ?>>Ver Productos</a></td>
                             </tr>
                     <?php

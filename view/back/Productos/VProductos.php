@@ -42,6 +42,7 @@ $_SESSION['WORKING_PATH'] . 'paths/NewPaths.php';
         <thead>
           <tr>
             <th><label for="selectAll"><?= $lang['seleccionarTodos'] ?></label> <input type="checkbox" id="selectAll"></th>
+            <th> </th>
             <th><?= $lang['Tabla Articulos']['Nombre'] ?></th>
             <th><?= $lang['Tabla Articulos']['Descripcion'] ?></th>
             <th>Coste</th>
@@ -55,7 +56,12 @@ $_SESSION['WORKING_PATH'] . 'paths/NewPaths.php';
           <?php if ($prods && sizeof($articulo->getAll()) > 0) {
             foreach ($prods as $fila) { ?>
               <tr>
-                <td><input type="checkbox" name="<?= escapar($fila->getIdArticulo()) ?>" id="<?= escapar($fila->getIdArticulo()) ?>" class="option"></td>
+              <td><label>
+                    <input type="checkbox" name="<?= $fila->getIdArticulo() ?>" id="<?= escapar($fila->getIdArticulo()); ?>" class="option">
+                    <span class="checkbox"></span>
+                  </label>
+                </td>
+                <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><img src="http://localhost:444/Delicatea/imgs/articulos/46/artworks-fBvQUKQfO8Kervzy-PnlM0g-t500x500.jpg" alt="" height="60px"><label for="<?= escapar($fila->getIdArticulo()) ?>"></td>
                 <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><?php echo escapar($fila->getNombre()); ?></label></td>
                 <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><?php echo escapar($fila->getDescripcionCorta()); ?></label></td>
                 <td><label for="<?= escapar($fila->getIdArticulo()) ?>"><?= escapar($fila->getCoste()) ?></label></td>

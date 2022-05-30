@@ -1,12 +1,18 @@
 /*
-ESTILOS MENU PRINCIPAL -- ORGANIZACIÓN DE LOS CONTENEDORES
-*/
+ * Estilos de la tabla de datos
+ */
 
 @import url("Dtables.css");
 
-/*ESTILOS DEL ÁREA DE SUBIR IMÁGENES*/
+/*
+ * ESTILOS DEL ÁREA DE SUBIR IMÁGENES 
+ */
 
 @import "image-uploader.css";
+
+/*
+* ESTILOS MENU PRINCIPAL -- ORGANIZACIÓN DE LOS CONTENEDORES
+*/
 
 body {
     margin: 0% !important;
@@ -37,9 +43,16 @@ body {
     order: 1;
     flex: 0 1 88%;
     border-radius: 5%;
-    height: 850;
 }
 
+.controlador {
+    width: 90%;
+    margin: 5%;
+}
+
+/*
+ *  MENU SIDEBAR
+ */
 .sidebar {
     order: 1;
     flex: 0 1 12%;
@@ -56,18 +69,36 @@ body {
     font-size: 0.75em;
 }
 
-.sidebar a {
+.sidebar li a {
     color: rgb(34, 192, 171);
+    background-color: #000;
+    border-radius: 5px;
+    padding: 0.15em;
+    overflow: hidden;
 }
 
 .sidebar a:hover{
     color: rgb(10, 209, 183);
-    background-color: #000;
+    background-color: #3E3838 ;
+    padding: 0.27em;
+    border-radius: 5px;
+}
+.menusidebar ul ul {
+    display: none;
 }
 
-.controlador {
-    width: 90%;
-    margin: 5%;
+.menusidebar ul ul li {
+    margin: 0%;
+    margin-top: 10px;
+    padding: 0%;
+    font-size: 0.9em;
+}
+
+.menusidebar ul li:hover>ul {
+    border-radius: 10px;
+    margin-top: 0;
+    display: block;
+    z-index: 2;
 }
 
 /*
@@ -138,29 +169,9 @@ body {
     display: block;
     z-index: 2;
 }
-/*
-    MENU SIDEBAR
-*/
-.menusidebar ul ul {
-    display: none;
-}
-
-.menusidebar ul ul li {
-    margin: 0%;
-    padding: 0%;
-    font-size: 0.9em;
-}
-
-.menusidebar ul li:hover>ul {
-    border-radius: 10px;
-    background-color: rgba(30, 34, 40, 255);
-    margin-top: 0;
-    display: block;
-    z-index: 2;
-}
 
 /*
-    ESTILOS DE LAS VISTAS DE DATATABLES
+ *  ESTILOS DE LAS VISTAS DE DATATABLES
 */
 
 .dataTables_wrapper {
@@ -213,6 +224,10 @@ body {
 h4 {
     margin-left: 3.5%;
     margin-top: 1.5%;
+}
+
+.myTable{
+    max-height: 150px;
 }
 
 tr .options {
@@ -493,6 +508,10 @@ ul li:hover {
     color: white;
 }
 
+td .Editar{
+    padding: 2%;
+}
+
 .Editar:hover {
     background-color: #32d65b;
     cursor: pointer;
@@ -508,4 +527,14 @@ ul li:hover {
     display: inline-flex;
     flex-direction: column;
     margin-right: 1.5%;
+}
+
+/*
+ * WELCOME
+ */
+.welcome_message{
+    text-align: center;
+    position: fixed;
+    margin-left: 28%;
+    margin-top: 20%;
 }

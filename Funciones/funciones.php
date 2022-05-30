@@ -251,7 +251,7 @@ function calculoCostes(array $campos, float $incremento, int $RA, Tarifa $tarifa
         language: {
           url: selectLng()
         },
-        "scrollY": "580px",
+        "scrollY": "550px",
         "scrollCollapse": true,
         "info": false,
         "columnDefs": [{
