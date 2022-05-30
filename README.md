@@ -30,7 +30,7 @@ Todo isto está nos directorios [DAO](model/DAO), [conection](conection/.) e [fa
 
 As vistas da parte web están implementadas xa nesta parte do sistema, no directorio [view/back](view/back) temos a disposición todas as vistas que hai funcionando no proxecto.  
 
-Por último o directorio [controller](controller) almacena os controladores, neste momento só están en desenvolvemento os do backoffice web [back](controller/back/) e mobil [mobile](controller/mobile/), pero faltaría un 3º e inclusive un 4º que serían os controladores que xestionarían o lado dos clientes da tenda.
+Por último o directorio [controller](controller) almacena os controladores, neste momento só están en desenvolvemento os do backoffice web [back](controller/back/) e mobil [mobile](controller/mobile/), pero faltaría un 3º e inclusive un 4º que serían os controladores que xestionarían o lado dos ***clientes*** da tenda.
 
 ### Entrando en detalle
 
@@ -44,7 +44,7 @@ O directorio [icofont](icofont) contén as iconas que se utilizan na versión we
 
 ## Modo de Uso
 
-Como de momento non temos *front Office*, o sistema levaranos directamente ao backOffice, en concreto á ventana de login, dende aquí poderemos acceder ao sistema por primeira vez introducindo o usuario admin admin.
+Como de momento non temos *front Office*, o sistema levaranos directamente ao *backOffice*, en concreto á ventá de __login__, dende aquí poderemos acceder ao sistema por primeira vez introducindo o usuario admin admin.
 
 Unha vez dentro do sistema poderemos movernos polos distintos apartados do programa a través do menú lateral, cada opción representa unha área de xestión na que poderemos facer operacións CRUD.  
 Todas as seccións comezan cunha primeira vista de visualización en modo táboa dos datos que hai subidos en base de datos.
@@ -68,3 +68,13 @@ Nesta sección controlanse as distintas subcategorías polas que filtrar os noso
 ### Artículos
 
 Nesta área é onde se xuntan as 3 seccións anteriores; para dar de alta un artigo necesitaremos ter creada polo menos unha marca, categoría, e subcategoría.
+Nesta área de momento é na única na que poderemos subir imaxes, o plan a curto longo prazo sería poder poñer máis imaxes *(por exemplo: en Usuarios e Marcas)*
+
+### IVA
+
+Para poder xestionar os dintintos tipos de IVA dos nosos produtos temos unha sección específica, que teño previsto que se transforme en *Impostos* a posteriori, para dentro dela incluír todos os tipos de tasas en ditintas subseccións.
+
+### Tarifas
+
+Nesta área xestionaremos as distintas tarifas que se poidan facer na nosa empresa, filtrando de momento pola marca, categoría e subcategoría do artigo.
+Melloras ap posteriori, filtrar por cliente para poder facer descontos personalizados cando o módulo de clientes esté desenvolvido, filtrar por caducidade se se trata de produtos perecedeiros, permitir tarifas en intervalos a modo de promoción, etc.
