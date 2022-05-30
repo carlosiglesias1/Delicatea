@@ -25,9 +25,22 @@ Introduciondo as credenciais admin admin entraremos ao proxecto, dende onde pode
 
 O back-end desta aplicación está desenvolvido totalmente en PHP e Javascript, utilizando o patrón de deseño MVC (Model-View-Controller) con controladores desenvolvidos para versión móbil e web, que é a tendencia que está levando o desenvolvemento de aplicacións.
 
-Nos modelos implementei unha estructura de DAO's para modular o acceso aos datos, un connectionPool en PDO e unha DAO factory para, en caso de facer migracións, que estas tivesen o mínimo custo de programación posible. Todo isto está na carpeta de [model](model/.).
+Nos modelos implementei unha estructura de DAO's para modular o acceso aos datos, un connectionPool en PDO para poder ter varias conexións simultáneas e unha DAO factory para en caso de facer migracións, que estas tivesen o mínimo custo de programación posible. 
+Todo isto está nos directorios [DAO](model/DAO), [conection](conection/.) e [factory](model/DAO/factory).
 
-As vistas da parte web están implementadas xa nesta parte do sistema, no directorio [view/back](view/back) temos a disposición todas as vistas que hai funcionando no proxecto.
+As vistas da parte web están implementadas xa nesta parte do sistema, no directorio [view/back](view/back) temos a disposición todas as vistas que hai funcionando no proxecto.  
+
+Por último o directorio [controller](controller) almacena os controladores, neste momento só están en desenvolvemento os do backoffice web [back](controller/back/) e mobil [mobile](controller/mobile/), pero faltaría un 3º e inclusive un 4º que serían os controladores que xestionarían o lado dos clientes da tenda.
+
+### Entrando en detalle
+
+No directorio [lang](lang) están os ficheiros de idiomas (castelán, galego e inglés) nos que se poderá ler a aplicación, esta función de momento só está dispoñible para algúns textos.
+
+A xestión de arquivos e documentos e arquivos (imaxes, pdf's, etc.) levarase a cabo no propio servidor, debido a que usamos un motor de base de datos que pode estar sostido a cambios e manexar arquivos é unha sobrecarga de traballo, na base de datos gardaranse só as rutas para abrir cada ficheiro, os directorios de acceso a estes arquivos serán [files](files) e [imgs](imgs).
+
+Por outra banda, en [Funciones](Funciones), temos o arquivo no que se gardan as funcións comúns a todos os módulos [funciones.php](Funciones/funciones.php), e módulos que non souben onde metelos, exemplo destes últimos son os módulos de subida de arquivos [uploader.php](Funciones/uploader.php) e [image-uploader.js](Funciones/image-uploader.js).
+
+O directorio [icofont](icofont) contén as iconas que se utilizan na versión web. 
 
 ## Modo de Uso
 
