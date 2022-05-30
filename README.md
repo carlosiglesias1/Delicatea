@@ -28,16 +28,24 @@ Por último o directorio [controller](controller) almacena os controladores, nes
 
 ### Entrando en detalle
 
-No directorio [lang](lang) están os ficheiros de idiomas (castelán, galego e inglés) nos que se poderá ler a aplicación, esta función de momento só está dispoñible para algúns textos.
+#### **Controis backoffice web**
 
-A xestión de arquivos e documentos e arquivos (imaxes, pdf's, etc.) levarase a cabo no propio servidor, debido a que usamos un motor de base de datos que pode estar sostido a cambios e manexar arquivos é unha sobrecarga de traballo, na base de datos gardaranse só as rutas para abrir cada ficheiro, os directorios de acceso a estes arquivos serán [files](files) e [imgs](imgs).
+Temos un controlador mestre que é o que invoca as vistas de overview, e será o que nos derive ao resto de controladores. Nos controladores web fanse todas as operacións de verificación de parámetros para finalmente mandar a petición a SQL para que procese os campos e sobreescriba a base de datos.
+Para operar sobre a base de datos defineuse un módulo estándar de consultas SQL que parametriza as operacións básicas de SQL (select, insert, delete e update), e sobre él construíronse os DAO's, que son chamados dende os controladores, igual que as vistas.
+
+#### **Controis backoffice móbiles**
+
+Tamén implementados no lado do servidor, pese a que non realizan tantas operacións de carga de vistas nin verificación de parámetros e carga de eventos, son os encargados de procesar as peticións HTTP que realicen os dispositivos móbiles que se conecten á base de datos, desta forma a posteriori tamén se podería convertir esta capa de procesamento nunha capa máis de seguridade, a parte de que se centralizan as chamadas á base de datos, co cal optimizase o rendemento da versión móbil.
+
+### Outros puntos de interese
+
+No directorio [lang](lang) están os **ficheiros de idiomas** (castelán, galego e inglés) nos que se poderá ler a aplicación, esta función de momento só está dispoñible para algúns textos.
+
+A _xestión de arquivos e documentos_ (imaxes, pdf's, etc.) levarase a cabo no propio servidor, debido a que usamos un motor de base de datos que pode estar sostido a cambios e manexar arquivos é unha sobrecarga de traballo, na base de datos gardaranse só as rutas para abrir cada ficheiro, os directorios de acceso a estes arquivos serán [files](files) e [imgs](imgs).
 
 Por outra banda, en [Funciones](Funciones) e [Includes](Includes) temos os arquivos nos que se gardan as funcións comúns a todos os módulos: [funciones.php](Funciones/funciones.php) é no que se fai referencia aos distintos scripts como a carga de [ventás modais](Includes/modal.php) ou a inicialización das táboas de datos, [dataTables.min.js](Includes/DataTables/dataTables.min.js) (un minificado dun table sorter que vin bastante rentable), librerías de [javascript](Includes/js/) e _jquery_([jquery3.5.1](Includes/jquery-3.5.1.js) e [jquery3.6](Includes/jquery3.6.js)) e módulos que non souben onde metelos (exemplo: os módulos de subida de arquivos [uploader.php](Funciones/uploader.php) e [image-uploader.js](Funciones/image-uploader.js).
 
 O directorio [icofont](icofont) contén as iconas que se utilizan na versión web.
-
-#### Módulos de interés
-
 
 ## Execución  
 
