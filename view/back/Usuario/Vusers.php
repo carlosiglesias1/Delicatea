@@ -39,7 +39,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
         <caption>USUARIOS</caption>
         <thead>
           <tr>
-            <th class="selectAll" scope="selectAll"><label for="selectAll">Seleccionar todos</label><input type="checkbox" id="selectAll"></th>
+            <th class="selectAll" scope="selectAll"><label for="selectAll">Seleccionar todos</label><input type="checkbox" id="selectAll" style="display: none;"></th>
             <th scope="name"><?= $lang['Tabla Usuarios']['Nickname']; ?></th>
             <th scope="administration"><?= $lang['Tabla Usuarios']['Gestion'] ?></th>
           </tr>

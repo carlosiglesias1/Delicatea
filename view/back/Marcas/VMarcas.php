@@ -31,7 +31,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <caption>MARCAS</caption>
                 <thead>
                     <tr>
-                        <th class="selectAll" scope="selectAll"><label for="selectAll">Seleccionar todos</label><input type="checkbox" id="selectAll"></th>
+                        <th class="selectAll" scope="selectAll"><label for="selectAll">Seleccionar todos</label><input type="checkbox" id="selectAll" style="display: none;"></th>
                         <th scope="name"><?= $lang['Tabla Marcas']['Nombre'] ?></th>
                     </tr>
                 </thead>

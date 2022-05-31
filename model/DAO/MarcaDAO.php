@@ -55,6 +55,7 @@ class MarcaDAO extends Estandar implements DAO
     public function delete(int $id)
     {
         parent::deleteBy('idMarca', $id, PDO::PARAM_INT);
+        parent::foreignDelete('articulo', 'marca', $id);
     }
 
     private function exists(string $name)

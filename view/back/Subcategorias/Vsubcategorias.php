@@ -42,7 +42,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             <table id="myTable" class="display">
                 <thead>
                     <tr>
-                        <th><label for="selectAll">Seleccionar Todos</label><input type="checkbox" id="selectAll"></th>
+                        <th><label for="selectAll">Seleccionar Todos</label><input type="checkbox" id="selectAll" style="display: none;"></th>
                         <th><?= $lang['Tabla Subcategorias']['Nombre']; ?></th>
                         <th><?= $lang['Tabla Subcategorias']['Descripcion']; ?></th>
                     </tr>

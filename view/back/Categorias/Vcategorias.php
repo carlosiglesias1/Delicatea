@@ -4,6 +4,7 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
     die();
 }
 ?>
+
 <body>
     <div class="cabecera">
         <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
@@ -29,7 +30,7 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
             <table id="myTable" class="display">
                 <thead>
                     <tr>
-                        <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll"></th>
+                        <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll" style="display: none;"></th>
                         <th><?= $lang['Tabla Categorias']['Nombre']; ?></th>
                         <th><?= $lang['Tabla Categorias']['Descripcion']; ?></th>
                         <th> </th>
@@ -41,7 +42,11 @@ if (isset($_POST['mit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
                         foreach ($cats as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= escapar($fila->getIdCategoria()); ?>" id="<?= escapar($fila->getIdCategoria()); ?>" class="option"></td>
+                                <td><label>
+                                        <input type="checkbox" name="<?= $fila->getIdCategoria() ?>" id="<?= escapar($fila->getIdCategoria()); ?>" class="option">
+                                        <span class="checkbox"></span>
+                                    </label>
+                                </td>
                                 <td><label for="<?= escapar($fila->getIdCategoria()); ?>"><?= escapar($fila->getNombre()); ?></label>
                                 </td>
                                 <td><label for="<?= escapar($fila->getIdCategoria()); ?>"><?= escapar($fila->getDescripcion()) ?></label>

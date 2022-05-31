@@ -4,6 +4,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
     die();
 }
 ?>
+
 <body>
     <div class="cabecera">
         <?php require_once $_SESSION['WORKING_PATH'] . "view/back/cabecera.php"; ?>
@@ -29,7 +30,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
             <table id="myTable" class="display">
                 <thead>
                     <tr>
-                        <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll"></th>
+                        <th> <label for="selectAll"><?= $lang['seleccionarTodos'] ?></label><input type="checkbox" id="selectAll" style="display: none;"></th>
                         <th><?= $lang['Tabla IVA']['Tipo']; ?></th>
                         <th><?= $lang['Tabla IVA']['Porcentage']; ?></th>
                     </tr>
@@ -40,7 +41,11 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                         foreach ($tiposIVA as $fila) {
                     ?>
                             <tr>
-                                <td><input type="checkbox" name="<?= escapar($fila->getIdIva()); ?>" id="<?= escapar($fila->getIdIva()); ?>" class="option"></td>
+                                <td><label>
+                                        <input type="checkbox" name="<?= $fila->getIdIva() ?>" id="<?= escapar($fila->getIdIva()); ?>" class="option">
+                                        <span class="checkbox"></span>
+                                    </label>
+                                </td>
                                 <td><label for="<?= escapar($fila->getIdIva()); ?>"><?= escapar($fila->getTipo()); ?></label></td>
                                 <td><label for="<?= escapar($fila->getIdIva()); ?>"><?= escapar($fila->getPorcentage()) ?></label></td>
                             </tr>

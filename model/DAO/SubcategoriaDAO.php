@@ -44,6 +44,7 @@ class SubcategoriaDAO extends Estandar implements DAO
     public function delete(int $id)
     {
         parent::deleteBy("idSubCategoria", $id, PDO::PARAM_STR);
+        parent::foreignDelete('articulo', 'subcategoria', $id);
     }
     public function exists(string $name)
     {

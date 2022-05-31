@@ -41,7 +41,7 @@ $_SESSION['WORKING_PATH'] . 'paths/NewPaths.php';
       <table id="myTable" class="display">
         <thead>
           <tr>
-            <th><label for="selectAll"><?= $lang['seleccionarTodos'] ?></label> <input type="checkbox" id="selectAll"></th>
+            <th><label for="selectAll"><?= $lang['seleccionarTodos'] ?></label> <input type="checkbox" id="selectAll" style="display: none;"></th>
             <th> </th>
             <th><?= $lang['Tabla Articulos']['Nombre'] ?></th>
             <th><?= $lang['Tabla Articulos']['Descripcion'] ?></th>
