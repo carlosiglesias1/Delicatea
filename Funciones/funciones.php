@@ -239,7 +239,7 @@ function calculoCostes(array $campos, float $incremento, int $RA, Tarifa $tarifa
 
 <script>
   function selectLng() {
-    var lng = "<?php echo $_GET['lang']; ?>";
+    var lng = "<?= $_GET['lang']; ?>";
     return "../../Lenguajes/" + lng + ".json";
   }
 </script>

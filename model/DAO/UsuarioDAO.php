@@ -4,16 +4,30 @@ require_once($_SESSION['WORKING_PATH'] . 'model/Mestandar.php');
 require_once($_SESSION['WORKING_PATH'] . "model/Classes/Usuario.php");
 class UsuarioDAO extends Estandar implements DAO
 {
+    /**
+     * @param PDO connection 
+     */
     public function __construct(PDO $connection)
     {
         parent::__construct($connection, 'usuarios');
     }
 
-    public function get()
+    /**
+     * Devuelve un nuevo usuario
+     *
+     * @return Usuario
+     */
+    public function get(): Usuario
     {
         return new Usuario();
     }
 
+    /**
+     * Añade un nuevo Usuario a base de datos
+     *
+     * @param  mixed $valores
+     * @return void
+     */
     public function addElement(array $valores): void
     {
         $campos = ["nick", "pass"];
@@ -27,6 +41,14 @@ class UsuarioDAO extends Estandar implements DAO
             }
         }
     }
+
+    /**
+     * Actualiza un usuario en Base de datos
+     *
+     * @param  mixed $id
+     * @param  mixed $valores
+     * @return void
+     */
     public function update(int $id, array $valores): void
     {
         $camposYTipos = [
@@ -38,10 +60,24 @@ class UsuarioDAO extends Estandar implements DAO
             parent::updateValue($campo, $valores[$campo], $tipo, "idUsr", $id);
         }
     }
+
+    /**
+     * Borra un usuario de base de datos
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function delete(int $id)
     {
         return parent::deleteBy("idUsr", $id, PDO::PARAM_INT);
     }
+
+
+    /**
+     * Obtiene la lista de todos los usuarios de la base de datos
+     *
+     * @return array
+     */
     public function getList(): array
     {
         $array = parent::getAll();
@@ -51,10 +87,25 @@ class UsuarioDAO extends Estandar implements DAO
         }
         return $list;
     }
+
+    /**
+     * Obtiene los permisos de los usuarios
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function getPermissions(int $id)
     {
         return parent::getForeignValue('permisosmenu', null, $id, 'usuario');
     }
+
+    /**
+     * Busca un registro
+     *
+     * @param  mixed $id
+     * @return void
+     * @see DAO::searchRow()
+     */
     public function searchRow(int $id)
     {
         return new Usuario(parent::getBy("idUsr", $id, PDO::PARAM_INT));
@@ -83,7 +134,7 @@ class UsuarioDAO extends Estandar implements DAO
         return false;
     }
 
-    public function mobileLogIn(Usuario $user):bool
+    public function mobileLogIn(Usuario $user): bool
     {
         $exists = $this->searchByName($user->getNick());
         if ($exists != null && $exists->getPass() == $user->getPass()) {
