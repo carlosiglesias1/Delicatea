@@ -58,8 +58,9 @@ class ArticuloDAO extends Estandar implements DAO
     $checkImages = $valores['f_preloaded'];
     unset($valores['f_preloaded']);
     foreach ($valores as $key => $value) {
-      if ($key != 'files')
+      if ($key != 'files'){
         parent::updateValue($key, $value, $this->tipos[$key], 'idArticulo', $id);
+      }
     }
     $this->deleteImages($id, $checkImages);
     $this->insertImages($files, $id);
@@ -76,6 +77,7 @@ class ArticuloDAO extends Estandar implements DAO
     $this->deleteImages($id);
     parent::foreignDelete('imagenesArticulos', 'articulo', $id);
     rmdir($_SESSION['WORKING_PATH'] . $id);
+    parent::foreignDelete('tarifasproductos', 'idPrd', $id);
   }
 
 
@@ -106,7 +108,7 @@ class ArticuloDAO extends Estandar implements DAO
   {
     $imagenes = $this->getImages($id);
     if (!$checkImages) {
-      if (sizeof($imagenes) > 0) {
+      if (!empty($imagenes)) {
         for ($i = 0; $i < sizeof($imagenes); $i++) {
           $deleteLink = $imagenes[$i]['path'];
           $deletePath = substr($deleteLink, strlen($_SESSION['INDEX_PATH']));
@@ -153,10 +155,8 @@ class ArticuloDAO extends Estandar implements DAO
         $contador = 1;
         if ($handler = opendir($directorio)) {
           while (false !== ($file = readdir($handler))) {
-            if (substr($file, 0, 1) == "(") {
-              if (substr($file, strpos($file, ")") + 1) == $filename) {
+            if (substr($file, 0, 1) == "(" && substr($file, strpos($file, ")") + 1) == $filename) {
                 $contador++;
-              }
             }
           }
           closedir($handler);

@@ -2,7 +2,7 @@
 return [
     'pool_size' => 3,
     'max_pool_size' => 10,
-    'host' => 'localhost:3320',
+    'host' => 'localhost:3306',
     'user' => 'root',
     'pass' => '',
     'db_name' => 'delicatea',

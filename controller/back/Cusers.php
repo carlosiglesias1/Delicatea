@@ -70,20 +70,17 @@ switch ($menu) {
     $id = $_GET['id'];
     $permisos = $usuario->getPermissions($id);
     $nombrePermiso = $usuario->getForeignValue('columnasmenu');
-    print_r($permisos);
-    echo "<br>";
-    print_r(array_column($permisos, 'permiso'));
     if (isset($_POST['submit'])) {
       try {
         foreach ($nombrePermiso as $fila) {
           if (isset($_POST[$fila['nombre']])) {
             $clave = in_array($fila['idCol'], array_column($permisos, 'permiso'), true);
-            if ($clave !== false) {
+            if ($clave === false) {
               $usuario->foreignInsert('permisosmenu', ['usuario', 'permiso'], [$_GET['id'], $fila['idCol']]);
             }
           } else {
             $clave = in_array($fila['idCol'], array_column($permisos, 'permiso'), true);
-            if ($clave !== true) {
+            if ($clave === true) {
               $usuario->foreignDelete('permisosmenu', 'idPermiso', $permisos[$clave]['idPermiso']);
             }
           }

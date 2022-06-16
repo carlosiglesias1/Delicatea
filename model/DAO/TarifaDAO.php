@@ -83,7 +83,4 @@ class TarifaDAO extends Estandar implements DAO
   {
     return $parametros[0] . $parametros[1] . $parametros[2];
   }
-  private function guardarArticulosTarifa(): void
-  {
-  }
 }

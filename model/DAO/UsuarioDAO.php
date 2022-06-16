@@ -69,9 +69,10 @@ class UsuarioDAO extends Estandar implements DAO
      */
     public function delete(int $id)
     {
-        return parent::deleteBy("idUsr", $id, PDO::PARAM_INT);
+        if (parent::deleteBy("idUsr", $id, PDO::PARAM_INT) == 1) {
+            parent::foreignDelete('permisosmenu', 'usuario', $id);
+        }
     }
-
 
     /**
      * Obtiene la lista de todos los usuarios de la base de datos
@@ -92,9 +93,9 @@ class UsuarioDAO extends Estandar implements DAO
      * Obtiene los permisos de los usuarios
      *
      * @param  mixed $id
-     * @return void
+     * @return array
      */
-    public function getPermissions(int $id)
+    public function getPermissions(int $id): array
     {
         return parent::getForeignValue('permisosmenu', null, $id, 'usuario');
     }
