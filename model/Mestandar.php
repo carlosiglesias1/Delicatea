@@ -75,10 +75,10 @@ abstract class Estandar
                 $query = "SELECT $foreignValue FROM $foreignTable WHERE $foreignKey = $value ORDER BY $orderBy";
             }
         }
-        $this->bd->beginTransaction();
-        $sentencia = $this->bd->prepare($query);
-        $sentencia->execute();
         try {
+            $this->bd->beginTransaction();
+            $sentencia = $this->bd->prepare($query);
+            $sentencia->execute();
             $this->bd->commit();
             return $sentencia->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $error) {
@@ -312,8 +312,11 @@ abstract class Estandar
     {
         try {
             $sentencia = $this->bd->prepare("SELECT MAX(" . $idName . ") FROM " . $this->getTable());
-            $result = $sentencia->execute();
-            return $sentencia->fetch(PDO::FETCH_NUM)[0];
+            if ($sentencia->execute()) {
+                return $sentencia->fetch(PDO::FETCH_NUM)[0];
+            } else {
+                return array();
+            }
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
