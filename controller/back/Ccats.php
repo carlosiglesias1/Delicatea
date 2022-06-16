@@ -42,7 +42,7 @@ switch ($menu) {
     case 3:
         areUAllowed([4]);
         if (isset($_POST['cancelar'])) {
-            header("Location: " . $_SESSION['INDEX_PATH'] . "Back/Controladores/BCcontrol.php?menu=5&lang=" . $_GET['lang']);
+            header("Location: " . $_SESSION['INDEX_PATH'] . "controller/back/BCcontrol.php?menu=5&lang=" . $_GET['lang']);
         }
         $categoria = $factory->getCategoriaDAO();
         $id = $_GET['id'];
@@ -59,7 +59,7 @@ switch ($menu) {
                 echo $ex->getMessage();
             }
         }
-        require_once("../Vistas/Categorias/VCrearCategoria.php");
+        require_once("../../view/back/Categorias/VCrearCategoria.php");
         break;
     case 4:
         areUAllowed([4]);

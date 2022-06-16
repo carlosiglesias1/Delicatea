@@ -37,9 +37,9 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
                 <input type="text" name="descripcion">
             <?php } else {
             ?>
-                <input type="text" name="name" value="<?= escapar($campos['nombre']) ?>">
+                <input type="text" name="name" value="<?= escapar($campos->getNombre()) ?>">
                 <label for="name"><?php echo $lang['Nueva Categoria']['Descripcion'] ?></label>
-                <input type="text" name="descripcion" value="<?= escapar($campos['descripcion']) ?>">
+                <input type="text" name="descripcion" value="<?= escapar($campos->getDescripcion()) ?>">
             <?php } ?>
             <button name=" submit" type="submit"><?php if ($_GET['menu'] == 1) {
                                                         echo $lang["Nueva Categoria"]["Registrarse"];

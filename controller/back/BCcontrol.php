@@ -104,7 +104,7 @@ switch ($menu) {
     } else {
       $categoriaDAO = $factory->getCategoriaDAO();
       $id = $_GET['idCat'];
-      $nombreCat = $categoriaDAO->searchRow($id)['nombre'];
+      $nombreCat = $categoriaDAO->searchRow($id)->getNombre();
       $subcats = $categoriaDAO->getSubcategorias($id);
     }
     $selected = [];
