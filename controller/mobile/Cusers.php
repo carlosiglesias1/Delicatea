@@ -13,7 +13,7 @@ switch ($menu) {
             $user = $factory->getUsuarioDAO()->searchByName($user->getNick());
             echo json_encode($factory->getUsuarioDAO()->getPermissions($_SESSION['id']));
         } else {
-            echo json_encode([0]);
+            echo json_encode([json_decode('{"0" : 0}')]);
         }
         break;
     case Crud::GETALL:

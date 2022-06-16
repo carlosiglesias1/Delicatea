@@ -45,8 +45,10 @@ class CategoriaDAO extends Estandar implements DAO
     }
     public function delete(int $id)
     {
-        parent::deleteBy('idCategoria', $id, PDO::PARAM_INT);
-        parent::foreignDelete('articulo', 'categoria', $id);
+        if(parent::deleteBy('idCategoria', $id, PDO::PARAM_INT) > 0){
+            parent::foreignDelete('articulo', 'categoria', $id);
+            parent::foreignDelete('subcategoria', 'categoria', $id);
+        }
     }
     public function getSubcategorias($idCategoria): array
     {
